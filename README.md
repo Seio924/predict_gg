@@ -7,6 +7,7 @@
 - `style`: 코드 스타일 변경 (코드 포매팅, 세미콜론 누락 등)
 - `design`: 사용자 UI 디자인 변경 (CSS 등)
 - `refactor`: 리팩토링 (Production Code)
+- `build`: 빌드 파일 수정
 - `perf`: 성능 개선
 - `chore`: 자잘한 수정이나 빌드 업데이트
 - `rename`: 파일 혹은 폴더명을 수정만 한 경우
