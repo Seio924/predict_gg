@@ -1,18 +1,14 @@
 const { app, BrowserWindow } = require("electron");
-// include the Node.js 'path' module at the top of your file
 const path = require("path");
-// modify your existing createWindow() function
 function createWindow() {
   const win = new BrowserWindow({
-    width: 1072,
-    height: 646,
-    frame: false,
+    width: 800,
+    height: 600,
     webPreferences: {
-      webSecurity: false,
-      preload: path.join(__dirname, "preload.js"),
+      nodeIntegration: true,
+      contextIsolation: false,
     },
   });
-  win.setMenu(null);
   win.loadURL("http://localhost:3000");
 }
 app.whenReady().then(() => {

@@ -1,28 +1,25 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import GlobalStyle from "./GlobalStyle";
-import styled from "styled-components";
-import MainBox from "./MainBox";
-import MainBackground from "./img/main_background.png";
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-image: url(${MainBackground});
-  background-size: cover;
-`;
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
 
 function App() {
   return (
-    <>
-      <GlobalStyle />
-      <Container>
-        <MainBox></MainBox>
-      </Container>
-    </>
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.tsx</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
   );
 }
 
