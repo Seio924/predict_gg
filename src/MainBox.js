@@ -1,11 +1,22 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import UploadingIcon from "./img/uploading_icon.png";
+import LolTitleImg from "./img/lol_title.png";
 
 const BoxContainer = styled.div`
+  position: relative;
   height: 250px;
   width: 500px;
   background-color: lightgray;
+`;
+
+const LolTitle = styled.div`
+  position: absolute;
+  width: 220px;
+  height: 100px;
+  top: 30px;
+  background-image: url(${LolTitleImg});
+  background-size: cover;
 `;
 
 const UploadArea = styled.label`
@@ -37,6 +48,7 @@ const FileUploadText = styled.p`
 function MainBox() {
   return (
     <>
+      <LolTitle />
       <BoxContainer>
         <UploadArea>
           <FileUploadBtn type="file" />
