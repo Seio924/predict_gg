@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain } = require("electron");
 
 const ipc = ipcMain;
 const path = require("path");
+let win;
 
 const {
   SEND_MAIN_PING,
@@ -11,7 +12,7 @@ const {
 } = require("./constants");
 
 function createWindow() {
-  const win = new BrowserWindow({
+  win = new BrowserWindow({
     width: 1072,
     height: 659,
     frame: false,
@@ -25,20 +26,21 @@ function createWindow() {
     console.log("Main received a ping!!!");
   });
 
-  ipcMain.on(SEND_WINDOW_MINIMIZE, () => {
-    mainWindow.minimize();
+  ipcMain.on(SEND_WINDOW_MINIMIZE, (event, arg) => {
+    console.log("Main received a ping!!!");
+    win.minimize();
   });
 
-  ipcMain.on(SEND_WINDOW_MAXIMIZE, () => {
-    if (mainWindow.isMaximized()) {
-      mainWindow.restore();
+  ipcMain.on(SEND_WINDOW_MAXIMIZE, (event, arg) => {
+    if (win.isMaximized()) {
+      win.restore();
     } else {
-      mainWindow.maximize();
+      win.maximize();
     }
   });
 
-  ipcMain.on(SEND_WINDOW_CLOSE, () => {
-    mainWindow.close();
+  ipcMain.on(SEND_WINDOW_CLOSE, (event, arg) => {
+    win.close();
   });
 
   win.loadURL("http://localhost:3000");

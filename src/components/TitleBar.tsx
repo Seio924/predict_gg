@@ -18,11 +18,11 @@ const TitleBarContainer = styled.div`
   grid-template-rows: auto 1fr;
   background: #000000;
   padding: 13px 20px 13px 20px;
-  -webkit-app-region: drag;
 `;
 
 const TitleContainer = styled.div`
   display: flex;
+  -webkit-app-region: drag;
   align-items: center;
 `;
 
@@ -44,6 +44,7 @@ const Select = styled(TitleContainer)``;
 const WindowIcon = styled.div<WindowIconProps>`
   width: 12px;
   height: 12px;
+  cursor: pointer;
   margin: ${(props) => props.margin};
   background-image: url(${(props) => props.bgimg});
   background-size: cover;
