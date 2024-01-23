@@ -1,3 +1,6 @@
-module.exports = { 
-    SEND_MAIN_PING: 'send_main_ping', 
+module.exports = {
+  SEND_MAIN_PING: "send_main_ping",
+  SEND_WINDOW_MINIMIZE: "minimizeApp",
+  SEND_WINDOW_MAXIMIZE: "maximizeApp",
+  SEND_WINDOW_CLOSE: "closeApp",
 };

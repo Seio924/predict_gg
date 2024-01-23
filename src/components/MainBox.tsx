@@ -1,23 +1,15 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import UploadingIcon from "./img/uploading_icon.png";
-import LolTitleImg from "./img/lol_title.png";
-import { SEND_MAIN_PING } from './constants'; 
+import UploadingIcon from "../img/uploading_icon.png";
 
 const BoxContainer = styled.div`
-  position: relative;
-  height: 250px;
-  width: 500px;
-  background-color: lightgray;
-`;
-
-const LolTitle = styled.div`
-  position: absolute;
-  width: 220px;
-  height: 100px;
-  top: 30px;
-  background-image: url(${LolTitleImg});
-  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 330px;
+  width: 580px;
+  background-color: rgba(30, 32, 35, 0.7);
+  border-radius: 10px;
 `;
 
 const UploadArea = styled.label`
@@ -25,8 +17,10 @@ const UploadArea = styled.label`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
-  width: 100%;
+  height: 290px;
+  width: 540px;
+  background-color: #1e2023;
+  border-radius: 10px;
 `;
 
 const FileUploadBtn = styled.input`
@@ -44,22 +38,17 @@ const UploadIcon = styled.div`
 const FileUploadText = styled.p`
   font-size: 25px;
   font-weight: 900;
+  color: white;
 `;
 
 function MainBox() {
-  const { ipcRenderer } = window.require("electron"); 
-  const sendMail = () => { 
-    ipcRenderer.send(SEND_MAIN_PING, 'send'); 
-  } 
   return (
     <>
-      <LolTitle />
       <BoxContainer>
         <UploadArea>
           <FileUploadBtn type="file" />
           <UploadIcon />
           <FileUploadText>Upload HERE</FileUploadText>
-          <button onClick={ sendMail }>Send Mail</button> 
         </UploadArea>
       </BoxContainer>
     </>
