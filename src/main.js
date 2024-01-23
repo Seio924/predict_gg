@@ -1,10 +1,12 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
+const { 
+  SEND_MAIN_PING 
+} = require('./constants'); 
 function createWindow() {
   const win = new BrowserWindow({
     width: 1072,
     height: 646,
-    frame: false,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -12,6 +14,9 @@ function createWindow() {
   });
   win.loadURL("http://localhost:3000");
 }
+ipcMain.on(SEND_MAIN_PING, (event, arg)=>{ 
+  console.log('Main received a ping!!!'); 
+}) 
 app.whenReady().then(() => {
   createWindow();
 });

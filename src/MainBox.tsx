@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import UploadingIcon from "./img/uploading_icon.png";
 import LolTitleImg from "./img/lol_title.png";
+import { SEND_MAIN_PING } from './constants'; 
 
 const BoxContainer = styled.div`
   position: relative;
@@ -46,6 +47,10 @@ const FileUploadText = styled.p`
 `;
 
 function MainBox() {
+  const { ipcRenderer } = window.require("electron"); 
+  const sendMail = () => { 
+    ipcRenderer.send(SEND_MAIN_PING, 'send'); 
+  } 
   return (
     <>
       <LolTitle />
@@ -54,6 +59,7 @@ function MainBox() {
           <FileUploadBtn type="file" />
           <UploadIcon />
           <FileUploadText>Upload HERE</FileUploadText>
+          <button onClick={ sendMail }>Send Mail</button> 
         </UploadArea>
       </BoxContainer>
     </>
