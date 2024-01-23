@@ -21,11 +21,15 @@ function createWindow() {
     },
   });
 
-  ipc.on(SEND_WINDOW_MINIMIZE, () => {
+  ipcMain.on(SEND_MAIN_PING, (event, arg) => {
+    console.log("Main received a ping!!!");
+  });
+
+  ipcMain.on(SEND_WINDOW_MINIMIZE, () => {
     mainWindow.minimize();
   });
 
-  ipc.on(SEND_WINDOW_MAXIMIZE, () => {
+  ipcMain.on(SEND_WINDOW_MAXIMIZE, () => {
     if (mainWindow.isMaximized()) {
       mainWindow.restore();
     } else {
@@ -33,7 +37,7 @@ function createWindow() {
     }
   });
 
-  ipc.on(SEND_WINDOW_CLOSE, () => {
+  ipcMain.on(SEND_WINDOW_CLOSE, () => {
     mainWindow.close();
   });
 
