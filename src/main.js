@@ -1,4 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
+const { getSummonerInfo } = require("../backend/riot_api");  // riot_api.js 파일의 경로를 적절히 수정
 
 const ipc = ipcMain;
 const path = require("path");
@@ -22,8 +23,17 @@ function createWindow() {
     },
   });
 
-  ipcMain.on(SEND_MAIN_PING, (event, arg) => {
+  ipcMain.on(SEND_MAIN_PING, async (event, arg) => {
     console.log("Main received a ping!!!");
+    // 매치 ID를 적절히 변경
+    const matchId = 'KR_6916408053';
+    getSummonerInfo(matchId)
+  .then((apiInfo) => {
+    console.log('main.js API complete');
+  })
+  .catch((error) => {
+    console.error('error:', error);
+  });
   });
 
   ipcMain.on(SEND_WINDOW_MINIMIZE, (event, arg) => {
@@ -48,6 +58,8 @@ function createWindow() {
 app.whenReady().then(() => {
   createWindow();
 });
+
+
 app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
