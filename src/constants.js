@@ -3,4 +3,6 @@ module.exports = {
   SEND_WINDOW_MINIMIZE: "minimizeApp",
   SEND_WINDOW_MAXIMIZE: "maximizeApp",
   SEND_WINDOW_CLOSE: "closeApp",
+  DEFAULT_WINDOW: "defaultWindow",
+  MAX_WINDOW: "maxWindow",
 };

@@ -17,13 +17,7 @@ const TitleBarContainer = styled.div`
   align-items: center;
   grid-template-rows: auto 1fr;
   background: #000000;
-  padding: 13px 20px 13px 20px;
-`;
-
-const TitleContainer = styled.div`
-  display: flex;
-  -webkit-app-region: drag;
-  align-items: center;
+  padding: 0 0 0 20px;
 `;
 
 const Title = styled.p`
@@ -39,21 +33,44 @@ const LolTitle = styled.div`
   background-size: cover;
 `;
 
-const Select = styled(TitleContainer)``;
+const Select = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const TitleContainer = styled(Select)`
+  -webkit-app-region: drag;
+  flex: 1 0 auto;
+`;
+
+const WindowIconContainer = styled.div<WindowIconContainerProps>`
+  width: 56px;
+  height: 56px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background: ${(props) => props.backgroundcolor};
+  }
+`;
 
 const WindowIcon = styled.div<WindowIconProps>`
   width: 12px;
   height: 12px;
-  cursor: pointer;
   margin: ${(props) => props.margin};
   background-image: url(${(props) => props.bgimg});
   background-size: cover;
 `;
 
+interface WindowIconContainerProps {
+  backgroundcolor?: string;
+  onClick?: (handleType: string) => void;
+}
+
 interface WindowIconProps {
   bgimg?: string;
   margin?: string;
-  onClick?: (handleType: string) => void;
 }
 
 function TitleBar() {
@@ -80,21 +97,24 @@ function TitleBar() {
         </TitleContainer>
 
         <Select>
-          <WindowIcon
+          <WindowIconContainer
+            backgroundcolor="gray"
             onClick={() => handleWindow("minimizeApp")}
-            bgimg={WindowMinimizeIcon}
-            margin={"0 0 0 20px"}
-          />
-          <WindowIcon
+          >
+            <WindowIcon bgimg={WindowMinimizeIcon} />
+          </WindowIconContainer>
+          <WindowIconContainer
+            backgroundcolor="gray"
             onClick={() => handleWindow("maximizeApp")}
-            bgimg={WindowMaximizeIcon}
-            margin={"0 0 0 20px"}
-          />
-          <WindowIcon
+          >
+            <WindowIcon bgimg={WindowMaximizeIcon} />
+          </WindowIconContainer>
+          <WindowIconContainer
+            backgroundcolor="red"
             onClick={() => handleWindow("closeApp")}
-            bgimg={WindowCloseIcon}
-            margin={"0 0 0 20px"}
-          />
+          >
+            <WindowIcon bgimg={WindowCloseIcon} />
+          </WindowIconContainer>
         </Select>
       </TitleBarContainer>
     </>

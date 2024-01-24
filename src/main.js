@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, webContents } = require("electron");
 
 const ipc = ipcMain;
 const path = require("path");
@@ -34,8 +34,10 @@ function createWindow() {
   ipcMain.on(SEND_WINDOW_MAXIMIZE, (event, arg) => {
     if (win.isMaximized()) {
       win.restore();
+      win.webContents.send("DEFAULT_WINDOW", "message");
     } else {
       win.maximize();
+      win.webContents.send("MAX_WINDOW", "message");
     }
   });
 
