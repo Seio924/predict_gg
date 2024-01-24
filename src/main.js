@@ -9,6 +9,8 @@ const {
   SEND_WINDOW_MINIMIZE,
   SEND_WINDOW_MAXIMIZE,
   SEND_WINDOW_CLOSE,
+  DEFAULT_WINDOW,
+  MAX_WINDOW,
 } = require("./constants");
 
 function createWindow() {
@@ -16,6 +18,7 @@ function createWindow() {
     width: 1072,
     height: 659,
     frame: false,
+    resizable: false,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -34,10 +37,10 @@ function createWindow() {
   ipcMain.on(SEND_WINDOW_MAXIMIZE, (event, arg) => {
     if (win.isMaximized()) {
       win.restore();
-      win.webContents.send("DEFAULT_WINDOW", "message");
+      win.webContents.send(DEFAULT_WINDOW, "message");
     } else {
       win.maximize();
-      win.webContents.send("MAX_WINDOW", "message");
+      win.webContents.send(MAX_WINDOW, "message");
     }
   });
 

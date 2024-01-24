@@ -10,6 +10,8 @@ import { DEFAULT_WINDOW, MAX_WINDOW } from "./constants";
 const MainPage = styled.div<Size>`
   width: ${(props) => props.widthsize};
   height: ${(props) => props.heightsize};
+  overflow: hidden;
+  position: relative;
 `;
 
 const Container = styled.div<Size>`
@@ -45,7 +47,7 @@ function App() {
 
   ipcRenderer.on(MAX_WINDOW, (event, arg) => {
     console.log("2222");
-    setMainPageWidth("100vh");
+    setMainPageWidth("100%");
     setMainPageHeight("100vh");
     setContainerWidth("100%");
     setContainerHeight("100%");
