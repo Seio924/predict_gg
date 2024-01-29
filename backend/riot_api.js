@@ -1,11 +1,12 @@
-const request = require('request');
-const fs = require('fs');
+const request = require("request");
+const fs = require("fs");
 
-const apiKey = 'RGAPI-a54a9866-026e-4264-9543-d74029f333d0';
+const apiKey = "RGAPI-688c1f0d-8fc1-4344-98be-d9921ba19ee1";
 
 function getSummonerInfo(matchId) {
   return new Promise((resolve, reject) => {
-    const apiUrl = `https://asia.api.riotgames.com/lol/match/v5/matches/${matchId}/timeline?api_key=${apiKey}`;
+    const apiUrl = `https://asia.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${apiKey}`;
+    const apiUrl2 = `https://asia.api.riotgames.com/lol/match/v5/matches/${matchId}/timeline?api_key=${apiKey}`;
 
     request(apiUrl, (error, response, body) => {
       if (error) {
@@ -16,7 +17,31 @@ function getSummonerInfo(matchId) {
           console.log("riot_api complete");
 
           // 파일에 기록
-          fs.writeFileSync('backend/api_info.json', JSON.stringify(summonerInfo, null, 2));
+          fs.writeFileSync(
+            "backend/api_match_info.json",
+            JSON.stringify(summonerInfo, null, 2)
+          );
+
+          resolve(summonerInfo);
+        } catch (parseError) {
+          reject(parseError);
+        }
+      }
+    });
+
+    request(apiUrl2, (error, response, body) => {
+      if (error) {
+        reject(error);
+      } else {
+        try {
+          const summonerInfo = JSON.parse(body);
+          console.log("riot_api complete");
+
+          // 파일에 기록
+          fs.writeFileSync(
+            "backend/api_timeline_info.json",
+            JSON.stringify(summonerInfo, null, 2)
+          );
 
           resolve(summonerInfo);
         } catch (parseError) {
