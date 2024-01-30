@@ -13,7 +13,7 @@ const BoxContainer = styled.div`
   border-radius: 10px;
 `;
 
-const UploadArea = styled.label`
+const UploadArea = styled.label<{ isActive: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -21,7 +21,20 @@ const UploadArea = styled.label`
   height: 290px;
   width: 540px;
   background-color: #1e2023;
-  border-radius: 10px;
+  border-radius: 5px;
+  border: 3px dashed #1e2023;
+  cursor: pointer;
+
+  &:hover {
+    border-color: lightgray;
+  }
+
+  ${(props) =>
+    props.isActive &&
+    `
+    background-color: #323539;
+    border-color: lightgray;
+  `}
 `;
 
 const FileUploadBtn = styled.input`
@@ -43,20 +56,40 @@ const FileUploadText = styled.p`
 `;
 
 function MainBox() {
+  const [isActive, setActive] = useState(false);
+  const handleDragStart = () => setActive(true);
+  const handleDragEnd = () => setActive(false);
+  const handleDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+  const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
   const { ipcRenderer } = window.require("electron");
+
   const sendMail = () => {
     ipcRenderer.send(SEND_MAIN_PING, "send");
   };
+
   return (
     <>
       <BoxContainer>
-        <UploadArea>
+        <UploadArea
+          isActive={isActive}
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
+          onDragEnter={handleDragStart}
+          onDragLeave={handleDragEnd}
+        >
           <FileUploadBtn type="file" />
           <UploadIcon />
           <FileUploadText>Upload HERE</FileUploadText>
-          <button onClick={sendMail}>Send Mail</button>
         </UploadArea>
       </BoxContainer>
+      <button onClick={sendMail}>Send Mail</button>
     </>
   );
 }

@@ -88,6 +88,13 @@ class PreprocessData():
                             event_list[9+9] += item_tear[str(j['itemId'])]
 
                     case 'ITEM_DESTROYED':
+                        # 이상
+                        event_list[0] = j['timestamp']
+
+                        if j['participantId'] in team1[:, :1]:
+                            event_list[9] -= item_tear[str(j['itemId'])]
+                        elif j['participantId'] in team2[:, :1]:
+                            event_list[9+9] -= item_tear[str(j['itemId'])]
 
                     case 'ITEM_SOLD':
                         event_list[0] = j['timestamp']
@@ -129,14 +136,71 @@ class PreprocessData():
                             event_list[6+9] = minus_gold
                             
                     case 'ITEM_UNDO':
+                        event_list[0] = j['timestamp']
+
+                        if j['participantId'] in team1[:, :1]:
+                            event_list[9] -= item_tear[str(j['itemId'])]
+                        elif j['participantId'] in team2[:, :1]:
+                            event_list[9+9] -= item_tear[str(j['itemId'])]
 
                     case 'WARD_PLACED':
+                        event_list[0] = j['timestamp']
+
+                        if j['creatorId'] in team1[:, :1]:
+                            event_list[7] += 1
+                        elif j['creatorId'] in team2[:, :1]:
+                            event_list[7+9] += 1
 
                     case 'WARD_KILL':
+                        event_list[0] = j['timestamp']
+
+                        if j['killerId'] in team1[:, :1]:
+                            event_list[7+9] -= 1
+                        elif j['killerId'] in team2[:, :1]:
+                            event_list[7] -= 1
 
                     case 'ELITE_MONSTER_KILL':
+                        event_list[0] = j['timestamp']
+
+                        if j['killerId'] in team1[:, :1]:
+                            event_list[8] += 1
+                        elif j['killerId'] in team2[:, :1]:
+                            event_list[8+9] += 1
 
                     case 'CHAMPION_KILL':
+                        event_list[0] = j['timestamp']
+                        assist_participant_length = len(j['assistingParticipantIds'])
+                        assist_gold = 150/assist_participant_length
+                        assist_participant = j['assistingParticipantIds']
+
+                        if j['killerId'] in team1[:, :1]:
+                            match line[j['killerId']]:
+                                case "TOP":
+                                    event_list[1] = j['bounty']
+                                case "JUNGLE":
+                                    event_list[2] = j['bounty']
+                                case "MIDDLE":
+                                    event_list[3] = j['bounty']
+                                case "BOTTOM":
+                                    event_list[4] = j['bounty']
+                                case "UTILITY":
+                                    event_list[5] = j['bounty']
+
+
+                        elif j['killerId'] in team2[:, :1]:
+                            match line[j['killerId']]:
+                                case "TOP":
+                                    event_list[1+9] = j['bounty']
+                                case "JUNGLE":
+                                    event_list[2+9] = j['bounty']
+                                case "MIDDLE":
+                                    event_list[3+9] = j['bounty']
+                                case "BOTTOM":
+                                    event_list[4+9] = j['bounty']
+                                case "UTILITY":
+                                    event_list[5+9] = j['bounty']
+
+
 
 
                 
