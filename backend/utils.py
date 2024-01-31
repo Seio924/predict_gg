@@ -111,8 +111,37 @@ class PreprocessData():
 
                         if j['participantId'] in team1[:, :1]:
                             event_list[9] -= item_tear[str(j['itemId'])]
+                            
+                            match line[j['participantId']]:
+                                case "TOP":
+                                    event_list[1] -= item_cost[str(j['itemId'])]
+                                case "JUNGLE":
+                                    event_list[2] -= item_cost[str(j['itemId'])]
+                                case "MIDDLE":
+                                    event_list[3] -= item_cost[str(j['itemId'])]
+                                case "BOTTOM":
+                                    event_list[4] -= item_cost[str(j['itemId'])]
+                                case "UTILITY":
+                                    event_list[5] -= item_cost[str(j['itemId'])]
+                            
+                            event_list[6] -= item_cost[str(j['itemId'])]
+
                         elif j['participantId'] in team2[:, :1]:
                             event_list[9+9] -= item_tear[str(j['itemId'])]
+                            
+                            match line[j['participantId']]:
+                                case "TOP":
+                                    event_list[1+9] -= item_cost[str(j['itemId'])]
+                                case "JUNGLE":
+                                    event_list[2+9] -= item_cost[str(j['itemId'])]
+                                case "MIDDLE":
+                                    event_list[3+9] -= item_cost[str(j['itemId'])]
+                                case "BOTTOM":
+                                    event_list[4+9] -= item_cost[str(j['itemId'])]
+                                case "UTILITY":
+                                    event_list[5+9] -= item_cost[str(j['itemId'])]
+
+                            event_list[6+9] -= item_cost[str(j['itemId'])]
 
                     case 'ITEM_SOLD':
                         event_list[0] = j['timestamp']
