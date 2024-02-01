@@ -63,12 +63,12 @@ for i in summonerId:
     matchid = get_matchid(puuid, api_key)
     
     for j in matchid:
-        if num == 10:
+        if num == 30:
             break
         else:
             get_match_data(j, api_key)
             get_timeline_data(j, api_key)
             num += 1
-            time.sleep(2)
+            time.sleep(5)
         print("업데이트 완료")
     break
