@@ -1,7 +1,7 @@
 from utils import PreprocessData
 import matplotlib.pyplot as plt
 import numpy as np
-import time
+import time as t
 
 fig, axes = plt.subplots(1, 2, sharex=True, sharey=True)
 
@@ -9,7 +9,11 @@ for i in range(10):
     test = PreprocessData('C:/GitHub/predict_gg/api_match_info.json', 'C:/GitHub/predict_gg/api_timeline_info.json')
 
     interval_list = test.get_condition_timeline(10000)
-    line = test.get_match_data()[-1]
+    team1, team2, win_lose, line, aram = test.get_match_data()
+
+    if aram == 1:
+        t.sleep(2)
+        continue
 
     interval_list = np.array(interval_list, dtype=int)
 
@@ -22,8 +26,9 @@ for i in range(10):
 
     axes[0].plot(time, team1_std_dev, label=f'Team 1 std_dev')
     axes[1].plot(time, team2_std_dev, label=f'Team 2 std_dev')
+    print("분석 완료")
 
-    time.sleep(2)
+    t.sleep(2)
 
 axes[1].set_xlabel('Time')
 axes[0].set_ylabel('Gold')

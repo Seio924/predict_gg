@@ -2,7 +2,7 @@ import requests
 import json
 import time
 
-api_key = 'RGAPI-e787e1b0-49da-42b6-b3ed-7e79fcf06283'
+api_key = 'RGAPI-379e15d8-520c-4465-83f8-330f104a073a'
 
 def get_matchid(puuid, api_key):
     # matchid 정보

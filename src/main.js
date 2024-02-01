@@ -34,7 +34,7 @@ function createWindow() {
   ipcMain.on(SEND_MAIN_PING, async (event, arg) => {
     console.log("Main received a ping!!!");
     // 매치 ID를 적절히 변경
-    const matchId = "KR_6916408053";
+    const matchId = "KR_6926468313";
     getSummonerInfo(matchId)
       .then((apiInfo) => {
         console.log("main.js API complete");
