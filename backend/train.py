@@ -10,26 +10,13 @@ event_list = test.get_event()
 
 participant_frame_list = test.get_participant_frame()
 
-whole_list = event_list + participant_frame_list
-
-whole_list = sorted(whole_list, key = lambda x: x[0])
-
-whole_list = np.array(whole_list, dtype=int)
+interval_list = test.get_condition_timeline(10000)
 
 
-
-for i in range(1, len(whole_list)):
-    if whole_list[i][1] != 0:
-        #수정
-        whole_list[i][7:10] = whole_list[i-1][7:10]
-        whole_list[i][7+9:10+9] = whole_list[i-1][7+9:10+9]
-        continue
-
-    sum_result = whole_list[i-1][1:-1] + whole_list[i][1:-1]
-    whole_list[i][1:-1] = sum_result
+interval_list = np.array(interval_list, dtype=int)
 
 
-np.savetxt(f, whole_list, fmt='%10d', delimiter='   ')
+np.savetxt(f, interval_list, fmt='%10d', delimiter=' ')
 
 
 

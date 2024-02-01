@@ -101,7 +101,7 @@ class PreprocessData():
 
         for i in initial_data:
             for j in i['events']:
-                event_list = [0 for h in range(20)]
+                event_list = [0 for h in range(21)]
 
                 match j['type']:
                     case 'ITEM_PURCHASED':
@@ -300,6 +300,7 @@ class PreprocessData():
                     case default:
                         continue
                 
+                event_list[-1] = 1111
                 event_list_result.append(event_list)
         
         return event_list_result
@@ -319,7 +320,7 @@ class PreprocessData():
 
         for i in initial_data:
             
-            participant_frame_list = [0 for h in range(20)]
+            participant_frame_list = [0 for h in range(21)]
             team1_gold = 0
             team2_gold = 0
 
@@ -358,11 +359,47 @@ class PreprocessData():
             participant_frame_list[6] = team1_gold
             participant_frame_list[6+9] = team2_gold
 
+            participant_frame_list[-1] = 2222
+
             participant_frame_list_result.append(participant_frame_list)
 
         return participant_frame_list_result
                      
 
+    def get_condition_timeline(self, interval):
 
+        event_list = self.get_event()
+
+        participant_frame_list = self.get_participant_frame()
+
+        whole_list = event_list + participant_frame_list
+
+        whole_list = sorted(whole_list, key = lambda x: x[0])
+
+        whole_list = np.array(whole_list, dtype=int)
+
+        for i in range(1, len(whole_list)):
+            if whole_list[i][-1] != 1111:
+                whole_list[i][7:10] = whole_list[i-1][7:10]
+                whole_list[i][7+9:10+9] = whole_list[i-1][7+9:10+9]
+                continue
+
+            sum_result = whole_list[i-1][1:-2] + whole_list[i][1:-2]
+            whole_list[i][1:-2] = sum_result
+
+        interval_list_result = []
+
+        max_timeline = np.max(whole_list[:, 0])
+
+        for i in range(0, max_timeline, interval):
+            interval_list = [sublist for sublist in whole_list if sublist[0] <= i]
+            
+            interval_list[-1][0] = i
+            
+            interval_list_result.append(interval_list[-1].copy())
+        
+        for i in interval_list_result:
+            print(i)
                 
 
+        return interval_list_result
