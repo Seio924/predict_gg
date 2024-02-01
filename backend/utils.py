@@ -398,8 +398,6 @@ class PreprocessData():
             
             interval_list_result.append(interval_list[-1].copy())
         
-        for i in interval_list_result:
-            print(i)
                 
 
         return interval_list_result
