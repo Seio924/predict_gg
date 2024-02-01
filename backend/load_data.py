@@ -1,5 +1,6 @@
 import requests
 import json
+import time
 
 api_key = 'RGAPI-e787e1b0-49da-42b6-b3ed-7e79fcf06283'
 
@@ -7,7 +8,8 @@ def get_matchid(puuid, api_key):
     # matchid 정보
     matchid_url = "https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/"+ puuid +"/ids?start=0&count=20&api_key=" + api_key
     r3 = requests.get(matchid_url)
-    print(r3.json())
+    #print(r3.json())
+    return r3.json()
 
 def get_puuid(name, api_key):
     # puuid 정보
@@ -33,8 +35,40 @@ def get_timeline_data(matchid, api_key):
     with open('api_timeline_info.json', 'w', encoding='utf-8') as json_file:
         json.dump(r5.json(), json_file, ensure_ascii=False, indent=4)
 
+def get_challenger_info(api_key):
+    # 챌린저 유저 정보 가져오기 (닉네임)
+    challenger_url = "https://kr.api.riotgames.com/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5?api_key=" + api_key
+    r6 = requests.get(challenger_url)
 
-puuid = get_puuid('Hide on bush', api_key)
-print(puuid)
+    summonerId = []
+    entries = r6.json()['entries']
+    num = 0
+    for i in entries:
+        summonerId.append(i['summonerName'])
+        num += 1
+    summonerId = list(filter(None, summonerId))
 
-get_matchid(puuid, api_key)
+    with open('api_challenger_info.json', 'w', encoding='utf-8') as json_file:
+        json.dump(r6.json(), json_file, ensure_ascii=False, indent=4)
+    return summonerId
+
+summonerId = get_challenger_info(api_key)
+#print(summonerId)
+
+num = 0
+# 모든 챌린저 유저 match_id 가져오기
+for i in summonerId:
+    puuid = get_puuid(i, api_key)
+    #print(puuid)
+    matchid = get_matchid(puuid, api_key)
+    
+    for j in matchid:
+        if num == 10:
+            break
+        else:
+            get_match_data(j, api_key)
+            get_timeline_data(j, api_key)
+            num += 1
+            time.sleep(2)
+        print("업데이트 완료")
+    break
