@@ -85,6 +85,13 @@ class PreprocessData():
                 item_tear[i] = 10000000
 
         return (item_tear, item_cost, item_sold_cost)
+  
+    def get_item_from_data(beforeId):
+        with open('C:/GitHub/predict_gg/backend/item.json', encoding="utf-8") as f:
+            item_data = json.load(f)       
+        item_info = item_data['data'].get(beforeId, {})
+        item_from = item_info.get('from', [])
+        return item_from
 
     def get_event(self):
         with open(self.timeline_file_dir, encoding='utf-8') as f:
@@ -197,12 +204,18 @@ class PreprocessData():
                                 event_list[9] -= item_tear[str(j['afterId'])]
                             else:
                                 event_list[9] -= item_tear[str(j['beforeId'])]
+                                item_from_data = self.get_item_from_data(str(j['beforeId']))
+                                for i in item_from_data:
+                                    event_list[9] += item_tear[str(i)]
 
                         elif j['participantId'] in team2_participant_id:
                             if j['beforeId'] == 0:
                                 event_list[9+9] -= item_tear[str(j['afterId'])]
                             else:
                                 event_list[9+9] -= item_tear[str(j['beforeId'])]
+                                item_from_data = self.get_item_from_data(str(j['beforeId']))
+                                for i in item_from_data:
+                                    event_list[9+9] += item_tear[str(i)]
 
                     case 'WARD_PLACED':
                         event_list[0] = j['timestamp']
