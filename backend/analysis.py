@@ -15,7 +15,8 @@ class AnalysisData:
         test = PreprocessData('C:/Users/ksb02/Documents/GitHub/predict_gg/backend/api_match_info.json', 'C:/Users/ksb02/Documents/GitHub/predict_gg/backend/api_timeline_info.json')
 
         interval_list = test.get_condition_timeline(10000)
-        team1, team2, win_lose, line, aram = test.get_match_data()
+
+        team, win_lose, line, aram = test.get_match_data()
 
         if aram == 1:
             t.sleep(5)
@@ -38,9 +39,9 @@ class AnalysisData:
                 self.win_std.append(team2_std_dev)
                 self.lose_std.append(team1_std_dev)
 
-            #print("분석 완료")
+            # print("분석 완료")
 
-            #t.sleep(5)
+            # t.sleep(5)
 
     def plot_results(self):
         win_std_mean = [sum(row[i] for row in self.win_std) / len(self.win_std) for i in range(self.min_length)]
