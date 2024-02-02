@@ -1,6 +1,7 @@
 import requests
 import json
 import time
+from analysis import AnalysisData
 
 class LoadData():
     def __init__(self, api_key):
@@ -53,6 +54,10 @@ class LoadData():
                     self.get_match_data(match_id)
                     self.get_timeline_data(match_id)
                     num += 1
-                    time.sleep(5)
-            print("업데이트 완료")
+                    AnalysisData.analyze_data
+                    time.sleep(4)
+                    print("분석 완료")
+            #print("업데이트 완료")
             break  
+AnalysisData.plot_results
+("끝")

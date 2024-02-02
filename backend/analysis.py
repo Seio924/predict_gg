@@ -1,64 +1,63 @@
-from utils import PreprocessData
 import matplotlib.pyplot as plt
 import numpy as np
 import time as t
+from utils import PreprocessData
 
-fig, axes = plt.subplots(1, 2, sharex=True, sharey=True)
-win_std = []
-lose_std = []
-min_length = float('inf')
+class AnalysisData:
+    def __init__(self):
+        self.fig, self.axes = plt.subplots(1, 2, sharex=True, sharey=True)
+        self.win_std = []
+        self.lose_std = []
+        self.min_length = float('inf')
+        self.time = []
 
-for i in range(30):
-    test = PreprocessData('C:/Users/ksb02/Documents/GitHub/predict_gg/backend/api_match_info.json', 'C:/Users/ksb02/Documents/GitHub/predict_gg/backend/api_timeline_info.json')
+    def analyze_data(self):
+        test = PreprocessData('C:/Users/ksb02/Documents/GitHub/predict_gg/backend/api_match_info.json', 'C:/Users/ksb02/Documents/GitHub/predict_gg/backend/api_timeline_info.json')
 
-    interval_list = test.get_condition_timeline(10000)
-    team1, team2, win_lose, line, aram = test.get_match_data()
+        interval_list = test.get_condition_timeline(10000)
+        team1, team2, win_lose, line, aram = test.get_match_data()
 
-    if aram == 1:
-        t.sleep(5)
-        continue
+        if aram == 1:
+            t.sleep(5)
+        else:
+            interval_list = np.array(interval_list, dtype=int)
 
-    interval_list = np.array(interval_list, dtype=int)
+            self.time = interval_list[:, 0]
+            team1_gold = interval_list[:, 1:6]
+            team2_gold = interval_list[:, 1+9:6+9]
 
-    time = interval_list[:, 0]
-    team1_gold = interval_list[:, 1:6]
-    team2_gold = interval_list[:, 1+9:6+9]
+            team1_std_dev = np.std(team1_gold, axis=1)
+            team2_std_dev = np.std(team2_gold, axis=1)
 
-    team1_std_dev = np.std(team1_gold, axis=1)
-    team2_std_dev = np.std(team2_gold, axis=1)
+            self.min_length = min(self.min_length, len(team1_std_dev), len(team2_std_dev))
 
-    min_length = min(min_length, len(team1_std_dev), len(team2_std_dev))
+            if win_lose[0] == 1:
+                self.win_std.append(team1_std_dev)
+                self.lose_std.append(team2_std_dev)
+            elif win_lose[1] == 1:
+                self.win_std.append(team2_std_dev)
+                self.lose_std.append(team1_std_dev)
 
+            #print("분석 완료")
 
-    if win_lose[0] == 1:
-        win_std.append(team1_std_dev)
-        lose_std.append(team2_std_dev)
-    elif win_lose[1] == 1:
-        win_std.append(team2_std_dev)
-        lose_std.append(team1_std_dev)
+            #t.sleep(5)
 
-    
-    print("분석 완료")
+    def plot_results(self):
+        win_std_mean = [sum(row[i] for row in self.win_std) / len(self.win_std) for i in range(self.min_length)]
+        lose_std_mean = [sum(row[i] for row in self.lose_std) / len(self.lose_std) for i in range(self.min_length)]
 
-    t.sleep(5)
+        self.axes[0].plot(self.time[:self.min_length], win_std_mean, label='Win Mean std_dev')
+        self.axes[1].plot(self.time[:self.min_length], lose_std_mean, label='Lose Mean std_dev')
 
+        self.axes[1].set_xlabel('Time')
+        self.axes[0].set_ylabel('Gold')
+        self.axes[1].set_ylabel('Gold')
 
-win_std_mean = [sum(row[i] for row in win_std) / len(win_std) for i in range(min_length)]
-lose_std_mean = [sum(row[i] for row in lose_std) / len(lose_std) for i in range(min_length)]
+        self.fig.suptitle('Win   Lose')
 
+        self.axes[0].legend()
+        self.axes[0].grid(True)
+        self.axes[1].legend()
+        self.axes[1].grid(True)
 
-axes[0].plot(time[:min_length], win_std_mean, label='Win Mean std_dev')
-axes[1].plot(time[:min_length], lose_std_mean, label='Lose Mean std_dev')
-
-axes[1].set_xlabel('Time')
-axes[0].set_ylabel('Gold')
-axes[1].set_ylabel('Gold')
-
-fig.suptitle('Win   Lose')
-
-axes[0].legend()
-axes[0].grid(True)
-axes[1].legend()
-axes[1].grid(True)
-
-plt.show()
+        plt.show()

@@ -8,13 +8,6 @@ test = PreprocessData('C:/Users/ksb02/Documents/GitHub/predict_gg/backend/api_ma
 load = LoadData(api_key)
 
 f = open("log.txt", 'w')
-#test.get_data('젠지 한별')
-
-item_from = test.get_item_from_data('3078')
-print(item_from)
-
-puuid = load.get_puuid('물콩누가했냐')
-print(puuid)
 
 load.process_challenger_data(30)
 
