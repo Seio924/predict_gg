@@ -12,7 +12,7 @@ class AnalysisData:
         self.time = []
 
     def analyze_data(self):
-        test = PreprocessData('C:/Users/ksb02/Documents/GitHub/predict_gg/backend/api_match_info.json', 'C:/Users/ksb02/Documents/GitHub/predict_gg/backend/api_timeline_info.json')
+        test = PreprocessData('C:/GitHub/predict_gg/backend/api_match_info.json', 'C:/GitHub/predict_gg/backend/api_timeline_info.json')
 
         interval_list = test.get_condition_timeline(10000)
 

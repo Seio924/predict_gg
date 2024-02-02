@@ -81,7 +81,7 @@ class PreprocessData():
         return (team, win_lose, line, aram)
 
     def get_item_data(self):
-        with open('C:/Users/ksb02/Documents/GitHub/predict_gg/backend/item.json', encoding="utf-8") as f:
+        with open('C:/GitHub/predict_gg/backend/item.json', encoding="utf-8") as f:
             item_data = json.load(f)
 
         boots = ['장화', '약간 신비한 신발', '신속의 장화', '명석함의 아이오니아 장화', '기동력의 장화', '광전사의 군화', '마법사의 신발', '판금 장화', '헤르메스의 발걸음']
@@ -102,23 +102,29 @@ class PreprocessData():
             item_cost[i] = item_data['data'][i]['gold']['total']
             item_sold_cost[i] = item_data['data'][i]['gold']['sell']
 
-            match item_data['data'][i]['name']:
-                case 'boots':
-                    item_tear[i] = 'boots'
-                case 'start':
-                    item_tear[i] = 'start'
-                case 'tier1':
-                    item_tear[i] = 'tier1'
-                case 'tier2':
-                    item_tear[i] = 'tier2'
-                case 'tier3':
-                    item_tear[i] = 'tier3'
-                case 'special':
-                    item_tear[i] = 'special'
-                case 'potion':
-                    item_tear[i] = 'potion'
-                case 'ward':
-                    item_tear[i] = 'ward'
+            if item_data['data'][i]['name'] in boots:
+                item_tear[i] = 'boots'
+
+            elif item_data['data'][i]['name'] in start:
+                item_tear[i] = 'start'
+
+            elif item_data['data'][i]['name'] in tier1:
+                item_tear[i] = 'tier1'
+
+            elif item_data['data'][i]['name'] in tier2:
+                item_tear[i] = 'tier2'
+            
+            elif item_data['data'][i]['name'] in tier3:
+                item_tear[i] = 'tier3'
+            
+            elif item_data['data'][i]['name'] in special:
+                item_tear[i] = 'special'
+
+            elif item_data['data'][i]['name'] in potion:
+                item_tear[i] = 'potion'
+
+            elif item_data['data'][i]['name'] in ward:
+                item_tear[i] = 'ward'
 
         return (item_tear, item_cost, item_sold_cost)
   
