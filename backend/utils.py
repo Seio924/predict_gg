@@ -39,6 +39,8 @@ OBJECT_COUNT = 26
 
 TEAM_INTERVAL = 26
 
+LIST_LEN = 53
+
 class PreprocessData():
     def __init__(self, match_file_dir, timeline_file_dir):
         self.match_file_dir = match_file_dir
@@ -141,7 +143,7 @@ class PreprocessData():
 
             for i in initial_data:
                 for j in i['events']:
-                    event_list = [0 for h in range(53)]
+                    event_list = [0 for h in range(LIST_LEN)]
                     event_list[TIMESTAMP] = j['timestamp']
 
                     match j['type']:
@@ -433,55 +435,40 @@ class PreprocessData():
             initial_data = json.load(f)
         
         initial_data = initial_data['info']['frames']
-        item_tear, item_cost, item_sold_cost = self.get_item_data()
-        team1, team2, win_lose, line, aram = self.get_match_data()
+        team, win_lose, line, aram = self.get_match_data()
 
         participant_frame_list_result = []
 
         if aram == 0:
-            team1_participant_id = [item[0] for item in team1]
-            team2_participant_id = [item[0] for item in team2]
 
             for i in initial_data:
                 
-                participant_frame_list = [0 for h in range(21)]
+                participant_frame_list = [0 for h in range(LIST_LEN)]
                 team1_gold = 0
                 team2_gold = 0
 
-                participant_frame_list[0] = i['timestamp']
+                participant_frame_list[TIMESTAMP] = i['timestamp']
 
                 for j in range(1, 11):
-                    if j in team1_participant_id:
-                        match line[j]:
-                            case "TOP":
-                                participant_frame_list[1] = i['participantFrames'][str(j)]['totalGold']
-                            case "JUNGLE":
-                                participant_frame_list[2] = i['participantFrames'][str(j)]['totalGold']
-                            case "MIDDLE":
-                                participant_frame_list[3] = i['participantFrames'][str(j)]['totalGold']
-                            case "BOTTOM":
-                                participant_frame_list[4] = i['participantFrames'][str(j)]['totalGold']
-                            case "UTILITY":
-                                participant_frame_list[5] = i['participantFrames'][str(j)]['totalGold']
+                    team_interval = team[j]
 
-                    elif j in team2_participant_id:
-                        match line[j]:
-                            case "TOP":
-                                participant_frame_list[1+9] = i['participantFrames'][str(j)]['totalGold']
-                            case "JUNGLE":
-                                participant_frame_list[2+9] = i['participantFrames'][str(j)]['totalGold']
-                            case "MIDDLE":
-                                participant_frame_list[3+9] = i['participantFrames'][str(j)]['totalGold']
-                            case "BOTTOM":
-                                participant_frame_list[4+9] = i['participantFrames'][str(j)]['totalGold']
-                            case "UTILITY":
-                                participant_frame_list[5+9] = i['participantFrames'][str(j)]['totalGold']
+                    match line[j]:
+                        case "TOP":
+                            participant_frame_list[TEAM1_TOP_GOLD+team_interval] = i['participantFrames'][str(j)]['totalGold']
+                        case "JUNGLE":
+                            participant_frame_list[TEAM1_JUNGLE_GOLD+team_interval] = i['participantFrames'][str(j)]['totalGold']
+                        case "MIDDLE":
+                            participant_frame_list[TEAM1_MIDDLE_GOLD+team_interval] = i['participantFrames'][str(j)]['totalGold']
+                        case "BOTTOM":
+                            participant_frame_list[TEAM1_BOTTOM_GOLD+team_interval] = i['participantFrames'][str(j)]['totalGold']
+                        case "UTILITY":
+                            participant_frame_list[TEAM1_UTILITY_GOLD+team_interval] = i['participantFrames'][str(j)]['totalGold']
 
-                team1_gold = sum(participant_frame_list[1:6])
-                team2_gold = sum(participant_frame_list[1+9:6+9])
+                team1_gold = sum(participant_frame_list[TEAM1_TOP_GOLD, TEAM1_JUNGLE_GOLD, TEAM1_MIDDLE_GOLD, TEAM1_BOTTOM_GOLD, TEAM1_UTILITY_GOLD])
+                team2_gold = sum(participant_frame_list[TEAM1_TOP_GOLD+TEAM_INTERVAL, TEAM1_JUNGLE_GOLD+TEAM_INTERVAL, TEAM1_MIDDLE_GOLD+TEAM_INTERVAL, TEAM1_BOTTOM_GOLD+TEAM_INTERVAL, TEAM1_UTILITY_GOLD+TEAM_INTERVAL])
 
-                participant_frame_list[6] = team1_gold
-                participant_frame_list[6+9] = team2_gold
+                participant_frame_list[TEAM1_GOLD] = team1_gold
+                participant_frame_list[TEAM1_GOLD+TEAM_INTERVAL] = team2_gold
 
                 participant_frame_list[-1] = 2222
 
