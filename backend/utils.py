@@ -207,15 +207,22 @@ class PreprocessData():
 
                             if j['participantId'] in team1_participant_id:
                                 if j['beforeId'] == 0:
+                                    # 이상
                                     event_list[9] -= item_tear[str(j['afterId'])]
                                 else:
                                     event_list[9] -= item_tear[str(j['beforeId'])]
+                                    item_from_data = self.get_item_from_data(str(j['beforeId']))
+                                    for i in item_from_data:
+                                        event_list[9] += item_tear[str(i)]
 
                             elif j['participantId'] in team2_participant_id:
                                 if j['beforeId'] == 0:
                                     event_list[9+9] -= item_tear[str(j['afterId'])]
                                 else:
                                     event_list[9+9] -= item_tear[str(j['beforeId'])]
+                                    item_from_data = self.get_item_from_data(str(j['beforeId']))
+                                    for i in item_from_data:
+                                        event_list[9+9] += item_tear[str(i)]
 
                         case 'WARD_PLACED':
                             event_list[0] = j['timestamp']
@@ -248,7 +255,8 @@ class PreprocessData():
                             try:
                                 assist_participant_length = len(j['assistingParticipantIds'])
                                 assist_participant = j['assistingParticipantIds']
-                                assist_gold = 150/assist_participant_length
+                                assist_total_gold = j['bounty'] / 2
+                                assist_gold = assist_total_gold / assist_participant_length
                             except KeyError:
                                 assist_participant_length = 0
                                 assist_participant = []
