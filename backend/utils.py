@@ -207,9 +207,10 @@ class PreprocessData():
 
                             if j['participantId'] in team1_participant_id:
                                 if j['beforeId'] == 0:
-                                    # 이상
-                                    event_list[9] -= item_tear[str(j['afterId'])]
+                                    # beforeId가 0이라는 말은 팔았던걸 되돌렸다는 말. 그러면 afterId만큼 tear를 올려줘야 한다.
+                                    event_list[9] += item_tear[str(j['afterId'])]
                                 else:
+                                    # beforeId가 0이 아니라는 말은 샀던걸 되돌렸다는 말. 그러면 beforeId만큼 tear를 내려줘야한다. 대신 상위아이템인 경우는 하위아이템만큼 더해준다.
                                     event_list[9] -= item_tear[str(j['beforeId'])]
                                     item_from_data = self.get_item_from_data(str(j['beforeId']))
                                     for i in item_from_data:
@@ -217,7 +218,7 @@ class PreprocessData():
 
                             elif j['participantId'] in team2_participant_id:
                                 if j['beforeId'] == 0:
-                                    event_list[9+9] -= item_tear[str(j['afterId'])]
+                                    event_list[9+9] += item_tear[str(j['afterId'])]
                                 else:
                                     event_list[9+9] -= item_tear[str(j['beforeId'])]
                                     item_from_data = self.get_item_from_data(str(j['beforeId']))
