@@ -1,23 +1,22 @@
 from utils import PreprocessData
+from load_data import LoadData
 import numpy as np
 
-test = PreprocessData('C:/GitHub/predict_gg/backend/api_match_info.json', 'C:/GitHub/predict_gg/backend/api_timeline_info.json')
+api_key = 'RGAPI-f84eef00-4bc7-4a2e-809b-bf53e67c8c52'
+test = PreprocessData('C:/Users/ksb02/Documents/GitHub/predict_gg/backend/api_match_info.json', 'C:/Users/ksb02/Documents/GitHub/predict_gg/backend/api_timeline_info.json')
+
+load = LoadData(api_key)
 
 f = open("log.txt", 'w')
 #test.get_data('젠지 한별')
 
-event_list = test.get_event()
+item_from = test.get_item_from_data('3078')
+print(item_from)
 
-participant_frame_list = test.get_participant_frame()
+puuid = load.get_puuid('물콩누가했냐')
+print(puuid)
 
-interval_list = test.get_condition_timeline(10000)
-
-
-interval_list = np.array(interval_list, dtype=int)
-
-
-np.savetxt(f, interval_list, fmt='%10d', delimiter=' ')
-
+load.process_challenger_data(5)
 
 
 f.close()

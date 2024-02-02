@@ -91,8 +91,8 @@ class PreprocessData():
 
         return (item_tear, item_cost, item_sold_cost)
   
-    def get_item_from_data(beforeId):
-        with open('C:/GitHub/predict_gg/backend/item.json', encoding="utf-8") as f:
+    def get_item_from_data(self, beforeId):
+        with open('C:/Users/ksb02/Documents/GitHub/predict_gg/backend/item.json', encoding="utf-8") as f:
             item_data = json.load(f)       
         item_info = item_data['data'].get(beforeId, {})
         item_from = item_info.get('from', [])
@@ -208,9 +208,11 @@ class PreprocessData():
                             if j['participantId'] in team1_participant_id:
                                 if j['beforeId'] == 0:
                                     # beforeId가 0이라는 말은 팔았던걸 되돌렸다는 말. 그러면 afterId만큼 tear를 올려줘야 한다.
+                                    # 판금 장화 가지고 있는데 이걸 판다. 그리고 UNDO before 0 after 3000
                                     event_list[9] += item_tear[str(j['afterId'])]
                                 else:
                                     # beforeId가 0이 아니라는 말은 샀던걸 되돌렸다는 말. 그러면 beforeId만큼 tear를 내려줘야한다. 대신 상위아이템인 경우는 하위아이템만큼 더해준다.
+                                    #시작아이템 물약2 + 신발 UNDO3번 before 2003 after 0
                                     event_list[9] -= item_tear[str(j['beforeId'])]
                                     item_from_data = self.get_item_from_data(str(j['beforeId']))
                                     for i in item_from_data:
@@ -256,12 +258,16 @@ class PreprocessData():
                             try:
                                 assist_participant_length = len(j['assistingParticipantIds'])
                                 assist_participant = j['assistingParticipantIds']
-                                assist_total_gold = j['bounty'] / 2
+                                if j['bounty'] > 300:
+                                    assist_total_gold = 150
+                                elif j['bounty'] <= 300:
+                                    assist_total_gold = j['bounty'] / 2
                                 assist_gold = assist_total_gold / assist_participant_length
                             except KeyError:
                                 assist_participant_length = 0
                                 assist_participant = []
                                 assist_gold = 0
+                                 
 
                             
                             
