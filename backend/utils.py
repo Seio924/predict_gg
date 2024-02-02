@@ -1,6 +1,44 @@
 import json
 import numpy as np
 
+TIMESTAMP = 0
+
+TEAM1_TOP_GOLD = 1
+TEAM1_TOP_POTION = 2
+TEAM1_TOP_KDA = 3
+
+TEAM1_JUNGLE_GOLD = 4
+TEAM1_JUNGLE_POTION = 5
+TEAM1_JUNGLE_KDA = 6
+
+TEAM1_MIDDLE_GOLD = 7
+TEAM1_MIDDLE_POTION = 8
+TEAM1_MIDDLE_KDA = 9
+
+TEAM1_BOTTOM_GOLD = 10
+TEAM1_BOTTOM_POTION = 11
+TEAM1_BOTTOM_KDA = 12
+
+TEAM1_UTILITY_GOLD = 13
+TEAM1_UTILITY_POTION = 14
+TEAM1_UTILITY_KDA = 15
+
+TEAM1_GOLD = 16
+TEAM1_KDA = 17
+
+START_ITEM = 18
+TIER1_ITEM = 19
+TIER2_ITEM = 20
+TIER3_ITEM = 21
+BOOTS_ITEM = 22
+SPECIAL_ITEM = 23
+WARD_ITEM = 24
+
+WARD_COUNT = 25
+OBJECT_COUNT = 26
+
+TEAM_INTERVAL = 26
+
 class PreprocessData():
     def __init__(self, match_file_dir, timeline_file_dir):
         self.match_file_dir = match_file_dir
@@ -13,8 +51,7 @@ class PreprocessData():
 
         aram = 1
         win_lose = [0, 0] #어떤 팀이 이겼는지 [team1, team2]
-        team1 = []
-        team2 = []
+        team = {}
         line = {}
 
         if initial_match_data['info']["gameMode"] != "ARAM":
@@ -25,23 +62,21 @@ class PreprocessData():
             for i, participant_data in enumerate(all_participants_data):
                 
                 if participant_data['teamId'] == 100:
-                    
-                    team1.append([i+1, participant_data['puuid'], participant_data['riotIdGameName']])
+                    team[i+1] = 0
                     line[i+1] = participant_data['teamPosition']
                     
                     if participant_data['win'] == True:
                         win_lose[0] = 1
 
                 elif participant_data['teamId'] == 200:
-
-                    team2.append([i+1, participant_data['puuid'], participant_data['riotIdGameName']])
+                    team[i+1] = TEAM_INTERVAL
                     line[i+1] = participant_data['teamPosition']
 
                     if participant_data['win'] == True:
                         win_lose[1] = 1
 
 
-        return (team1,team2, win_lose, line, aram)
+        return (team, win_lose, line, aram)
 
     def get_item_data(self):
         with open('C:/GitHub/predict_gg/backend/item.json', encoding="utf-8") as f:
@@ -65,34 +100,28 @@ class PreprocessData():
             item_cost[i] = item_data['data'][i]['gold']['total']
             item_sold_cost[i] = item_data['data'][i]['gold']['sell']
 
-            if item_data['data'][i]['name'] in boots:
-                item_tear[i] = 1
-
-            elif item_data['data'][i]['name'] in start:
-                item_tear[i] = 10
-
-            elif item_data['data'][i]['name'] in tier1:
-                item_tear[i] = 100
-
-            elif item_data['data'][i]['name'] in tier2:
-                item_tear[i] = 1000
-            
-            elif item_data['data'][i]['name'] in tier3:
-                item_tear[i] = 10000
-            
-            elif item_data['data'][i]['name'] in special:
-                item_tear[i] = 100000
-
-            elif item_data['data'][i]['name'] in potion:
-                item_tear[i] = 1000000
-
-            elif item_data['data'][i]['name'] in ward:
-                item_tear[i] = 10000000
+            match item_data['data'][i]['name']:
+                case 'boots':
+                    item_tear[i] = 'boots'
+                case 'start':
+                    item_tear[i] = 'start'
+                case 'tier1':
+                    item_tear[i] = 'tier1'
+                case 'tier2':
+                    item_tear[i] = 'tier2'
+                case 'tier3':
+                    item_tear[i] = 'tier3'
+                case 'special':
+                    item_tear[i] = 'special'
+                case 'potion':
+                    item_tear[i] = 'potion'
+                case 'ward':
+                    item_tear[i] = 'ward'
 
         return (item_tear, item_cost, item_sold_cost)
   
     def get_item_from_data(self, beforeId):
-        with open('C:/Users/ksb02/Documents/GitHub/predict_gg/backend/item.json', encoding="utf-8") as f:
+        with open('C:/GitHub/predict_gg/backend/item.json', encoding="utf-8") as f:
             item_data = json.load(f)       
         item_info = item_data['data'].get(beforeId, {})
         item_from = item_info.get('from', [])
@@ -104,103 +133,178 @@ class PreprocessData():
         
         initial_data = initial_data['info']['frames']
         item_tear, item_cost, item_sold_cost = self.get_item_data()
-        team1, team2, win_lose, line, aram = self.get_match_data()
+        team, win_lose, line, aram = self.get_match_data()
 
         event_list_result = []
 
         if aram == 0:
-            team1_participant_id = [item[0] for item in team1]
-            team2_participant_id = [item[0] for item in team2]
 
             for i in initial_data:
                 for j in i['events']:
-                    event_list = [0 for h in range(21)]
+                    event_list = [0 for h in range(53)]
+                    event_list[TIMESTAMP] = j['timestamp']
 
                     match j['type']:
                         case 'ITEM_PURCHASED':
-                            event_list[0] = j['timestamp']
+                            team_interval = team[j['participantId']]
+                            
+                            match item_tear[str(j['itemId'])]:
+                                case "boots" | "potion":
+                                    match line[j['participantId']]:
+                                        case "TOP":
+                                            if item_tear[str(j['itemId'])] == "potion":
+                                                event_list[TEAM1_TOP_POTION+team_interval] += 1
+                                            else:
+                                                event_list[BOOTS_ITEM+team_interval] += 10000
+                                        case "JUNGLE":
+                                            if item_tear[str(j['itemId'])] == "potion":
+                                                event_list[TEAM1_JUNGLE_POTION+team_interval] += 1
+                                            else:
+                                                event_list[BOOTS_ITEM+team_interval] += 1000
+                                        case "MIDDLE":
+                                            if item_tear[str(j['itemId'])] == "potion":
+                                                event_list[TEAM1_MIDDLE_POTION+team_interval] += 1
+                                            else:
+                                                event_list[BOOTS_ITEM+team_interval] += 100
+                                        case "BOTTOM":
+                                            if item_tear[str(j['itemId'])] == "potion":
+                                                event_list[TEAM1_BOTTOM_POTION+team_interval] += 1
+                                            else:
+                                                event_list[BOOTS_ITEM+team_interval] += 10
+                                        case "UTILITY":
+                                            if item_tear[str(j['itemId'])] == "potion":
+                                                event_list[TEAM1_UTILITY_POTION+team_interval] += 1
+                                            else:
+                                                event_list[BOOTS_ITEM+team_interval] += 1
+                                case "start":
+                                    event_list[START_ITEM+team_interval] += 1
+                                case "tier1":
+                                    event_list[TIER1_ITEM+team_interval] += 1
+                                case "tier2":
+                                    event_list[TIER2_ITEM+team_interval] += 1
+                                case "tier3":
+                                    event_list[TIER3_ITEM+team_interval] += 1
+                                case "special":
+                                    event_list[SPECIAL_ITEM+team_interval] += 1
+                                case "ward":
+                                    event_list[WARD_ITEM+team_interval] += 1
 
-                            if j['participantId'] in team1_participant_id:
-                                event_list[9] += item_tear[str(j['itemId'])]
-                            elif j['participantId'] in team2_participant_id:
-                                event_list[9+9] += item_tear[str(j['itemId'])]
 
                         case 'ITEM_DESTROYED':
-                            # 이상
-                            event_list[0] = j['timestamp']
-                            
-                            if j['participantId'] in team1_participant_id:
-                                event_list[9] -= item_tear[str(j['itemId'])]
-                                if item_tear[str(j['itemId'])] == 1000000:
+                            team_interval = team[j['participantId']]
+
+                            match item_tear[str(j['itemId'])]:
+                                case "boots" | "potion":
                                     match line[j['participantId']]:
                                         case "TOP":
-                                            event_list[1] -= item_cost[str(j['itemId'])]
+                                            if item_tear[str(j['itemId'])] == "potion":
+                                                event_list[TEAM1_TOP_POTION+team_interval] -= 1
+                                                event_list[TEAM1_TOP_GOLD+team_interval] -= item_cost[str(j['itemId'])]
+                                            else:
+                                                event_list[BOOTS_ITEM+team_interval] -= 10000
                                         case "JUNGLE":
-                                            event_list[2] -= item_cost[str(j['itemId'])]
+                                            if item_tear[str(j['itemId'])] == "potion":
+                                                event_list[TEAM1_JUNGLE_POTION+team_interval] -= 1
+                                                event_list[TEAM1_JUNGLE_GOLD+team_interval] -= item_cost[str(j['itemId'])]
+                                            else:
+                                                event_list[BOOTS_ITEM+team_interval] -= 1000
                                         case "MIDDLE":
-                                            event_list[3] -= item_cost[str(j['itemId'])]
+                                            if item_tear[str(j['itemId'])] == "potion":
+                                                event_list[TEAM1_MIDDLE_POTION+team_interval] -= 1
+                                                event_list[TEAM1_MIDDLE_GOLD+team_interval] -= item_cost[str(j['itemId'])]
+                                            else:
+                                                event_list[BOOTS_ITEM+team_interval] -= 100
                                         case "BOTTOM":
-                                            event_list[4] -= item_cost[str(j['itemId'])]
+                                            if item_tear[str(j['itemId'])] == "potion":
+                                                event_list[TEAM1_BOTTOM_POTION+team_interval] -= 1
+                                                event_list[TEAM1_BOTTOM_GOLD+team_interval] -= item_cost[str(j['itemId'])]
+                                            else:
+                                                event_list[BOOTS_ITEM+team_interval] -= 10
                                         case "UTILITY":
-                                            event_list[5] -= item_cost[str(j['itemId'])]
-                                    
-                                    event_list[6] -= item_cost[str(j['itemId'])]
+                                            if item_tear[str(j['itemId'])] == "potion":
+                                                event_list[TEAM1_UTILITY_POTION+team_interval] -= 1
+                                                event_list[TEAM1_UTILITY_GOLD+team_interval] -= item_cost[str(j['itemId'])]
+                                            else:
+                                                event_list[BOOTS_ITEM+team_interval] -= 1
+                                case "start":
+                                    event_list[START_ITEM+team_interval] -= 1
+                                case "tier1":
+                                    event_list[TIER1_ITEM+team_interval] -= 1
+                                case "tier2":
+                                    event_list[TIER2_ITEM+team_interval] -= 1
+                                case "tier3":
+                                    event_list[TIER3_ITEM+team_interval] -= 1
+                                case "special":
+                                    event_list[SPECIAL_ITEM+team_interval] -= 1
+                                case "ward":
+                                    event_list[WARD_ITEM+team_interval] -= 1
 
-                            elif j['participantId'] in team2_participant_id:
-                                event_list[9+9] -= item_tear[str(j['itemId'])]
-                                if item_tear[str(j['itemId'])] == 1000000:
-                                    match line[j['participantId']]:
-                                        case "TOP":
-                                            event_list[1+9] -= item_cost[str(j['itemId'])]
-                                        case "JUNGLE":
-                                            event_list[2+9] -= item_cost[str(j['itemId'])]
-                                        case "MIDDLE":
-                                            event_list[3+9] -= item_cost[str(j['itemId'])]
-                                        case "BOTTOM":
-                                            event_list[4+9] -= item_cost[str(j['itemId'])]
-                                        case "UTILITY":
-                                            event_list[5+9] -= item_cost[str(j['itemId'])]
-
-                                    event_list[6+9] -= item_cost[str(j['itemId'])]
 
                         case 'ITEM_SOLD':
-                            event_list[0] = j['timestamp']
+                            team_interval = team[j['participantId']]
+                            minus_gold = item_sold_cost[str(j['itemId'])] - item_cost[str(j['itemId'])]
 
-                            if j['participantId'] in team1_participant_id:
-                                event_list[9] -= item_tear[str(j['itemId'])]
-                                minus_gold = item_sold_cost[str(j['itemId'])] - item_cost[str(j['itemId'])]
-                                
-                                match line[j['participantId']]:
-                                    case "TOP":
-                                        event_list[1] = minus_gold
-                                    case "JUNGLE":
-                                        event_list[2] = minus_gold
-                                    case "MIDDLE":
-                                        event_list[3] = minus_gold
-                                    case "BOTTOM":
-                                        event_list[4] = minus_gold
-                                    case "UTILITY":
-                                        event_list[5] = minus_gold
-                                
-                                event_list[6] = minus_gold
+                            match item_tear[str(j['itemId'])]:
+                                case "boots" | "potion":
+                                    match line[j['participantId']]:
+                                        case "TOP":
+                                            if item_tear[str(j['itemId'])] == "potion":
+                                                event_list[TEAM1_TOP_POTION+team_interval] -= 1
+                                                event_list[TEAM1_TOP_GOLD+team_interval] -= item_cost[str(j['itemId'])]
+                                            else:
+                                                event_list[BOOTS_ITEM+team_interval] -= 10000
+                                        case "JUNGLE":
+                                            if item_tear[str(j['itemId'])] == "potion":
+                                                event_list[TEAM1_JUNGLE_POTION+team_interval] -= 1
+                                                event_list[TEAM1_JUNGLE_GOLD+team_interval] -= item_cost[str(j['itemId'])]
+                                            else:
+                                                event_list[BOOTS_ITEM+team_interval] -= 1000
+                                        case "MIDDLE":
+                                            if item_tear[str(j['itemId'])] == "potion":
+                                                event_list[TEAM1_MIDDLE_POTION+team_interval] -= 1
+                                                event_list[TEAM1_MIDDLE_GOLD+team_interval] -= item_cost[str(j['itemId'])]
+                                            else:
+                                                event_list[BOOTS_ITEM+team_interval] -= 100
+                                        case "BOTTOM":
+                                            if item_tear[str(j['itemId'])] == "potion":
+                                                event_list[TEAM1_BOTTOM_POTION+team_interval] -= 1
+                                                event_list[TEAM1_BOTTOM_GOLD+team_interval] -= item_cost[str(j['itemId'])]
+                                            else:
+                                                event_list[BOOTS_ITEM+team_interval] -= 10
+                                        case "UTILITY":
+                                            if item_tear[str(j['itemId'])] == "potion":
+                                                event_list[TEAM1_UTILITY_POTION+team_interval] -= 1
+                                                event_list[TEAM1_UTILITY_GOLD+team_interval] -= item_cost[str(j['itemId'])]
+                                            else:
+                                                event_list[BOOTS_ITEM+team_interval] -= 1
+                                case "start":
+                                    event_list[START_ITEM+team_interval] -= 1
+                                case "tier1":
+                                    event_list[TIER1_ITEM+team_interval] -= 1
+                                case "tier2":
+                                    event_list[TIER2_ITEM+team_interval] -= 1
+                                case "tier3":
+                                    event_list[TIER3_ITEM+team_interval] -= 1
+                                case "special":
+                                    event_list[SPECIAL_ITEM+team_interval] -= 1
+                                case "ward":
+                                    event_list[WARD_ITEM+team_interval] -= 1
+                            
+                            match line[j['participantId']]:
+                                case "TOP":
+                                    event_list[TEAM1_TOP_GOLD+team_interval] = minus_gold
+                                case "JUNGLE":
+                                    event_list[TEAM1_JUNGLE_GOLD+team_interval] = minus_gold
+                                case "MIDDLE":
+                                    event_list[TEAM1_MIDDLE_GOLD+team_interval] = minus_gold
+                                case "BOTTOM":
+                                    event_list[TEAM1_BOTTOM_GOLD+team_interval] = minus_gold
+                                case "UTILITY":
+                                    event_list[TEAM1_UTILITY_GOLD+team_interval] = minus_gold
+                            
+                            event_list[TEAM1_GOLD+team_interval] = minus_gold
 
-                            elif j['participantId'] in team2_participant_id:
-                                event_list[9+9] -= item_tear[str(j['itemId'])]
-                                minus_gold = item_sold_cost[str(j['itemId'])] - item_cost[str(j['itemId'])]
-                                
-                                match line[j['participantId']]:
-                                    case "TOP":
-                                        event_list[1+9] = minus_gold
-                                    case "JUNGLE":
-                                        event_list[2+9] = minus_gold
-                                    case "MIDDLE":
-                                        event_list[3+9] = minus_gold
-                                    case "BOTTOM":
-                                        event_list[4+9] = minus_gold
-                                    case "UTILITY":
-                                        event_list[5+9] = minus_gold
-
-                                event_list[6+9] = minus_gold
+                            
                                 
                         case 'ITEM_UNDO':
                             event_list[0] = j['timestamp']
@@ -228,28 +332,19 @@ class PreprocessData():
                                         event_list[9+9] += item_tear[str(i)]
 
                         case 'WARD_PLACED':
-                            event_list[0] = j['timestamp']
+                            team_interval = team[j['creatorId']]
 
-                            if j['creatorId'] in team1_participant_id:
-                                event_list[7] += 1
-                            elif j['creatorId'] in team2_participant_id:
-                                event_list[7+9] += 1
+                            event_list[WARD_COUNT+team_interval] += 1
 
                         case 'WARD_KILL':
-                            event_list[0] = j['timestamp']
+                            team_interval = team[j['killerId']]
 
-                            if j['killerId'] in team1_participant_id:
-                                event_list[7+9] -= 1
-                            elif j['killerId'] in team2_participant_id:
-                                event_list[7] -= 1
+                            event_list[WARD_COUNT+team_interval] -= 1
 
                         case 'ELITE_MONSTER_KILL':
-                            event_list[0] = j['timestamp']
+                            team_interval = team[j['killerId']]
 
-                            if j['killerId'] in team1_participant_id:
-                                event_list[8] += 1
-                            elif j['killerId'] in team2_participant_id:
-                                event_list[8+9] += 1
+                            event_list[OBJECT_COUNT+team_interval] += 1
 
                         case 'CHAMPION_KILL':
                             #어시스트 골드 계산 더 찾아보기
