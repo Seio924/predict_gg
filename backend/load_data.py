@@ -20,13 +20,13 @@ class LoadData():
     def get_match_data(self, matchid):
         match_url = "https://asia.api.riotgames.com/lol/match/v5/matches/" + matchid + '?api_key=' + self.api_key
         r4 = requests.get(match_url)
-        with open('api_match_info.json', 'w', encoding='utf-8') as json_file:
+        with open('backend/api_match_info.json', 'w', encoding='utf-8') as json_file:
             json.dump(r4.json(), json_file, ensure_ascii=False, indent=4)
 
     def get_timeline_data(self, matchid):
         match_timeline_url = "https://asia.api.riotgames.com/lol/match/v5/matches/" + matchid + "/timeline" + '?api_key=' + self.api_key
         r5 = requests.get(match_timeline_url)
-        with open('api_timeline_info.json', 'w', encoding='utf-8') as json_file:
+        with open('backend/api_timeline_info.json', 'w', encoding='utf-8') as json_file:
             json.dump(r5.json(), json_file, ensure_ascii=False, indent=4)
 
     def get_challenger_info(self):
@@ -35,7 +35,7 @@ class LoadData():
         entries = r6.json()['entries']
         self.summonerId = [i['summonerName'] for i in entries if 'summonerName' in i]
 
-        with open('api_challenger_info.json', 'w', encoding='utf-8') as json_file:
+        with open('backend/api_challenger_info.json', 'w', encoding='utf-8') as json_file:
             json.dump(r6.json(), json_file, ensure_ascii=False, indent=4)
 
     def process_challenger_data(self, num_matches):

@@ -16,7 +16,7 @@ print(item_from)
 puuid = load.get_puuid('물콩누가했냐')
 print(puuid)
 
-load.process_challenger_data(5)
+load.process_challenger_data(30)
 
 
 f.close()
