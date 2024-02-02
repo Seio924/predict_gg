@@ -44,7 +44,7 @@ class PreprocessData():
         return (team1,team2, win_lose, line, aram)
 
     def get_item_data(self):
-        with open('C:/GitHub/predict_gg/backend/item.json', encoding="utf-8") as f:
+        with open('C:/Users/ksb02/Documents/GitHub/predict_gg/backend/item.json', encoding="utf-8") as f:
             item_data = json.load(f)
 
         boots = ['장화', '약간 신비한 신발', '신속의 장화', '명석함의 아이오니아 장화', '기동력의 장화', '광전사의 군화', '마법사의 신발', '판금 장화', '헤르메스의 발걸음']

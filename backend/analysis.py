@@ -9,7 +9,7 @@ lose_std = []
 min_length = float('inf')
 
 for i in range(30):
-    test = PreprocessData('C:/GitHub/predict_gg/api_match_info.json', 'C:/GitHub/predict_gg/api_timeline_info.json')
+    test = PreprocessData('C:/Users/ksb02/Documents/GitHub/predict_gg/backend/api_match_info.json', 'C:/Users/ksb02/Documents/GitHub/predict_gg/backend/api_timeline_info.json')
 
     interval_list = test.get_condition_timeline(10000)
     team1, team2, win_lose, line, aram = test.get_match_data()
