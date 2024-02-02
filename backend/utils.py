@@ -81,7 +81,7 @@ class PreprocessData():
         return (team, win_lose, line, aram)
 
     def get_item_data(self):
-        with open('C:/GitHub/predict_gg/backend/item.json', encoding="utf-8") as f:
+        with open('./backend/item.json', encoding="utf-8") as f:
             item_data = json.load(f)
 
         boots = ['장화', '약간 신비한 신발', '신속의 장화', '명석함의 아이오니아 장화', '기동력의 장화', '광전사의 군화', '마법사의 신발', '판금 장화', '헤르메스의 발걸음']
@@ -311,33 +311,140 @@ class PreprocessData():
                                     event_list[TEAM1_UTILITY_GOLD+team_interval] = minus_gold
                             
                             event_list[TEAM1_GOLD+team_interval] = minus_gold
-
-                            
-                                
+       
                         case 'ITEM_UNDO':
-                            event_list[0] = j['timestamp']
-
-                            if j['participantId'] in team1_participant_id:
-                                if j['beforeId'] == 0:
-                                    # beforeId가 0이라는 말은 팔았던걸 되돌렸다는 말. 그러면 afterId만큼 tear를 올려줘야 한다.
-                                    # 판금 장화 가지고 있는데 이걸 판다. 그리고 UNDO before 0 after 3000
-                                    event_list[9] += item_tear[str(j['afterId'])]
-                                else:
-                                    # beforeId가 0이 아니라는 말은 샀던걸 되돌렸다는 말. 그러면 beforeId만큼 tear를 내려줘야한다. 대신 상위아이템인 경우는 하위아이템만큼 더해준다.
-                                    #시작아이템 물약2 + 신발 UNDO3번 before 2003 after 0
-                                    event_list[9] -= item_tear[str(j['beforeId'])]
-                                    item_from_data = self.get_item_from_data(str(j['beforeId']))
-                                    for i in item_from_data:
-                                        event_list[9] += item_tear[str(i)]
-
-                            elif j['participantId'] in team2_participant_id:
-                                if j['beforeId'] == 0:
-                                    event_list[9+9] += item_tear[str(j['afterId'])]
-                                else:
-                                    event_list[9+9] -= item_tear[str(j['beforeId'])]
-                                    item_from_data = self.get_item_from_data(str(j['beforeId']))
-                                    for i in item_from_data:
-                                        event_list[9+9] += item_tear[str(i)]
+                            team_interval = team[j['participantId']]
+                            if j['beforeId'] == 0:
+                                # beforeId가 0이라는 말은 팔았던걸 되돌렸다는 말. 그러면 afterId만큼 tear를 올려줘야 한다.
+                                # 판금 장화 가지고 있는데 이걸 판다. 그리고 UNDO before 0 after 3000
+                                #event_list[9] += item_tear[str(j['afterId'])]
+                                match item_tear[str(j['afterId'])]:
+                                    case "boots" | "potion":
+                                        match line[j['participantId']]:
+                                            case "TOP":
+                                                if item_tear[str(j['afterId'])] == "potion":
+                                                    event_list[TEAM1_TOP_POTION+team_interval] += 1
+                                                else:
+                                                    event_list[BOOTS_ITEM+team_interval] += 10000
+                                            case "JUNGLE":
+                                                if item_tear[str(j['afterId'])] == "potion":
+                                                    event_list[TEAM1_JUNGLE_POTION+team_interval] += 1
+                                                else:
+                                                    event_list[BOOTS_ITEM+team_interval] += 1000
+                                            case "MIDDLE":
+                                                if item_tear[str(j['afterId'])] == "potion":
+                                                    event_list[TEAM1_MIDDLE_POTION+team_interval] += 1
+                                                else:
+                                                    event_list[BOOTS_ITEM+team_interval] += 100
+                                            case "BOTTOM":
+                                                if item_tear[str(j['afterId'])] == "potion":
+                                                    event_list[TEAM1_BOTTOM_POTION+team_interval] += 1
+                                                else:
+                                                    event_list[BOOTS_ITEM+team_interval] += 10
+                                            case "UTILITY":
+                                                if item_tear[str(j['afterId'])] == "potion":
+                                                    event_list[TEAM1_UTILITY_POTION+team_interval] += 1
+                                                    
+                                                else:
+                                                    event_list[BOOTS_ITEM+team_interval] += 1
+                                    case "start":
+                                        event_list[START_ITEM+team_interval] += 1
+                                    case "tier1":
+                                        event_list[TIER1_ITEM+team_interval] += 1
+                                    case "tier2":
+                                        event_list[TIER2_ITEM+team_interval] += 1
+                                    case "tier3":
+                                        event_list[TIER3_ITEM+team_interval] += 1
+                                    case "special":
+                                        event_list[SPECIAL_ITEM+team_interval] += 1
+                                    case "ward":
+                                        event_list[WARD_ITEM+team_interval] += 1
+                                    
+                            else:
+                                # beforeId가 0이 아니라는 말은 샀던걸 되돌렸다는 말. 그러면 beforeId만큼 tear를 내려줘야한다. 대신 상위아이템인 경우는 하위아이템만큼 더해준다.
+                                #시작아이템 물약2 + 신발 UNDO3번 before 2003 after 0
+                                match item_tear[str(j['beforeId'])]:
+                                    case "boots" | "potion":
+                                        match line[j['participantId']]:
+                                            case "TOP":
+                                                if item_tear[str(j['beforeId'])] == "potion":
+                                                    event_list[TEAM1_TOP_POTION+team_interval] -= 1
+                                                else:
+                                                    event_list[BOOTS_ITEM+team_interval] -= 10000
+                                            case "JUNGLE":
+                                                if item_tear[str(j['beforeId'])] == "potion":
+                                                    event_list[TEAM1_JUNGLE_POTION+team_interval] -= 1
+                                                else:
+                                                    event_list[BOOTS_ITEM+team_interval] -= 1000
+                                            case "MIDDLE":
+                                                if item_tear[str(j['beforeId'])] == "potion":
+                                                    event_list[TEAM1_MIDDLE_POTION+team_interval] -= 1
+                                                else:
+                                                    event_list[BOOTS_ITEM+team_interval] -= 100
+                                            case "BOTTOM":
+                                                if item_tear[str(j['beforeId'])] == "potion":
+                                                    event_list[TEAM1_BOTTOM_POTION+team_interval] -= 1
+                                                else:
+                                                    event_list[BOOTS_ITEM+team_interval] -= 10
+                                            case "UTILITY":
+                                                if item_tear[str(j['beforeId'])] == "potion":
+                                                    event_list[TEAM1_UTILITY_POTION+team_interval] -= 1
+                                                else:
+                                                    event_list[BOOTS_ITEM+team_interval] -= 1
+                                    case "start":
+                                        event_list[START_ITEM+team_interval] -= 1
+                                    case "tier1":
+                                        event_list[TIER1_ITEM+team_interval] -= 1
+                                    case "tier2":
+                                        event_list[TIER2_ITEM+team_interval] -= 1
+                                    case "tier3":
+                                        event_list[TIER3_ITEM+team_interval] -= 1
+                                    case "special":
+                                        event_list[SPECIAL_ITEM+team_interval] -= 1
+                                    case "ward":
+                                        event_list[WARD_ITEM+team_interval] -= 1
+                                item_from_data = self.get_item_from_data(str(j['beforeId']))
+                                for i in item_from_data:
+                                    match item_tear[str(i)]:
+                                        case "boots" | "potion":
+                                            match line[j['participantId']]:
+                                                case "TOP":
+                                                    if item_tear[str(i)] == "potion":
+                                                        event_list[TEAM1_TOP_POTION+team_interval] += 1
+                                                    else:
+                                                        event_list[BOOTS_ITEM+team_interval] += 10000
+                                                case "JUNGLE":
+                                                    if item_tear[str(i)] == "potion":
+                                                        event_list[TEAM1_JUNGLE_POTION+team_interval] += 1
+                                                    else:
+                                                        event_list[BOOTS_ITEM+team_interval] += 1000
+                                                case "MIDDLE":
+                                                    if item_tear[str(i)] == "potion":
+                                                        event_list[TEAM1_MIDDLE_POTION+team_interval] += 1
+                                                    else:
+                                                        event_list[BOOTS_ITEM+team_interval] += 100
+                                                case "BOTTOM":
+                                                    if item_tear[str(i)] == "potion":
+                                                        event_list[TEAM1_BOTTOM_POTION+team_interval] += 1
+                                                    else:
+                                                        event_list[BOOTS_ITEM+team_interval] += 10
+                                                case "UTILITY":
+                                                    if item_tear[str(i)] == "potion":
+                                                        event_list[TEAM1_UTILITY_POTION+team_interval] += 1
+                                                    else:
+                                                        event_list[BOOTS_ITEM+team_interval] += 1
+                                        case "start":
+                                            event_list[START_ITEM+team_interval] += 1
+                                        case "tier1":
+                                            event_list[TIER1_ITEM+team_interval] += 1
+                                        case "tier2":
+                                            event_list[TIER2_ITEM+team_interval] += 1
+                                        case "tier3":
+                                            event_list[TIER3_ITEM+team_interval] += 1
+                                        case "special":
+                                            event_list[SPECIAL_ITEM+team_interval] += 1
+                                        case "ward":
+                                            event_list[WARD_ITEM+team_interval] += 1
 
                         case 'WARD_PLACED':
                             team_interval = team[j['creatorId']]
@@ -356,8 +463,6 @@ class PreprocessData():
 
                         case 'CHAMPION_KILL':
                             #어시스트 골드 계산 더 찾아보기
-                            event_list[0] = j['timestamp']
-
                             try:
                                 assist_participant_length = len(j['assistingParticipantIds'])
                                 assist_participant = j['assistingParticipantIds']
@@ -370,66 +475,35 @@ class PreprocessData():
                                 assist_participant_length = 0
                                 assist_participant = []
                                 assist_gold = 0
-                                 
-
                             
-                            
+                            team_interval = team[j['killerId']]
+                            match line[j['killerId']]:
+                                case "TOP":
+                                    event_list[TEAM1_TOP_GOLD+team_interval] = j['bounty']
+                                case "JUNGLE":
+                                    event_list[TEAM1_JUNGLE_GOLD+team_interval] = j['bounty']
+                                case "MIDDLE":
+                                    event_list[TEAM1_MIDDLE_GOLD+team_interval] = j['bounty']
+                                case "BOTTOM":
+                                    event_list[TEAM1_BOTTOM_GOLD+team_interval] = j['bounty']
+                                case "UTILITY":
+                                    event_list[TEAM1_UTILITY_GOLD+team_interval] = j['bounty']
 
-                            if j['killerId'] in team1_participant_id:
-                                match line[j['killerId']]:
+                            for assist in assist_participant:
+                                match line[assist]:
                                     case "TOP":
-                                        event_list[1] = j['bounty']
+                                        event_list[TEAM1_TOP_GOLD+team_interval] = assist_gold
                                     case "JUNGLE":
-                                        event_list[2] = j['bounty']
+                                        event_list[TEAM1_JUNGLE_GOLD+team_interval] = assist_gold
                                     case "MIDDLE":
-                                        event_list[3] = j['bounty']
+                                        event_list[TEAM1_MIDDLE_GOLD+team_interval] = assist_gold
                                     case "BOTTOM":
-                                        event_list[4] = j['bounty']
+                                        event_list[TEAM1_BOTTOM_GOLD+team_interval] = assist_gold
                                     case "UTILITY":
-                                        event_list[5] = j['bounty']
-
-                                for assist in assist_participant:
-                                    match line[assist]:
-                                        case "TOP":
-                                            event_list[1] = assist_gold
-                                        case "JUNGLE":
-                                            event_list[2] = assist_gold
-                                        case "MIDDLE":
-                                            event_list[3] = assist_gold
-                                        case "BOTTOM":
-                                            event_list[4] = assist_gold
-                                        case "UTILITY":
-                                            event_list[5] = assist_gold
-
-
-                            elif j['killerId'] in team2_participant_id:
-                                match line[j['killerId']]:
-                                    case "TOP":
-                                        event_list[1+9] = j['bounty']
-                                    case "JUNGLE":
-                                        event_list[2+9] = j['bounty']
-                                    case "MIDDLE":
-                                        event_list[3+9] = j['bounty']
-                                    case "BOTTOM":
-                                        event_list[4+9] = j['bounty']
-                                    case "UTILITY":
-                                        event_list[5+9] = j['bounty']
-
-                                for assist in assist_participant:
-                                    match line[assist]:
-                                        case "TOP":
-                                            event_list[1+9] = assist_gold
-                                        case "JUNGLE":
-                                            event_list[2+9] = assist_gold
-                                        case "MIDDLE":
-                                            event_list[3+9] = assist_gold
-                                        case "BOTTOM":
-                                            event_list[4+9] = assist_gold
-                                        case "UTILITY":
-                                            event_list[5+9] = assist_gold
+                                        event_list[TEAM1_UTILITY_GOLD+team_interval] = assist_gold
 
                         case default:
-                            continue
+                            continue # 만약에 미니언이나 포탑이 죽였을 떈 돈은?
                     
                     event_list[-1] = 1111
                     event_list_result.append(event_list)
