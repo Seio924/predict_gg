@@ -490,16 +490,47 @@ class PreprocessData():
                                     event_list[TEAM1_UTILITY_GOLD+team_interval] = j['bounty']
 
                             for assist in assist_participant:
+                                
                                 match line[assist]:
                                     case "TOP":
+                                        if event_list[TEAM1_TOP_ASSIST+team_interval] - event_list[TEAM1_TOP_KILL+team_interval] == 2:
+                                            assist_gold += 30
+                                        elif event_list[TEAM1_TOP_ASSIST+team_interval] - event_list[TEAM1_TOP_KILL+team_interval] == 3:
+                                            assist_gold += 40
+                                        else:
+                                            assist_gold += 60
                                         event_list[TEAM1_TOP_GOLD+team_interval] = assist_gold
                                     case "JUNGLE":
+                                        if event_list[TEAM1_JUNGLE_ASSIST+team_interval] - event_list[TEAM1_JUNGLE_KILL+team_interval] == 2:
+                                            assist_gold += 30
+                                        elif event_list[TEAM1_JUNGLE_ASSIST+team_interval] - event_list[TEAM1_JUNGLE_KILL+team_interval] == 3:
+                                            assist_gold += 40
+                                        else:
+                                            assist_gold += 60
                                         event_list[TEAM1_JUNGLE_GOLD+team_interval] = assist_gold
                                     case "MIDDLE":
+                                        if event_list[TEAM1_MIDDLE_ASSIST+team_interval] - event_list[TEAM1_MIDDLE_KILL+team_interval] == 2:
+                                            assist_gold += 30
+                                        elif event_list[TEAM1_MIDDLE_ASSIST+team_interval] - event_list[TEAM1_MIDDLE_KILL+team_interval] == 3:
+                                            assist_gold += 40
+                                        else:
+                                            assist_gold += 60
                                         event_list[TEAM1_MIDDLE_GOLD+team_interval] = assist_gold
                                     case "BOTTOM":
+                                        if event_list[TEAM1_BOTTOM_ASSIST+team_interval] - event_list[TEAM1_BOTTOM_KILL+team_interval] == 2:
+                                            assist_gold += 30
+                                        elif event_list[TEAM1_BOTTOM_ASSIST+team_interval] - event_list[TEAM1_BOTTOM_KILL+team_interval] == 3:
+                                            assist_gold += 40
+                                        else:
+                                            assist_gold += 60
                                         event_list[TEAM1_BOTTOM_GOLD+team_interval] = assist_gold
                                     case "UTILITY":
+                                        if event_list[TEAM1_UTILITY_ASSIST+team_interval] - event_list[TEAM1_UTILITY_KILL+team_interval] == 2:
+                                            assist_gold += 30
+                                        elif event_list[TEAM1_UTILITY_ASSIST+team_interval] - event_list[TEAM1_UTILITY_KILL+team_interval] == 3:
+                                            assist_gold += 40
+                                        else:
+                                            assist_gold += 60
                                         event_list[TEAM1_UTILITY_GOLD+team_interval] = assist_gold
 
                         case default:

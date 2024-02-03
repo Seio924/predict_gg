@@ -9,7 +9,11 @@ load = LoadData(api_key)
 
 f = open("log.txt", 'w')
 
-load.process_challenger_data(30)
+#load.process_challenger_data(30)
+
+load.get_timeline_data('KR_6928312998')
+
+
 
 
 f.close()
