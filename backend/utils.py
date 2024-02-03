@@ -516,14 +516,19 @@ class PreprocessData():
                                 match line[j['killerId']]:
                                     case "TOP":
                                         event_list[TEAM1_TOP_GOLD+team_interval] = j['bounty']
+                                        event_list[TEAM1_TOP_K+team_interval] += 1
                                     case "JUNGLE":
                                         event_list[TEAM1_JUNGLE_GOLD+team_interval] = j['bounty']
+                                        event_list[TEAM1_JUNGLE_K+team_interval] += 1
                                     case "MIDDLE":
                                         event_list[TEAM1_MIDDLE_GOLD+team_interval] = j['bounty']
+                                        event_list[TEAM1_MIDDLE_K+team_interval] += 1
                                     case "BOTTOM":
                                         event_list[TEAM1_BOTTOM_GOLD+team_interval] = j['bounty']
+                                        event_list[TEAM1_BOTTOM_K+team_interval] += 1
                                     case "UTILITY":
                                         event_list[TEAM1_UTILITY_GOLD+team_interval] = j['bounty']
+                                        event_list[TEAM1_UTILITY_K+team_interval] += 1
 
                                 for assist in assist_participant:
                                     
@@ -536,6 +541,7 @@ class PreprocessData():
                                             else:
                                                 assist_gold += 60
                                             event_list[TEAM1_TOP_GOLD+team_interval] = assist_gold
+                                            event_list[TEAM1_TOP_A+team_interval] += 1
                                         case "JUNGLE":
                                             if event_list[TEAM1_JUNGLE_A+team_interval] - event_list[TEAM1_JUNGLE_K+team_interval] == 2:
                                                 assist_gold += 30
@@ -544,6 +550,7 @@ class PreprocessData():
                                             else:
                                                 assist_gold += 60
                                             event_list[TEAM1_JUNGLE_GOLD+team_interval] = assist_gold
+                                            event_list[TEAM1_JUNGLE_A+team_interval] += 1
                                         case "MIDDLE":
                                             if event_list[TEAM1_MIDDLE_A+team_interval] - event_list[TEAM1_MIDDLE_K+team_interval] == 2:
                                                 assist_gold += 30
@@ -552,6 +559,7 @@ class PreprocessData():
                                             else:
                                                 assist_gold += 60
                                             event_list[TEAM1_MIDDLE_GOLD+team_interval] = assist_gold
+                                            event_list[TEAM1_MIDDLE_A+team_interval] += 1
                                         case "BOTTOM":
                                             if event_list[TEAM1_BOTTOM_A+team_interval] - event_list[TEAM1_BOTTOM_K+team_interval] == 2:
                                                 assist_gold += 30
@@ -560,6 +568,7 @@ class PreprocessData():
                                             else:
                                                 assist_gold += 60
                                             event_list[TEAM1_BOTTOM_GOLD+team_interval] = assist_gold
+                                            event_list[TEAM1_BOTTOM_A+team_interval] += 1
                                         case "UTILITY":
                                             if event_list[TEAM1_UTILITY_A+team_interval] - event_list[TEAM1_UTILITY_K+team_interval] == 2:
                                                 assist_gold += 30
@@ -568,6 +577,20 @@ class PreprocessData():
                                             else:
                                                 assist_gold += 60
                                             event_list[TEAM1_UTILITY_GOLD+team_interval] = assist_gold
+                                            event_list[TEAM1_UTILITY_A+team_interval] += 1
+                                
+                                team_interval = team[j['victimId']]
+                                match line[j['victimId']]:
+                                    case "TOP":
+                                        event_list[TEAM1_TOP_D+team_interval] += 1
+                                    case "JUNGLE":
+                                        event_list[TEAM1_JUNGLE_D+team_interval] += 1
+                                    case "MIDDLE":
+                                        event_list[TEAM1_MIDDLE_D+team_interval] += 1
+                                    case "BOTTOM":
+                                        event_list[TEAM1_BOTTOM_D+team_interval] += 1
+                                    case "UTILITY":
+                                        event_list[TEAM1_UTILITY_D+team_interval] += 1
 
                         case default:
                             continue # 만약에 미니언이나 포탑이 죽였을 떈 돈은?
