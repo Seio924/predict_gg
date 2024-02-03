@@ -41,28 +41,25 @@ TEAM1_UTILITY_D = 29
 TEAM1_UTILITY_A = 30
 
 TEAM1_GOLD = 31
-TEAM1_KDA = 32
 
-START_ITEM = 33
-TIER1_ITEM = 34
-TIER2_ITEM = 35
-TIER3_ITEM = 36
-BOOTS_ITEM = 37
-SPECIAL_ITEM = 38
-WARD_ITEM = 39
+START_ITEM = 32
+TIER1_ITEM = 33
+TIER2_ITEM = 34
+TIER3_ITEM = 35
+BOOTS_ITEM = 36
+SPECIAL_ITEM = 37
+WARD_ITEM = 38
 
-WARD_COUNT = 40
-OBJECT_COUNT = 41
+WARD_COUNT = 39
+OBJECT_COUNT = 40
 
-TOWER_TOP_COUNT = 42
-TOWER_JUNGLE_COUNT = 43
-TOWER_MIDDLE_COUNT = 44
-TOWER_BOTTOM_COUNT = 45
-TOWER_UTILITY_COUNT = 46
+TOWER_TOP_COUNT = 41
+TOWER_MIDDLE_COUNT = 42
+TOWER_BOTTOM_COUNT = 43
 
-TEAM_INTERVAL = 46
+TEAM_INTERVAL = 43
 
-LIST_LEN = 94
+LIST_LEN = 88
 
 class AnalysisData:
     def __init__(self):
@@ -195,6 +192,20 @@ class AnalysisData:
 
         self.axes[0, 0].set_xlabel('Time') 
         self.axes[0, 0].set_ylabel('Gold')
+        self.axes[0, 1].set_xlabel('Time')
+        self.axes[0, 1].set_ylabel('Gold')
+        self.axes[1, 0].set_xlabel('Time')
+        self.axes[1, 0].set_ylabel('Gold')
+        self.axes[1, 1].set_xlabel('Time')
+        self.axes[1, 1].set_ylabel('Gold')
+        self.axes[2, 0].set_xlabel('Time')
+        self.axes[2, 0].set_ylabel('Gold')
+        self.axes[2, 1].set_xlabel('Time')
+        self.axes[2, 1].set_ylabel('Gold')
+        self.axes[3, 0].set_xlabel('Time')
+        self.axes[3, 0].set_ylabel('Gold')
+        self.axes[3, 1].set_xlabel('Time')
+        self.axes[3, 1].set_ylabel('Gold')
 
         self.fig.suptitle('Win   Lose')
 
