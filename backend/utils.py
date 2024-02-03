@@ -575,9 +575,10 @@ class PreprocessData():
                         case "UTILITY":
                             participant_frame_list[TEAM1_UTILITY_GOLD+team_interval] = i['participantFrames'][str(j)]['totalGold']
 
-                team1_gold = sum(participant_frame_list[TEAM1_TOP_GOLD, TEAM1_JUNGLE_GOLD, TEAM1_MIDDLE_GOLD, TEAM1_BOTTOM_GOLD, TEAM1_UTILITY_GOLD])
-                team2_gold = sum(participant_frame_list[TEAM1_TOP_GOLD+TEAM_INTERVAL, TEAM1_JUNGLE_GOLD+TEAM_INTERVAL, TEAM1_MIDDLE_GOLD+TEAM_INTERVAL, TEAM1_BOTTOM_GOLD+TEAM_INTERVAL, TEAM1_UTILITY_GOLD+TEAM_INTERVAL])
-
+                for j in [TEAM1_TOP_GOLD, TEAM1_JUNGLE_GOLD, TEAM1_MIDDLE_GOLD, TEAM1_BOTTOM_GOLD, TEAM1_UTILITY_GOLD]:
+                    team1_gold += participant_frame_list[j]
+                    team2_gold += participant_frame_list[j+TEAM_INTERVAL]
+                    
                 participant_frame_list[TEAM1_GOLD] = team1_gold
                 participant_frame_list[TEAM1_GOLD+TEAM_INTERVAL] = team2_gold
 
