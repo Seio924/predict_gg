@@ -3,43 +3,64 @@ import numpy as np
 
 TIMESTAMP = 0
 
-TEAM1_TOP_GOLD = 1
-TEAM1_TOP_POTION = 2
-TEAM1_TOP_KDA = 3
+TEAM1_TOP_CHAMPION = 1
+TEAM1_TOP_GOLD = 2
+TEAM1_TOP_POTION = 3
+TEAM1_TOP_K = 4
+TEAM1_TOP_D = 5
+TEAM1_TOP_A = 6
 
-TEAM1_JUNGLE_GOLD = 4
-TEAM1_JUNGLE_POTION = 5
-TEAM1_JUNGLE_KDA = 6
+TEAM1_JUNGLE_CHAMPION = 7
+TEAM1_JUNGLE_GOLD = 8
+TEAM1_JUNGLE_POTION = 9
+TEAM1_JUNGLE_K = 10
+TEAM1_JUNGLE_D = 11
+TEAM1_JUNGLE_A = 12
 
-TEAM1_MIDDLE_GOLD = 7
-TEAM1_MIDDLE_POTION = 8
-TEAM1_MIDDLE_KDA = 9
+TEAM1_MIDDLE_CHAMPION = 13
+TEAM1_MIDDLE_GOLD = 14
+TEAM1_MIDDLE_POTION = 15
+TEAM1_MIDDLE_K = 16
+TEAM1_MIDDLE_D = 17
+TEAM1_MIDDLE_A = 18
 
-TEAM1_BOTTOM_GOLD = 10
-TEAM1_BOTTOM_POTION = 11
-TEAM1_BOTTOM_KDA = 12
+TEAM1_BOTTOM_CHAMPION = 19
+TEAM1_BOTTOM_GOLD = 20
+TEAM1_BOTTOM_POTION = 21
+TEAM1_BOTTOM_K = 22
+TEAM1_BOTTOM_D = 23
+TEAM1_BOTTOM_A = 24
 
-TEAM1_UTILITY_GOLD = 13
-TEAM1_UTILITY_POTION = 14
-TEAM1_UTILITY_KDA = 15
+TEAM1_UTILITY_CHAMPION = 25
+TEAM1_UTILITY_GOLD = 26
+TEAM1_UTILITY_POTION = 27
+TEAM1_UTILITY_K = 28
+TEAM1_UTILITY_D = 29
+TEAM1_UTILITY_A = 30
 
-TEAM1_GOLD = 16
-TEAM1_KDA = 17
+TEAM1_GOLD = 31
+TEAM1_KDA = 32
 
-START_ITEM = 18
-TIER1_ITEM = 19
-TIER2_ITEM = 20
-TIER3_ITEM = 21
-BOOTS_ITEM = 22
-SPECIAL_ITEM = 23
-WARD_ITEM = 24
+START_ITEM = 33
+TIER1_ITEM = 34
+TIER2_ITEM = 35
+TIER3_ITEM = 36
+BOOTS_ITEM = 37
+SPECIAL_ITEM = 38
+WARD_ITEM = 39
 
-WARD_COUNT = 25
-OBJECT_COUNT = 26
+WARD_COUNT = 40
+OBJECT_COUNT = 41
 
-TEAM_INTERVAL = 26
+TOWER_TOP_COUNT = 42
+TOWER_JUNGLE_COUNT = 43
+TOWER_MIDDLE_COUNT = 44
+TOWER_BOTTOM_COUNT = 45
+TOWER_UTILITY_COUNT = 46
 
-LIST_LEN = 53
+TEAM_INTERVAL = 46
+
+LIST_LEN = 93
 
 class PreprocessData():
     def __init__(self, match_file_dir, timeline_file_dir):
@@ -55,6 +76,12 @@ class PreprocessData():
         win_lose = [0, 0] #어떤 팀이 이겼는지 [team1, team2]
         team = {}
         line = {}
+        champion_list = ["AATROX", "AHRI", "AKALI", "AKSHAN", "ALISTAR", "AMUMU", "ANIVIA", "ANNIE", "APHELIOS", "ASHE", "AURELION SOL", "AZIR", "BARD", "BELVETH", "BLITZCRANK", "BRAND", "BRAUM", "BRIAR", "CAITLYN", "CAMILLE", "CASSIOPEIA", "CHO'GATH", "CORKI", "DARIUS", "DIANA", "DR. MUNDO", "DRAVEN", "EKKO", "ELISE", "EVELYNN", "EZREAL", "FIDDLESTICKS", "FIORA", "FIZZ", "GALIO", "GANGPLANK", "GAREN", "GNAR", "GRAGAS", "GRAVES", "GWEN", "HECARIM", "HEIMERDINGER", "HWEI", "ILLAOI", "IRELIA", "IVERN", "JANNA", "JARVAN IV", "JAX", "JAYCE", "JHIN", "JINX", "K'SANTE", "KAI'SA", "KALISTA", "KARMA", "KARTHUS", "KASSADIN", "KATARINA", "KAYLE", "KAYN", "KENNEN", "KHA'ZIX", "KINDRED", "KLED", "KOG'MAW", "LEBLANC", "LEE SIN", "LEONA", "LILLIA", "LISSANDRA", "LUCIAN", "LULU", "LUX", "MALPHITE", "MALZAHAR", "MAOKAI", "MASTER YI", "MILIO", "MISS FORTUNE", "MORDEKAISER", "MORGANA", "NAAFIRI", "NAMI", "NASUS", "NAUTILUS", "NEEKO", "NIDALEE", "NILAH", "NOCTURNE", "NUNU & WILLUMP", "OLAF", "ORIANNA", "ORNN", "PANTHEON", "POPPY", "PYKE", "QIYANA", "QUINN", "RAKAN", "RAMMUS", "REK'SAI", "RELL", "RENATA", "RENEKTON", "RENGAR", "RIVEN", "RUMBLE", "RYZE", "SAMIRA", "SEJUANI", "SENNA", "SERAPHINE", "SETT", "SHACO", "SHEN", "SHYVANA", "SINGED", "SION", "SIVIR", "SKARNER", "SONA", "SORAKA", "SWAIN", "SYLAS", "SYNDRA", "TAHM KENCH", "TALIYAH", "TALON", "TARIC", "TEEMO", "THRESH", "TRISTANA", "TRUNDLE", "TRYNDAMERE", "TWISTED FATE", "TWITCH", "UDYR", "URGOT", "VARUS", "VAYNE", "VEIGAR", "VEL'KOZ", "VEX", "VI", "VIEGO", "VIKTOR", "VLADIMIR", "VOLIBEAR", "WARWICK", "WUKONG", "XAYAH", "XERATH", "XINZHAO", "YASUO", "YONE", "YORICK", "YUUMI", "ZAC", "ZED", "ZERI", "ZIGGS", "ZILEAN", "ZOE", "ZYR"]
+        champion_dic = {}
+        champion = {}
+
+        for i, c in enumerate(champion_list):
+            champion_dic[c] = i
 
         if initial_match_data['info']["gameMode"] != "ARAM":
             aram = 0
@@ -76,9 +103,11 @@ class PreprocessData():
 
                     if participant_data['win'] == True:
                         win_lose[1] = 1
+                
+                champion[participant_data['participantId']] = champion_dic[participant_data['championName'].upper()]
 
 
-        return (team, win_lose, line, aram)
+        return (team, win_lose, line, champion, aram)
 
     def get_item_data(self):
         with open('./backend/item.json', encoding="utf-8") as f:
@@ -141,7 +170,7 @@ class PreprocessData():
         
         initial_data = initial_data['info']['frames']
         item_tear, item_cost, item_sold_cost = self.get_item_data()
-        team, win_lose, line, aram = self.get_match_data()
+        team, win_lose, line, champion, aram = self.get_match_data()
 
         event_list_result = []
 
@@ -447,91 +476,98 @@ class PreprocessData():
                                             event_list[WARD_ITEM+team_interval] += 1
 
                         case 'WARD_PLACED':
-                            team_interval = team[j['creatorId']]
+                            if j['creatorId'] != 0:
+                                team_interval = team[j['creatorId']]
 
-                            event_list[WARD_COUNT+team_interval] += 1
+                                event_list[WARD_COUNT+team_interval] += 1
 
                         case 'WARD_KILL':
-                            team_interval = team[j['killerId']]
+                            if j['killerId'] != 0:
 
-                            event_list[WARD_COUNT+team_interval] -= 1
+                                team_interval = team[j['killerId']]
+
+                                event_list[WARD_COUNT+team_interval] -= 1
 
                         case 'ELITE_MONSTER_KILL':
-                            team_interval = team[j['killerId']]
+                            if j['killerId'] != 0:
 
-                            event_list[OBJECT_COUNT+team_interval] += 1
+                                team_interval = team[j['killerId']]
+
+                                event_list[OBJECT_COUNT+team_interval] += 1
 
                         case 'CHAMPION_KILL':
                             #어시스트 골드 계산 더 찾아보기
-                            try:
-                                assist_participant_length = len(j['assistingParticipantIds'])
-                                assist_participant = j['assistingParticipantIds']
-                                if j['bounty'] > 300:
-                                    assist_total_gold = 150
-                                elif j['bounty'] <= 300:
-                                    assist_total_gold = j['bounty'] / 2
-                                assist_gold = assist_total_gold / assist_participant_length
-                            except KeyError:
-                                assist_participant_length = 0
-                                assist_participant = []
-                                assist_gold = 0
-                            
-                            team_interval = team[j['killerId']]
-                            match line[j['killerId']]:
-                                case "TOP":
-                                    event_list[TEAM1_TOP_GOLD+team_interval] = j['bounty']
-                                case "JUNGLE":
-                                    event_list[TEAM1_JUNGLE_GOLD+team_interval] = j['bounty']
-                                case "MIDDLE":
-                                    event_list[TEAM1_MIDDLE_GOLD+team_interval] = j['bounty']
-                                case "BOTTOM":
-                                    event_list[TEAM1_BOTTOM_GOLD+team_interval] = j['bounty']
-                                case "UTILITY":
-                                    event_list[TEAM1_UTILITY_GOLD+team_interval] = j['bounty']
+                            if j['killerId'] != 0:
 
-                            for assist in assist_participant:
+                                try:
+                                    assist_participant_length = len(j['assistingParticipantIds'])
+                                    assist_participant = j['assistingParticipantIds']
+                                    if j['bounty'] > 300:
+                                        assist_total_gold = 150
+                                    elif j['bounty'] <= 300:
+                                        assist_total_gold = j['bounty'] / 2
+                                    assist_gold = assist_total_gold / assist_participant_length
+                                except KeyError:
+                                    assist_participant_length = 0
+                                    assist_participant = []
+                                    assist_gold = 0
                                 
-                                match line[assist]:
+                                team_interval = team[j['killerId']]
+                                match line[j['killerId']]:
                                     case "TOP":
-                                        if event_list[TEAM1_TOP_ASSIST+team_interval] - event_list[TEAM1_TOP_KILL+team_interval] == 2:
-                                            assist_gold += 30
-                                        elif event_list[TEAM1_TOP_ASSIST+team_interval] - event_list[TEAM1_TOP_KILL+team_interval] == 3:
-                                            assist_gold += 40
-                                        else:
-                                            assist_gold += 60
-                                        event_list[TEAM1_TOP_GOLD+team_interval] = assist_gold
+                                        event_list[TEAM1_TOP_GOLD+team_interval] = j['bounty']
                                     case "JUNGLE":
-                                        if event_list[TEAM1_JUNGLE_ASSIST+team_interval] - event_list[TEAM1_JUNGLE_KILL+team_interval] == 2:
-                                            assist_gold += 30
-                                        elif event_list[TEAM1_JUNGLE_ASSIST+team_interval] - event_list[TEAM1_JUNGLE_KILL+team_interval] == 3:
-                                            assist_gold += 40
-                                        else:
-                                            assist_gold += 60
-                                        event_list[TEAM1_JUNGLE_GOLD+team_interval] = assist_gold
+                                        event_list[TEAM1_JUNGLE_GOLD+team_interval] = j['bounty']
                                     case "MIDDLE":
-                                        if event_list[TEAM1_MIDDLE_ASSIST+team_interval] - event_list[TEAM1_MIDDLE_KILL+team_interval] == 2:
-                                            assist_gold += 30
-                                        elif event_list[TEAM1_MIDDLE_ASSIST+team_interval] - event_list[TEAM1_MIDDLE_KILL+team_interval] == 3:
-                                            assist_gold += 40
-                                        else:
-                                            assist_gold += 60
-                                        event_list[TEAM1_MIDDLE_GOLD+team_interval] = assist_gold
+                                        event_list[TEAM1_MIDDLE_GOLD+team_interval] = j['bounty']
                                     case "BOTTOM":
-                                        if event_list[TEAM1_BOTTOM_ASSIST+team_interval] - event_list[TEAM1_BOTTOM_KILL+team_interval] == 2:
-                                            assist_gold += 30
-                                        elif event_list[TEAM1_BOTTOM_ASSIST+team_interval] - event_list[TEAM1_BOTTOM_KILL+team_interval] == 3:
-                                            assist_gold += 40
-                                        else:
-                                            assist_gold += 60
-                                        event_list[TEAM1_BOTTOM_GOLD+team_interval] = assist_gold
+                                        event_list[TEAM1_BOTTOM_GOLD+team_interval] = j['bounty']
                                     case "UTILITY":
-                                        if event_list[TEAM1_UTILITY_ASSIST+team_interval] - event_list[TEAM1_UTILITY_KILL+team_interval] == 2:
-                                            assist_gold += 30
-                                        elif event_list[TEAM1_UTILITY_ASSIST+team_interval] - event_list[TEAM1_UTILITY_KILL+team_interval] == 3:
-                                            assist_gold += 40
-                                        else:
-                                            assist_gold += 60
-                                        event_list[TEAM1_UTILITY_GOLD+team_interval] = assist_gold
+                                        event_list[TEAM1_UTILITY_GOLD+team_interval] = j['bounty']
+
+                                for assist in assist_participant:
+                                    
+                                    match line[assist]:
+                                        case "TOP":
+                                            if event_list[TEAM1_TOP_A+team_interval] - event_list[TEAM1_TOP_K+team_interval] == 2:
+                                                assist_gold += 30
+                                            elif event_list[TEAM1_TOP_A+team_interval] - event_list[TEAM1_TOP_K+team_interval] == 3:
+                                                assist_gold += 40
+                                            else:
+                                                assist_gold += 60
+                                            event_list[TEAM1_TOP_GOLD+team_interval] = assist_gold
+                                        case "JUNGLE":
+                                            if event_list[TEAM1_JUNGLE_A+team_interval] - event_list[TEAM1_JUNGLE_K+team_interval] == 2:
+                                                assist_gold += 30
+                                            elif event_list[TEAM1_JUNGLE_A+team_interval] - event_list[TEAM1_JUNGLE_K+team_interval] == 3:
+                                                assist_gold += 40
+                                            else:
+                                                assist_gold += 60
+                                            event_list[TEAM1_JUNGLE_GOLD+team_interval] = assist_gold
+                                        case "MIDDLE":
+                                            if event_list[TEAM1_MIDDLE_A+team_interval] - event_list[TEAM1_MIDDLE_K+team_interval] == 2:
+                                                assist_gold += 30
+                                            elif event_list[TEAM1_MIDDLE_A+team_interval] - event_list[TEAM1_MIDDLE_K+team_interval] == 3:
+                                                assist_gold += 40
+                                            else:
+                                                assist_gold += 60
+                                            event_list[TEAM1_MIDDLE_GOLD+team_interval] = assist_gold
+                                        case "BOTTOM":
+                                            if event_list[TEAM1_BOTTOM_A+team_interval] - event_list[TEAM1_BOTTOM_K+team_interval] == 2:
+                                                assist_gold += 30
+                                            elif event_list[TEAM1_BOTTOM_A+team_interval] - event_list[TEAM1_BOTTOM_K+team_interval] == 3:
+                                                assist_gold += 40
+                                            else:
+                                                assist_gold += 60
+                                            event_list[TEAM1_BOTTOM_GOLD+team_interval] = assist_gold
+                                        case "UTILITY":
+                                            if event_list[TEAM1_UTILITY_A+team_interval] - event_list[TEAM1_UTILITY_K+team_interval] == 2:
+                                                assist_gold += 30
+                                            elif event_list[TEAM1_UTILITY_A+team_interval] - event_list[TEAM1_UTILITY_K+team_interval] == 3:
+                                                assist_gold += 40
+                                            else:
+                                                assist_gold += 60
+                                            event_list[TEAM1_UTILITY_GOLD+team_interval] = assist_gold
 
                         case default:
                             continue # 만약에 미니언이나 포탑이 죽였을 떈 돈은?
@@ -546,7 +582,7 @@ class PreprocessData():
             initial_data = json.load(f)
         
         initial_data = initial_data['info']['frames']
-        team, win_lose, line, aram = self.get_match_data()
+        team, win_lose, line, champion, aram = self.get_match_data()
 
         participant_frame_list_result = []
 
@@ -595,6 +631,8 @@ class PreprocessData():
 
         participant_frame_list = self.get_participant_frame()
 
+        champion = self.get_match_data()[3]
+
         interval_list_result = []
 
         if len(event_list) != 0 and len(participant_frame_list) != 0:
@@ -607,12 +645,21 @@ class PreprocessData():
 
             for i in range(1, len(whole_list)):
                 if whole_list[i][-1] != 1111:
-                    whole_list[i][7:10] = whole_list[i-1][7:10]
-                    whole_list[i][7+9:10+9] = whole_list[i-1][7+9:10+9]
+                    participant_list = whole_list[i].copy()
+                    whole_list[i] = whole_list[i-1].copy()
+
+                    for j in [TEAM1_TOP_GOLD, TEAM1_JUNGLE_GOLD, TEAM1_MIDDLE_GOLD, TEAM1_BOTTOM_GOLD, TEAM1_UTILITY_GOLD]:
+                        whole_list[i][j] = participant_list[j]
+                        whole_list[i][j+TEAM_INTERVAL] = participant_list[j+TEAM_INTERVAL]
                     continue
 
                 sum_result = whole_list[i-1][1:-2] + whole_list[i][1:-2]
                 whole_list[i][1:-2] = sum_result
+
+            for i in whole_list:
+                for j, loc in enumerate([TEAM1_TOP_CHAMPION, TEAM1_JUNGLE_CHAMPION, TEAM1_MIDDLE_CHAMPION, TEAM1_BOTTOM_CHAMPION, TEAM1_UTILITY_CHAMPION]):
+                    i[loc] = champion[j+1]
+                    i[loc+TEAM_INTERVAL] = champion[j+1+5]
 
             
 
