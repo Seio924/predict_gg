@@ -53,14 +53,12 @@ WARD_COUNT = 40
 OBJECT_COUNT = 41
 
 TOWER_TOP_COUNT = 42
-TOWER_JUNGLE_COUNT = 43
-TOWER_MIDDLE_COUNT = 44
-TOWER_BOTTOM_COUNT = 45
-TOWER_UTILITY_COUNT = 46
+TOWER_MIDDLE_COUNT = 43
+TOWER_BOTTOM_COUNT = 44
 
-TEAM_INTERVAL = 46
+TEAM_INTERVAL = 44
 
-LIST_LEN = 94
+LIST_LEN = 90
 
 class PreprocessData():
     def __init__(self, match_file_dir, timeline_file_dir):
@@ -591,6 +589,23 @@ class PreprocessData():
                                         event_list[TEAM1_BOTTOM_D+team_interval] += 1
                                     case "UTILITY":
                                         event_list[TEAM1_UTILITY_D+team_interval] += 1
+                        
+                        case "BUILDING_KILL":
+                            if j['killerId'] == 0 and j['teamId'] == 100: #빨간팀 미니언 (팀id는 무너진 팀id임)
+                                team_interval = team[6]
+                            elif j['killerId'] == 0 and j['teamId'] == 200: #파란팀 미니언
+                                team_interval = team[1]
+                            else:
+                                team_interval = team[j['killerId']]
+                            match j['laneType']:
+                                case "TOP_LANE":
+                                    event_list[TOWER_TOP_COUNT+team_interval] += 1
+                                case "MID_LANE":
+                                    event_list[TOWER_MIDDLE_COUNT+team_interval] += 1
+                                case "BOT_LANE":
+                                    event_list[TOWER_BOTTOM_COUNT+team_interval] += 1
+
+                                
 
                         case default:
                             continue # 만약에 미니언이나 포탑이 죽였을 떈 돈은?
