@@ -39,28 +39,25 @@ TEAM1_UTILITY_D = 29
 TEAM1_UTILITY_A = 30
 
 TEAM1_GOLD = 31
-TEAM1_KDA = 32
 
-START_ITEM = 33
-TIER1_ITEM = 34
-TIER2_ITEM = 35
-TIER3_ITEM = 36
-BOOTS_ITEM = 37
-SPECIAL_ITEM = 38
-WARD_ITEM = 39
+START_ITEM = 32
+TIER1_ITEM = 33
+TIER2_ITEM = 34
+TIER3_ITEM = 35
+BOOTS_ITEM = 36
+SPECIAL_ITEM = 37
+WARD_ITEM = 38
 
-WARD_COUNT = 40
-OBJECT_COUNT = 41
+WARD_COUNT = 39
+OBJECT_COUNT = 40
 
-TOWER_TOP_COUNT = 42
-TOWER_JUNGLE_COUNT = 43
-TOWER_MIDDLE_COUNT = 44
-TOWER_BOTTOM_COUNT = 45
-TOWER_UTILITY_COUNT = 46
+TOWER_TOP_COUNT = 41
+TOWER_MIDDLE_COUNT = 42
+TOWER_BOTTOM_COUNT = 43
 
-TEAM_INTERVAL = 46
+TEAM_INTERVAL = 43
 
-LIST_LEN = 94
+LIST_LEN = 88
 
 class PreprocessData():
     def __init__(self, match_file_dir, timeline_file_dir):
@@ -516,58 +513,68 @@ class PreprocessData():
                                 match line[j['killerId']]:
                                     case "TOP":
                                         event_list[TEAM1_TOP_GOLD+team_interval] = j['bounty']
+                                        event_list[TEAM1_TOP_K+team_interval] += 1
                                     case "JUNGLE":
                                         event_list[TEAM1_JUNGLE_GOLD+team_interval] = j['bounty']
+                                        event_list[TEAM1_JUNGLE_K+team_interval] += 1
                                     case "MIDDLE":
                                         event_list[TEAM1_MIDDLE_GOLD+team_interval] = j['bounty']
+                                        event_list[TEAM1_MIDDLE_K+team_interval] += 1
                                     case "BOTTOM":
                                         event_list[TEAM1_BOTTOM_GOLD+team_interval] = j['bounty']
+                                        event_list[TEAM1_BOTTOM_K+team_interval] += 1
                                     case "UTILITY":
                                         event_list[TEAM1_UTILITY_GOLD+team_interval] = j['bounty']
+                                        event_list[TEAM1_UTILITY_K+team_interval] += 1
 
                                 for assist in assist_participant:
                                     
                                     match line[assist]:
                                         case "TOP":
-                                            if event_list[TEAM1_TOP_A+team_interval] - event_list[TEAM1_TOP_K+team_interval] == 2:
-                                                assist_gold += 30
-                                            elif event_list[TEAM1_TOP_A+team_interval] - event_list[TEAM1_TOP_K+team_interval] == 3:
-                                                assist_gold += 40
-                                            else:
-                                                assist_gold += 60
                                             event_list[TEAM1_TOP_GOLD+team_interval] = assist_gold
+                                            event_list[TEAM1_TOP_A+team_interval] += 1
                                         case "JUNGLE":
-                                            if event_list[TEAM1_JUNGLE_A+team_interval] - event_list[TEAM1_JUNGLE_K+team_interval] == 2:
-                                                assist_gold += 30
-                                            elif event_list[TEAM1_JUNGLE_A+team_interval] - event_list[TEAM1_JUNGLE_K+team_interval] == 3:
-                                                assist_gold += 40
-                                            else:
-                                                assist_gold += 60
                                             event_list[TEAM1_JUNGLE_GOLD+team_interval] = assist_gold
+                                            event_list[TEAM1_JUNGLE_A+team_interval] += 1
                                         case "MIDDLE":
-                                            if event_list[TEAM1_MIDDLE_A+team_interval] - event_list[TEAM1_MIDDLE_K+team_interval] == 2:
-                                                assist_gold += 30
-                                            elif event_list[TEAM1_MIDDLE_A+team_interval] - event_list[TEAM1_MIDDLE_K+team_interval] == 3:
-                                                assist_gold += 40
-                                            else:
-                                                assist_gold += 60
                                             event_list[TEAM1_MIDDLE_GOLD+team_interval] = assist_gold
+                                            event_list[TEAM1_MIDDLE_A+team_interval] += 1
                                         case "BOTTOM":
-                                            if event_list[TEAM1_BOTTOM_A+team_interval] - event_list[TEAM1_BOTTOM_K+team_interval] == 2:
-                                                assist_gold += 30
-                                            elif event_list[TEAM1_BOTTOM_A+team_interval] - event_list[TEAM1_BOTTOM_K+team_interval] == 3:
-                                                assist_gold += 40
-                                            else:
-                                                assist_gold += 60
                                             event_list[TEAM1_BOTTOM_GOLD+team_interval] = assist_gold
+                                            event_list[TEAM1_BOTTOM_A+team_interval] += 1
                                         case "UTILITY":
-                                            if event_list[TEAM1_UTILITY_A+team_interval] - event_list[TEAM1_UTILITY_K+team_interval] == 2:
-                                                assist_gold += 30
-                                            elif event_list[TEAM1_UTILITY_A+team_interval] - event_list[TEAM1_UTILITY_K+team_interval] == 3:
-                                                assist_gold += 40
-                                            else:
-                                                assist_gold += 60
                                             event_list[TEAM1_UTILITY_GOLD+team_interval] = assist_gold
+                                            event_list[TEAM1_UTILITY_A+team_interval] += 1
+                                
+                                team_interval = team[j['victimId']]
+                                match line[j['victimId']]:
+                                    case "TOP":
+                                        event_list[TEAM1_TOP_D+team_interval] += 1
+                                    case "JUNGLE":
+                                        event_list[TEAM1_JUNGLE_D+team_interval] += 1
+                                    case "MIDDLE":
+                                        event_list[TEAM1_MIDDLE_D+team_interval] += 1
+                                    case "BOTTOM":
+                                        event_list[TEAM1_BOTTOM_D+team_interval] += 1
+                                    case "UTILITY":
+                                        event_list[TEAM1_UTILITY_D+team_interval] += 1
+                        
+                        case "BUILDING_KILL":
+                            if j['killerId'] == 0 and j['teamId'] == 100: #빨간팀 미니언 (팀id는 무너진 팀id임)
+                                team_interval = team[6]
+                            elif j['killerId'] == 0 and j['teamId'] == 200: #파란팀 미니언
+                                team_interval = team[1]
+                            else:
+                                team_interval = team[j['killerId']]
+                            match j['laneType']:
+                                case "TOP_LANE":
+                                    event_list[TOWER_TOP_COUNT+team_interval] += 1
+                                case "MID_LANE":
+                                    event_list[TOWER_MIDDLE_COUNT+team_interval] += 1
+                                case "BOT_LANE":
+                                    event_list[TOWER_BOTTOM_COUNT+team_interval] += 1
+
+                                
 
                         case default:
                             continue # 만약에 미니언이나 포탑이 죽였을 떈 돈은?
@@ -655,11 +662,95 @@ class PreprocessData():
 
                 sum_result = whole_list[i-1][1:-2] + whole_list[i][1:-2]
                 whole_list[i][1:-2] = sum_result
+                
+                if whole_list[i-1][TEAM1_TOP_A] < whole_list[i][TEAM1_TOP_A]:
+                    if whole_list[i-1][TEAM1_TOP_A] - whole_list[i-1][TEAM1_TOP_K] == 2:
+                        whole_list[i-1][TEAM1_TOP_GOLD] += 30
+                    elif whole_list[i-1][TEAM1_TOP_A] - whole_list[i-1][TEAM1_TOP_K] == 3:
+                        whole_list[i-1][TEAM1_TOP_GOLD] += 40
+                    else:
+                        whole_list[i-1][TEAM1_TOP_GOLD] += 60
+
+                if whole_list[i-1][TEAM1_MIDDLE_A] < whole_list[i][TEAM1_MIDDLE_A]:
+                    if whole_list[i-1][TEAM1_MIDDLE_A] - whole_list[i-1][TEAM1_MIDDLE_K] == 2:
+                        whole_list[i-1][TEAM1_MIDDLE_GOLD] += 30
+                    elif whole_list[i-1][TEAM1_MIDDLE_A] - whole_list[i-1][TEAM1_MIDDLE_K] == 3:
+                        whole_list[i-1][TEAM1_MIDDLE_GOLD] += 40
+                    else:
+                        whole_list[i-1][TEAM1_MIDDLE_GOLD] += 60
+
+                if whole_list[i-1][TEAM1_JUNGLE_A] < whole_list[i][TEAM1_JUNGLE_A]:
+                    if whole_list[i-1][TEAM1_JUNGLE_A] - whole_list[i-1][TEAM1_JUNGLE_K] == 2:
+                        whole_list[i-1][TEAM1_JUNGLE_GOLD] += 30
+                    elif whole_list[i-1][TEAM1_JUNGLE_A] - whole_list[i-1][TEAM1_JUNGLE_K] == 3:
+                        whole_list[i-1][TEAM1_JUNGLE_GOLD] += 40
+                    else:
+                        whole_list[i-1][TEAM1_JUNGLE_GOLD] += 60   
+
+                if whole_list[i-1][TEAM1_BOTTOM_A] < whole_list[i][TEAM1_BOTTOM_A]:
+                    if whole_list[i-1][TEAM1_BOTTOM_A] - whole_list[i-1][TEAM1_BOTTOM_K] == 2:
+                        whole_list[i-1][TEAM1_BOTTOM_GOLD] += 30
+                    elif whole_list[i-1][TEAM1_BOTTOM_A] - whole_list[i-1][TEAM1_BOTTOM_K] == 3:
+                        whole_list[i-1][TEAM1_BOTTOM_GOLD] += 40
+                    else:
+                        whole_list[i-1][TEAM1_BOTTOM_GOLD] += 60  
+
+                if whole_list[i-1][TEAM1_UTILITY_A] < whole_list[i][TEAM1_UTILITY_A]:
+                    if whole_list[i-1][TEAM1_UTILITY_A] - whole_list[i-1][TEAM1_UTILITY_K] == 2:
+                        whole_list[i-1][TEAM1_UTILITY_GOLD] += 30
+                    elif whole_list[i-1][TEAM1_UTILITY_A] - whole_list[i-1][TEAM1_UTILITY_K] == 3:
+                        whole_list[i-1][TEAM1_UTILITY_GOLD] += 40
+                    else:
+                        whole_list[i-1][TEAM1_UTILITY_GOLD] += 60                           
+
+
+                if whole_list[i-1][TEAM1_TOP_A+TEAM_INTERVAL] < whole_list[i][TEAM1_TOP_A+TEAM_INTERVAL]:
+                    if whole_list[i-1][TEAM1_TOP_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_TOP_K+TEAM_INTERVAL] == 2:
+                        whole_list[i-1][TEAM1_TOP_GOLD] += 30
+                    elif whole_list[i-1][TEAM1_TOP_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_TOP_K+TEAM_INTERVAL] == 3:
+                        whole_list[i-1][TEAM1_TOP_GOLD+TEAM_INTERVAL] += 40
+                    else:
+                        whole_list[i-1][TEAM1_TOP_GOLD+TEAM_INTERVAL] += 60
+
+                if whole_list[i-1][TEAM1_MIDDLE_A+TEAM_INTERVAL] < whole_list[i][TEAM1_MIDDLE_A+TEAM_INTERVAL]:
+                    if whole_list[i-1][TEAM1_MIDDLE_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_MIDDLE_K+TEAM_INTERVAL] == 2:
+                        whole_list[i-1][TEAM1_MIDDLE_GOLD+TEAM_INTERVAL] += 30
+                    elif whole_list[i-1][TEAM1_MIDDLE_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_MIDDLE_K+TEAM_INTERVAL] == 3:
+                        whole_list[i-1][TEAM1_MIDDLE_GOLD+TEAM_INTERVAL] += 40
+                    else:
+                        whole_list[i-1][TEAM1_MIDDLE_GOLD+TEAM_INTERVAL] += 60
+
+                if whole_list[i-1][TEAM1_JUNGLE_A+TEAM_INTERVAL] < whole_list[i][TEAM1_JUNGLE_A+TEAM_INTERVAL]:
+                    if whole_list[i-1][TEAM1_JUNGLE_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_JUNGLE_K+TEAM_INTERVAL] == 2:
+                        whole_list[i-1][TEAM1_JUNGLE_GOLD+TEAM_INTERVAL] += 30
+                    elif whole_list[i-1][TEAM1_JUNGLE_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_JUNGLE_K+TEAM_INTERVAL] == 3:
+                        whole_list[i-1][TEAM1_JUNGLE_GOLD+TEAM_INTERVAL] += 40
+                    else:
+                        whole_list[i-1][TEAM1_JUNGLE_GOLD+TEAM_INTERVAL] += 60   
+
+                if whole_list[i-1][TEAM1_BOTTOM_A+TEAM_INTERVAL] < whole_list[i][TEAM1_BOTTOM_A+TEAM_INTERVAL]:
+                    if whole_list[i-1][TEAM1_BOTTOM_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_BOTTOM_K+TEAM_INTERVAL] == 2:
+                        whole_list[i-1][TEAM1_BOTTOM_GOLD+TEAM_INTERVAL] += 30
+                    elif whole_list[i-1][TEAM1_BOTTOM_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_BOTTOM_K+TEAM_INTERVAL] == 3:
+                        whole_list[i-1][TEAM1_BOTTOM_GOLD+TEAM_INTERVAL] += 40
+                    else:
+                        whole_list[i-1][TEAM1_BOTTOM_GOLD+TEAM_INTERVAL] += 60  
+
+                if whole_list[i-1][TEAM1_UTILITY_A+TEAM_INTERVAL] < whole_list[i][TEAM1_UTILITY_A+TEAM_INTERVAL]:
+                    if whole_list[i-1][TEAM1_UTILITY_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_UTILITY_K+TEAM_INTERVAL] == 2:
+                        whole_list[i-1][TEAM1_UTILITY_GOLD+TEAM_INTERVAL] += 30
+                    elif whole_list[i-1][TEAM1_UTILITY_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_UTILITY_K+TEAM_INTERVAL] == 3:
+                        whole_list[i-1][TEAM1_UTILITY_GOLD+TEAM_INTERVAL] += 40
+                    else:
+                        whole_list[i-1][TEAM1_UTILITY_GOLD+TEAM_INTERVAL] += 60                  
+
 
             for i in whole_list:
                 for j, loc in enumerate([TEAM1_TOP_CHAMPION, TEAM1_JUNGLE_CHAMPION, TEAM1_MIDDLE_CHAMPION, TEAM1_BOTTOM_CHAMPION, TEAM1_UTILITY_CHAMPION]):
                     i[loc] = champion[j+1]
                     i[loc+TEAM_INTERVAL] = champion[j+1+5]
+
+            
 
             
 
