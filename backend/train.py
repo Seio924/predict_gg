@@ -1,23 +1,16 @@
+import pandas as pd
 from utils import PreprocessData
-from load_data import LoadData
 import numpy as np
 
 api_key = 'RGAPI-3cfedfee-6699-4af0-8139-28420199de7a'
 
-#load = LoadData(api_key)
 test = PreprocessData('./backend/api_match_info.json', './backend/api_timeline_info.json')
 
-
-f = open("log.txt", 'w')
-
-#load.process_challenger_data(30)
-
-#load.get_timeline_data('KR_6928312998')
-
+# 데이터 가져오기
 interval_list = test.get_condition_timeline(10000)
-
 interval_list = np.array(interval_list, dtype=int)
 
+# 헤더 정의
 n = ["TIMESTAMP",
     "TEAM1_TOP_CHAMPION", "TEAM1_TOP_GOLD", "TEAM1_TOP_POTION", "TEAM1_TOP_K", "TEAM1_TOP_D", "TEAM1_TOP_A",
     "TEAM1_JUNGLE_CHAMPION", "TEAM1_JUNGLE_GOLD", "TEAM1_JUNGLE_POTION", "TEAM1_JUNGLE_K", "TEAM1_JUNGLE_D", "TEAM1_JUNGLE_A",
@@ -36,9 +29,10 @@ n = ["TIMESTAMP",
     "TEAM1_GOLD", "TEAM1_KDA",
     "START_ITEM", "TIER1_ITEM", "TIER2_ITEM", "TIER3_ITEM", "BOOTS_ITEM", "SPECIAL_ITEM", "WARD_ITEM",
     "WARD_COUNT", "OBJECT_COUNT",
-    "TOWER_TOP_COUNT", "TOWER_JUNGLE_COUNT", "TOWER_MIDDLE_COUNT", "TOWER_BOTTOM_COUNT", "TOWER_UTILITY_COUNT",]
+    "TOWER_TOP_COUNT", "TOWER_JUNGLE_COUNT", "TOWER_MIDDLE_COUNT", "TOWER_BOTTOM_COUNT", "TOWER_UTILITY_COUNT", "WIN_LOSE"]
 
-np.savetxt(f, interval_list, fmt='%10d', delimiter=' ', header=' '.join(n), comments='')
+# DataFrame 생성
+df = pd.DataFrame(data=interval_list, columns=n)
 
-
-f.close()
+# DataFrame을 엑셀 파일로 저장
+df.to_excel("log.xlsx", index=False)

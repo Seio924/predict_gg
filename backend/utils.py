@@ -60,7 +60,7 @@ TOWER_UTILITY_COUNT = 46
 
 TEAM_INTERVAL = 46
 
-LIST_LEN = 93
+LIST_LEN = 94
 
 class PreprocessData():
     def __init__(self, match_file_dir, timeline_file_dir):
