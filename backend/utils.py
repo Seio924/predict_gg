@@ -532,48 +532,18 @@ class PreprocessData():
                                     
                                     match line[assist]:
                                         case "TOP":
-                                            if event_list[TEAM1_TOP_A+team_interval] - event_list[TEAM1_TOP_K+team_interval] == 2:
-                                                assist_gold += 30
-                                            elif event_list[TEAM1_TOP_A+team_interval] - event_list[TEAM1_TOP_K+team_interval] == 3:
-                                                assist_gold += 40
-                                            else:
-                                                assist_gold += 60
                                             event_list[TEAM1_TOP_GOLD+team_interval] = assist_gold
                                             event_list[TEAM1_TOP_A+team_interval] += 1
                                         case "JUNGLE":
-                                            if event_list[TEAM1_JUNGLE_A+team_interval] - event_list[TEAM1_JUNGLE_K+team_interval] == 2:
-                                                assist_gold += 30
-                                            elif event_list[TEAM1_JUNGLE_A+team_interval] - event_list[TEAM1_JUNGLE_K+team_interval] == 3:
-                                                assist_gold += 40
-                                            else:
-                                                assist_gold += 60
                                             event_list[TEAM1_JUNGLE_GOLD+team_interval] = assist_gold
                                             event_list[TEAM1_JUNGLE_A+team_interval] += 1
                                         case "MIDDLE":
-                                            if event_list[TEAM1_MIDDLE_A+team_interval] - event_list[TEAM1_MIDDLE_K+team_interval] == 2:
-                                                assist_gold += 30
-                                            elif event_list[TEAM1_MIDDLE_A+team_interval] - event_list[TEAM1_MIDDLE_K+team_interval] == 3:
-                                                assist_gold += 40
-                                            else:
-                                                assist_gold += 60
                                             event_list[TEAM1_MIDDLE_GOLD+team_interval] = assist_gold
                                             event_list[TEAM1_MIDDLE_A+team_interval] += 1
                                         case "BOTTOM":
-                                            if event_list[TEAM1_BOTTOM_A+team_interval] - event_list[TEAM1_BOTTOM_K+team_interval] == 2:
-                                                assist_gold += 30
-                                            elif event_list[TEAM1_BOTTOM_A+team_interval] - event_list[TEAM1_BOTTOM_K+team_interval] == 3:
-                                                assist_gold += 40
-                                            else:
-                                                assist_gold += 60
                                             event_list[TEAM1_BOTTOM_GOLD+team_interval] = assist_gold
                                             event_list[TEAM1_BOTTOM_A+team_interval] += 1
                                         case "UTILITY":
-                                            if event_list[TEAM1_UTILITY_A+team_interval] - event_list[TEAM1_UTILITY_K+team_interval] == 2:
-                                                assist_gold += 30
-                                            elif event_list[TEAM1_UTILITY_A+team_interval] - event_list[TEAM1_UTILITY_K+team_interval] == 3:
-                                                assist_gold += 40
-                                            else:
-                                                assist_gold += 60
                                             event_list[TEAM1_UTILITY_GOLD+team_interval] = assist_gold
                                             event_list[TEAM1_UTILITY_A+team_interval] += 1
                                 
@@ -693,11 +663,95 @@ class PreprocessData():
 
                 sum_result = whole_list[i-1][1:-2] + whole_list[i][1:-2]
                 whole_list[i][1:-2] = sum_result
+                
+                if whole_list[i-1][TEAM1_TOP_A] < whole_list[i][TEAM1_TOP_A]:
+                    if whole_list[i-1][TEAM1_TOP_A] - whole_list[i-1][TEAM1_TOP_K] == 2:
+                        whole_list[i-1][TEAM1_TOP_GOLD] += 30
+                    elif whole_list[i-1][TEAM1_TOP_A] - whole_list[i-1][TEAM1_TOP_K] == 3:
+                        whole_list[i-1][TEAM1_TOP_GOLD] += 40
+                    else:
+                        whole_list[i-1][TEAM1_TOP_GOLD] += 60
+
+                if whole_list[i-1][TEAM1_MIDDLE_A] < whole_list[i][TEAM1_MIDDLE_A]:
+                    if whole_list[i-1][TEAM1_MIDDLE_A] - whole_list[i-1][TEAM1_MIDDLE_K] == 2:
+                        whole_list[i-1][TEAM1_MIDDLE_GOLD] += 30
+                    elif whole_list[i-1][TEAM1_MIDDLE_A] - whole_list[i-1][TEAM1_MIDDLE_K] == 3:
+                        whole_list[i-1][TEAM1_MIDDLE_GOLD] += 40
+                    else:
+                        whole_list[i-1][TEAM1_MIDDLE_GOLD] += 60
+
+                if whole_list[i-1][TEAM1_JUNGLE_A] < whole_list[i][TEAM1_JUNGLE_A]:
+                    if whole_list[i-1][TEAM1_JUNGLE_A] - whole_list[i-1][TEAM1_JUNGLE_K] == 2:
+                        whole_list[i-1][TEAM1_JUNGLE_GOLD] += 30
+                    elif whole_list[i-1][TEAM1_JUNGLE_A] - whole_list[i-1][TEAM1_JUNGLE_K] == 3:
+                        whole_list[i-1][TEAM1_JUNGLE_GOLD] += 40
+                    else:
+                        whole_list[i-1][TEAM1_JUNGLE_GOLD] += 60   
+
+                if whole_list[i-1][TEAM1_BOTTOM_A] < whole_list[i][TEAM1_BOTTOM_A]:
+                    if whole_list[i-1][TEAM1_BOTTOM_A] - whole_list[i-1][TEAM1_BOTTOM_K] == 2:
+                        whole_list[i-1][TEAM1_BOTTOM_GOLD] += 30
+                    elif whole_list[i-1][TEAM1_BOTTOM_A] - whole_list[i-1][TEAM1_BOTTOM_K] == 3:
+                        whole_list[i-1][TEAM1_BOTTOM_GOLD] += 40
+                    else:
+                        whole_list[i-1][TEAM1_BOTTOM_GOLD] += 60  
+
+                if whole_list[i-1][TEAM1_UTILITY_A] < whole_list[i][TEAM1_UTILITY_A]:
+                    if whole_list[i-1][TEAM1_UTILITY_A] - whole_list[i-1][TEAM1_UTILITY_K] == 2:
+                        whole_list[i-1][TEAM1_UTILITY_GOLD] += 30
+                    elif whole_list[i-1][TEAM1_UTILITY_A] - whole_list[i-1][TEAM1_UTILITY_K] == 3:
+                        whole_list[i-1][TEAM1_UTILITY_GOLD] += 40
+                    else:
+                        whole_list[i-1][TEAM1_UTILITY_GOLD] += 60                           
+
+
+                if whole_list[i-1][TEAM1_TOP_A+TEAM_INTERVAL] < whole_list[i][TEAM1_TOP_A+TEAM_INTERVAL]:
+                    if whole_list[i-1][TEAM1_TOP_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_TOP_K+TEAM_INTERVAL] == 2:
+                        whole_list[i-1][TEAM1_TOP_GOLD] += 30
+                    elif whole_list[i-1][TEAM1_TOP_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_TOP_K+TEAM_INTERVAL] == 3:
+                        whole_list[i-1][TEAM1_TOP_GOLD+TEAM_INTERVAL] += 40
+                    else:
+                        whole_list[i-1][TEAM1_TOP_GOLD+TEAM_INTERVAL] += 60
+
+                if whole_list[i-1][TEAM1_MIDDLE_A+TEAM_INTERVAL] < whole_list[i][TEAM1_MIDDLE_A+TEAM_INTERVAL]:
+                    if whole_list[i-1][TEAM1_MIDDLE_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_MIDDLE_K+TEAM_INTERVAL] == 2:
+                        whole_list[i-1][TEAM1_MIDDLE_GOLD+TEAM_INTERVAL] += 30
+                    elif whole_list[i-1][TEAM1_MIDDLE_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_MIDDLE_K+TEAM_INTERVAL] == 3:
+                        whole_list[i-1][TEAM1_MIDDLE_GOLD+TEAM_INTERVAL] += 40
+                    else:
+                        whole_list[i-1][TEAM1_MIDDLE_GOLD+TEAM_INTERVAL] += 60
+
+                if whole_list[i-1][TEAM1_JUNGLE_A+TEAM_INTERVAL] < whole_list[i][TEAM1_JUNGLE_A+TEAM_INTERVAL]:
+                    if whole_list[i-1][TEAM1_JUNGLE_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_JUNGLE_K+TEAM_INTERVAL] == 2:
+                        whole_list[i-1][TEAM1_JUNGLE_GOLD+TEAM_INTERVAL] += 30
+                    elif whole_list[i-1][TEAM1_JUNGLE_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_JUNGLE_K+TEAM_INTERVAL] == 3:
+                        whole_list[i-1][TEAM1_JUNGLE_GOLD+TEAM_INTERVAL] += 40
+                    else:
+                        whole_list[i-1][TEAM1_JUNGLE_GOLD+TEAM_INTERVAL] += 60   
+
+                if whole_list[i-1][TEAM1_BOTTOM_A+TEAM_INTERVAL] < whole_list[i][TEAM1_BOTTOM_A+TEAM_INTERVAL]:
+                    if whole_list[i-1][TEAM1_BOTTOM_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_BOTTOM_K+TEAM_INTERVAL] == 2:
+                        whole_list[i-1][TEAM1_BOTTOM_GOLD+TEAM_INTERVAL] += 30
+                    elif whole_list[i-1][TEAM1_BOTTOM_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_BOTTOM_K+TEAM_INTERVAL] == 3:
+                        whole_list[i-1][TEAM1_BOTTOM_GOLD+TEAM_INTERVAL] += 40
+                    else:
+                        whole_list[i-1][TEAM1_BOTTOM_GOLD+TEAM_INTERVAL] += 60  
+
+                if whole_list[i-1][TEAM1_UTILITY_A+TEAM_INTERVAL] < whole_list[i][TEAM1_UTILITY_A+TEAM_INTERVAL]:
+                    if whole_list[i-1][TEAM1_UTILITY_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_UTILITY_K+TEAM_INTERVAL] == 2:
+                        whole_list[i-1][TEAM1_UTILITY_GOLD+TEAM_INTERVAL] += 30
+                    elif whole_list[i-1][TEAM1_UTILITY_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_UTILITY_K+TEAM_INTERVAL] == 3:
+                        whole_list[i-1][TEAM1_UTILITY_GOLD+TEAM_INTERVAL] += 40
+                    else:
+                        whole_list[i-1][TEAM1_UTILITY_GOLD+TEAM_INTERVAL] += 60                  
+
 
             for i in whole_list:
                 for j, loc in enumerate([TEAM1_TOP_CHAMPION, TEAM1_JUNGLE_CHAMPION, TEAM1_MIDDLE_CHAMPION, TEAM1_BOTTOM_CHAMPION, TEAM1_UTILITY_CHAMPION]):
                     i[loc] = champion[j+1]
                     i[loc+TEAM_INTERVAL] = champion[j+1+5]
+
+            
 
             
 
