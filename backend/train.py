@@ -1,8 +1,10 @@
+import json
 import pandas as pd
 from utils import PreprocessData
 import numpy as np
+import requests
 
-api_key = 'RGAPI-3cfedfee-6699-4af0-8139-28420199de7a'
+api_key = 'RGAPI-59ffd1a9-2677-40b0-be5d-24151cd90ec9'
 
 test = PreprocessData('./backend/api_match_info.json', './backend/api_timeline_info.json')
 

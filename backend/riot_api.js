@@ -1,7 +1,7 @@
 const request = require("request");
 const fs = require("fs");
 
-const apiKey = "RGAPI-3cfedfee-6699-4af0-8139-28420199de7a";
+const apiKey = "RGAPI-59ffd1a9-2677-40b0-be5d-24151cd90ec9";
 
 function getSummonerInfo(matchId) {
   return new Promise((resolve, reject) => {
