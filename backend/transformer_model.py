@@ -1,17 +1,26 @@
 import tensorflow as tf
 
 def scaled_dot_product_attention(q, k, v, mask):
+    # 내적을 통해 각 쌍의 유사도를 나타내는 어텐션 스코어 행렬 생성
     matmul_qk = tf.matmul(q, k, transpose_b=True)
-    dk = tf.cast(tf.shape(k)[-1], tf.float32)
-    scaled_attention_logits = matmul_qk / tf.math.sqrt(dk)
 
+    #Key(K)의 차원 수
+    dk = tf.cast(tf.shape(k)[-1], tf.float32)
+
+    #스케일링된 어텐션 스코어를 계산 (정규화, 표준화)
+    scaled_attention_logits = matmul_qk / tf.math.sqrt(dk)
+    
+    #모델이 미래의 정보를 사용하여 예측하지 않도록 마스크 적용
     if mask is not None:
         scaled_attention_logits += (mask * -1e9)
 
+    #스케일링된 어텐션 스코어를 정규화하여 어텐션 가중치를 계산 [ 각 Key(K)에 대한 Query(Q)의 중요도 ]
     attention_weights = tf.nn.softmax(scaled_attention_logits, axis=-1)
+
+    #어텐션 가중치와 Value(V)의 내적을 계산하여 어텐션 출력 생성 -> 각 Key(K)에 대한 가중합
     output = tf.matmul(attention_weights, v)
 
-    return output, attention_weights
+    return output, attention_weights #가중합, 가중치
 
 class MultiHeadAttentionLayer(tf.keras.layers.Layer):
     def __init__(self, d_model, num_heads):
