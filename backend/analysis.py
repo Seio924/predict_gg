@@ -41,28 +41,25 @@ TEAM1_UTILITY_D = 29
 TEAM1_UTILITY_A = 30
 
 TEAM1_GOLD = 31
-TEAM1_KDA = 32
 
-START_ITEM = 33
-TIER1_ITEM = 34
-TIER2_ITEM = 35
-TIER3_ITEM = 36
-BOOTS_ITEM = 37
-SPECIAL_ITEM = 38
-WARD_ITEM = 39
+START_ITEM = 32
+TIER1_ITEM = 33
+TIER2_ITEM = 34
+TIER3_ITEM = 35
+BOOTS_ITEM = 36
+SPECIAL_ITEM = 37
+WARD_ITEM = 38
 
-WARD_COUNT = 40
-OBJECT_COUNT = 41
+WARD_COUNT = 39
+OBJECT_COUNT = 40
 
-TOWER_TOP_COUNT = 42
-TOWER_JUNGLE_COUNT = 43
-TOWER_MIDDLE_COUNT = 44
-TOWER_BOTTOM_COUNT = 45
-TOWER_UTILITY_COUNT = 46
+TOWER_TOP_COUNT = 41
+TOWER_MIDDLE_COUNT = 42
+TOWER_BOTTOM_COUNT = 43
 
-TEAM_INTERVAL = 46
+TEAM_INTERVAL = 43
 
-LIST_LEN = 94
+LIST_LEN = 88
 
 class AnalysisData:
     def __init__(self):
@@ -153,66 +150,75 @@ class AnalysisData:
         if len(win_std_15) > 0:
             win_std_15_mean = [sum(row[i] for row in win_std_15) / len(win_std_15) for i in range(91)]
             self.axes[0, 0].plot(self.time[:91], win_std_15_mean, label='15 Win Mean std_dev')
+            self.axes[0, 0].set_xlabel('Time') 
+            self.axes[0, 0].set_ylabel('Gold')
+            self.axes[0, 0].legend()
+            self.axes[0, 0].grid(True)
 
 
         if len(lose_std_15) > 0:
             lose_std_15_mean = [sum(row[i] for row in lose_std_15) / len(lose_std_15) for i in range(91)]
             self.axes[0, 1].plot(self.time[:91], lose_std_15_mean, label='15 Lose Mean std_dev')
+            self.axes[0, 1].set_xlabel('Time')
+            self.axes[0, 1].set_ylabel('Gold')
+            self.axes[0, 1].legend()
+            self.axes[0, 1].grid(True)
 
 
         # 20분
         if len(win_std_20) > 0:
             win_std_20_mean = [sum(row[i] for row in win_std_20) / len(win_std_20) for i in range(121)]
             self.axes[1, 0].plot(self.time[:121], win_std_20_mean, label='20 Win Mean std_dev')
+            self.axes[1, 0].set_xlabel('Time')
+            self.axes[1, 0].set_ylabel('Gold')
+            self.axes[1, 0].legend()
+            self.axes[1, 0].grid(True)
 
 
         if len(lose_std_20) > 0:
             lose_std_20_mean = [sum(row[i] for row in lose_std_20) / len(lose_std_20) for i in range(121)]
             self.axes[1, 1].plot(self.time[:121], lose_std_20_mean, label='20 Lose Mean std_dev')
+            self.axes[1, 1].set_xlabel('Time')
+            self.axes[1, 1].set_ylabel('Gold')
+            self.axes[1, 1].legend()
+            self.axes[1, 1].grid(True)
 
 
         # 30분
         if len(win_std_30) > 0:
             win_std_30_mean = [sum(row[i] for row in win_std_30) / len(win_std_30) for i in range(181)]
             self.axes[2, 0].plot(self.time[:181], win_std_30_mean, label='30 Win Mean std_dev')
-
+            self.axes[2, 0].set_xlabel('Time')
+            self.axes[2, 0].set_ylabel('Gold')
+            self.axes[2, 0].legend()
+            self.axes[2, 0].grid(True)
 
         if len(lose_std_30) > 0:
             lose_std_30_mean = [sum(row[i] for row in lose_std_30) / len(lose_std_30) for i in range(181)]
             self.axes[2, 1].plot(self.time[:181], lose_std_30_mean, label='30 Lose Mean std_dev')
-
+            self.axes[2, 1].set_xlabel('Time')
+            self.axes[2, 1].set_ylabel('Gold')
+            self.axes[2, 1].legend()
+            self.axes[2, 1].grid(True)
 
         # 40분
         if len(win_std_40) > 0:
             win_std_40_mean = [sum(row[i] for row in win_std_40) / len(win_std_40) for i in range(241)]
             self.axes[3, 0].plot(self.time[:241], win_std_40_mean, label='40 Win Mean std_dev')
-
+            self.axes[3, 0].set_xlabel('Time')
+            self.axes[3, 0].set_ylabel('Gold')
+            self.axes[3, 0].legend()
+            self.axes[3, 0].grid(True)
 
         if len(lose_std_40) > 0:
             lose_std_40_mean = [sum(row[i] for row in lose_std_40) / len(lose_std_40) for i in range(241)]
             self.axes[3, 1].plot(self.time[:241], lose_std_40_mean, label='40 Lose Mean std_dev')
-
-
-        self.axes[0, 0].set_xlabel('Time') 
-        self.axes[0, 0].set_ylabel('Gold')
+            self.axes[3, 1].set_xlabel('Time')
+            self.axes[3, 1].set_ylabel('Gold')
+            self.axes[3, 1].legend()
+            self.axes[3, 1].grid(True)
+        
 
         self.fig.suptitle('Win   Lose')
-
-        self.axes[0, 0].legend()
-        self.axes[0, 0].grid(True)
-        self.axes[0, 1].legend()
-        self.axes[0, 1].grid(True)
-        self.axes[1, 0].legend()
-        self.axes[1, 0].grid(True)
-        self.axes[1, 1].legend()
-        self.axes[1, 1].grid(True)
-        self.axes[2, 0].legend()
-        self.axes[2, 0].grid(True)
-        self.axes[2, 1].legend()
-        self.axes[2, 1].grid(True)
-        self.axes[3, 0].legend()
-        self.axes[3, 0].grid(True)
-        self.axes[3, 1].legend()
-        self.axes[3, 1].grid(True)
 
         plt.show()
