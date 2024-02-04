@@ -57,7 +57,6 @@ class LoadData():
             match_ids = self.get_matchid(puuid)
     
             for match_id in match_ids:
-                
                 self.get_match_data(match_id)
                 self.get_timeline_data(match_id)
                 num += 1

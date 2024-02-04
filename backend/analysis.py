@@ -73,41 +73,43 @@ class AnalysisData:
         test = PreprocessData('./backend/api_match_info.json', './backend/api_timeline_info.json')
 
         interval_list = test.get_condition_timeline(10000)
-
-        team, win_lose, line, champion, aram = test.get_match_data()
-
-        team1_gold = []
-        team2_gold = []
-
-        if aram == 1:
-            t.sleep(5)
+        if interval_list == 0:
+            pass
         else:
-            interval_list = np.array(interval_list, dtype=int)
+            team, win_lose, line, champion, aram = test.get_match_data()
 
-            for i in interval_list:
-                t1 = []
-                t2 = []
-                for j in [TEAM1_TOP_GOLD, TEAM1_JUNGLE_GOLD, TEAM1_MIDDLE_GOLD, TEAM1_BOTTOM_GOLD, TEAM1_UTILITY_GOLD]:
-                    t1.append(i[j])
-                    t2.append(i[j+TEAM_INTERVAL])
-                team1_gold.append(t1)
-                team2_gold.append(t2)
+            team1_gold = []
+            team2_gold = []
 
-            team1_std_dev = np.std(team1_gold, axis=1)
-            team2_std_dev = np.std(team2_gold, axis=1)
+            if aram == 1:
+                t.sleep(5)
+            else:
+                interval_list = np.array(interval_list, dtype=int)
 
-            self.min_length = min(self.min_length, len(team1_std_dev), len(team2_std_dev))
+                for i in interval_list:
+                    t1 = []
+                    t2 = []
+                    for j in [TEAM1_TOP_GOLD, TEAM1_JUNGLE_GOLD, TEAM1_MIDDLE_GOLD, TEAM1_BOTTOM_GOLD, TEAM1_UTILITY_GOLD]:
+                        t1.append(i[j])
+                        t2.append(i[j+TEAM_INTERVAL])
+                    team1_gold.append(t1)
+                    team2_gold.append(t2)
 
-            if win_lose[0] == 1:
-                self.win_std.append(team1_std_dev)
-                self.lose_std.append(team2_std_dev)
-            elif win_lose[1] == 1:
-                self.win_std.append(team2_std_dev)
-                self.lose_std.append(team1_std_dev)
+                team1_std_dev = np.std(team1_gold, axis=1)
+                team2_std_dev = np.std(team2_gold, axis=1)
 
-            # print("분석 완료")
+                self.min_length = min(self.min_length, len(team1_std_dev), len(team2_std_dev))
 
-            # t.sleep(5)
+                if win_lose[0] == 1:
+                    self.win_std.append(team1_std_dev)
+                    self.lose_std.append(team2_std_dev)
+                elif win_lose[1] == 1:
+                    self.win_std.append(team2_std_dev)
+                    self.lose_std.append(team1_std_dev)
+
+                # print("분석 완료")
+
+                # t.sleep(5)
 
     def plot_results(self):
         # 91 : 15분, 121 : 20분, 181 : 30분, 241 : 40분
