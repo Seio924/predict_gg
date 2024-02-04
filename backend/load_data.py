@@ -41,7 +41,7 @@ class LoadData():
     def get_diamond1_info(self):
         diamond1_url = "https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/DIAMOND/I?page=1&api_key=" + self.api_key
         r7 = requests.get(diamond1_url)
-        self.summonerId = [entry['summonerName'] for entry in r6.json()['entries'] if entry['summonerName'] != '']
+        self.summonerId = [entry['summonerName'] for entry in r7.json()['entries'] if entry['summonerName'] != '']
         self.summonerId.sort()
 
         with open('backend/api_diamond1_info.json', 'w', encoding='utf-8') as json_file:
