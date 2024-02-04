@@ -574,6 +574,21 @@ class PreprocessData():
                                 case "BOT_LANE":
                                     event_list[TOWER_BOTTOM_COUNT+team_interval] += 1
 
+                        case "TURRET_PLATE_DESTROYED":
+                            if j['killerId'] == 0 and j['teamId'] == 100: #빨간팀 미니언 (팀id는 무너진 팀id임)
+                                team_interval = team[6]
+                            elif j['killerId'] == 0 and j['teamId'] == 200: #파란팀 미니언
+                                team_interval = team[1]
+                            else:
+                                team_interval = team[j['killerId']]
+                            match j['laneType']:
+                                case "TOP_LANE":
+                                    event_list[TOWER_TOP_COUNT+team_interval] += 1
+                                case "MID_LANE":
+                                    event_list[TOWER_MIDDLE_COUNT+team_interval] += 1
+                                case "BOT_LANE":
+                                    event_list[TOWER_BOTTOM_COUNT+team_interval] += 1
+
                                 
 
                         case default:
