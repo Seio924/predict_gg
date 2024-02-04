@@ -49,17 +49,19 @@ class LoadData():
             match_ids = self.get_matchid(puuid)
     
             for match_id in match_ids:
+                
                 self.get_match_data(match_id)
                 self.get_timeline_data(match_id)
                 num += 1
                 analysis_data.analyze_data()
                 
                 print("분석 완료")
-                time.sleep(4)
+                time.sleep(5)
 
                 if num == num_matches:
                     break
                 
+            
             if num == num_matches:
                 break
         analysis_data.plot_results()
