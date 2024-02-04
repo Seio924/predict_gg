@@ -668,7 +668,7 @@ class PreprocessData():
                         whole_list[i-1][TEAM1_TOP_GOLD] += 30
                     elif whole_list[i-1][TEAM1_TOP_A] - whole_list[i-1][TEAM1_TOP_K] == 3:
                         whole_list[i-1][TEAM1_TOP_GOLD] += 40
-                    else:
+                    elif whole_list[i-1][TEAM1_TOP_A] - whole_list[i-1][TEAM1_TOP_K] >= 4:
                         whole_list[i-1][TEAM1_TOP_GOLD] += 60
 
                 if whole_list[i-1][TEAM1_MIDDLE_A] < whole_list[i][TEAM1_MIDDLE_A]:
@@ -676,7 +676,7 @@ class PreprocessData():
                         whole_list[i-1][TEAM1_MIDDLE_GOLD] += 30
                     elif whole_list[i-1][TEAM1_MIDDLE_A] - whole_list[i-1][TEAM1_MIDDLE_K] == 3:
                         whole_list[i-1][TEAM1_MIDDLE_GOLD] += 40
-                    else:
+                    elif whole_list[i-1][TEAM1_MIDDLE_A] - whole_list[i-1][TEAM1_MIDDLE_K] >= 4:
                         whole_list[i-1][TEAM1_MIDDLE_GOLD] += 60
 
                 if whole_list[i-1][TEAM1_JUNGLE_A] < whole_list[i][TEAM1_JUNGLE_A]:
@@ -684,7 +684,7 @@ class PreprocessData():
                         whole_list[i-1][TEAM1_JUNGLE_GOLD] += 30
                     elif whole_list[i-1][TEAM1_JUNGLE_A] - whole_list[i-1][TEAM1_JUNGLE_K] == 3:
                         whole_list[i-1][TEAM1_JUNGLE_GOLD] += 40
-                    else:
+                    elif whole_list[i-1][TEAM1_JUNGLE_A] - whole_list[i-1][TEAM1_JUNGLE_K] >= 4:
                         whole_list[i-1][TEAM1_JUNGLE_GOLD] += 60   
 
                 if whole_list[i-1][TEAM1_BOTTOM_A] < whole_list[i][TEAM1_BOTTOM_A]:
@@ -692,7 +692,7 @@ class PreprocessData():
                         whole_list[i-1][TEAM1_BOTTOM_GOLD] += 30
                     elif whole_list[i-1][TEAM1_BOTTOM_A] - whole_list[i-1][TEAM1_BOTTOM_K] == 3:
                         whole_list[i-1][TEAM1_BOTTOM_GOLD] += 40
-                    else:
+                    elif whole_list[i-1][TEAM1_BOTTOM_A] - whole_list[i-1][TEAM1_BOTTOM_K] >= 4:
                         whole_list[i-1][TEAM1_BOTTOM_GOLD] += 60  
 
                 if whole_list[i-1][TEAM1_UTILITY_A] < whole_list[i][TEAM1_UTILITY_A]:
@@ -700,7 +700,7 @@ class PreprocessData():
                         whole_list[i-1][TEAM1_UTILITY_GOLD] += 30
                     elif whole_list[i-1][TEAM1_UTILITY_A] - whole_list[i-1][TEAM1_UTILITY_K] == 3:
                         whole_list[i-1][TEAM1_UTILITY_GOLD] += 40
-                    else:
+                    elif whole_list[i-1][TEAM1_UTILITY_A] - whole_list[i-1][TEAM1_UTILITY_K] >= 4:
                         whole_list[i-1][TEAM1_UTILITY_GOLD] += 60                           
 
 
@@ -709,7 +709,7 @@ class PreprocessData():
                         whole_list[i-1][TEAM1_TOP_GOLD] += 30
                     elif whole_list[i-1][TEAM1_TOP_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_TOP_K+TEAM_INTERVAL] == 3:
                         whole_list[i-1][TEAM1_TOP_GOLD+TEAM_INTERVAL] += 40
-                    else:
+                    elif whole_list[i-1][TEAM1_TOP_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_TOP_K+TEAM_INTERVAL] >= 4:
                         whole_list[i-1][TEAM1_TOP_GOLD+TEAM_INTERVAL] += 60
 
                 if whole_list[i-1][TEAM1_MIDDLE_A+TEAM_INTERVAL] < whole_list[i][TEAM1_MIDDLE_A+TEAM_INTERVAL]:
@@ -717,7 +717,7 @@ class PreprocessData():
                         whole_list[i-1][TEAM1_MIDDLE_GOLD+TEAM_INTERVAL] += 30
                     elif whole_list[i-1][TEAM1_MIDDLE_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_MIDDLE_K+TEAM_INTERVAL] == 3:
                         whole_list[i-1][TEAM1_MIDDLE_GOLD+TEAM_INTERVAL] += 40
-                    else:
+                    elif whole_list[i-1][TEAM1_MIDDLE_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_MIDDLE_K+TEAM_INTERVAL] >= 4:
                         whole_list[i-1][TEAM1_MIDDLE_GOLD+TEAM_INTERVAL] += 60
 
                 if whole_list[i-1][TEAM1_JUNGLE_A+TEAM_INTERVAL] < whole_list[i][TEAM1_JUNGLE_A+TEAM_INTERVAL]:
@@ -725,7 +725,7 @@ class PreprocessData():
                         whole_list[i-1][TEAM1_JUNGLE_GOLD+TEAM_INTERVAL] += 30
                     elif whole_list[i-1][TEAM1_JUNGLE_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_JUNGLE_K+TEAM_INTERVAL] == 3:
                         whole_list[i-1][TEAM1_JUNGLE_GOLD+TEAM_INTERVAL] += 40
-                    else:
+                    elif whole_list[i-1][TEAM1_JUNGLE_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_JUNGLE_K+TEAM_INTERVAL] >= 4:
                         whole_list[i-1][TEAM1_JUNGLE_GOLD+TEAM_INTERVAL] += 60   
 
                 if whole_list[i-1][TEAM1_BOTTOM_A+TEAM_INTERVAL] < whole_list[i][TEAM1_BOTTOM_A+TEAM_INTERVAL]:
@@ -733,7 +733,7 @@ class PreprocessData():
                         whole_list[i-1][TEAM1_BOTTOM_GOLD+TEAM_INTERVAL] += 30
                     elif whole_list[i-1][TEAM1_BOTTOM_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_BOTTOM_K+TEAM_INTERVAL] == 3:
                         whole_list[i-1][TEAM1_BOTTOM_GOLD+TEAM_INTERVAL] += 40
-                    else:
+                    elif whole_list[i-1][TEAM1_BOTTOM_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_BOTTOM_K+TEAM_INTERVAL] >= 4:
                         whole_list[i-1][TEAM1_BOTTOM_GOLD+TEAM_INTERVAL] += 60  
 
                 if whole_list[i-1][TEAM1_UTILITY_A+TEAM_INTERVAL] < whole_list[i][TEAM1_UTILITY_A+TEAM_INTERVAL]:
@@ -741,7 +741,7 @@ class PreprocessData():
                         whole_list[i-1][TEAM1_UTILITY_GOLD+TEAM_INTERVAL] += 30
                     elif whole_list[i-1][TEAM1_UTILITY_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_UTILITY_K+TEAM_INTERVAL] == 3:
                         whole_list[i-1][TEAM1_UTILITY_GOLD+TEAM_INTERVAL] += 40
-                    else:
+                    elif whole_list[i-1][TEAM1_UTILITY_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_UTILITY_K+TEAM_INTERVAL] >= 4:
                         whole_list[i-1][TEAM1_UTILITY_GOLD+TEAM_INTERVAL] += 60                  
 
 
