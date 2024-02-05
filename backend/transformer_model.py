@@ -1,4 +1,5 @@
 import tensorflow as tf
+import numpy as np
 
 def scaled_dot_product_attention(q, k, v, mask):
     # 내적을 통해 각 쌍의 유사도를 나타내는 어텐션 스코어 행렬 생성
@@ -61,6 +62,18 @@ class MultiHeadAttentionLayer(tf.keras.layers.Layer):
         output = self.dense(concat_attention)
 
         return output
+
+def positional_encoding(data):
+    n, dim = data.shape
+    pos_enc = np.zeros((n, dim))
+
+    for i in range(dim):
+        if i % 2 == 0:
+            pos_enc[:, i] = np.sin(np.arange(0, n) / 10000**(2 * i / dim))
+        else:
+            pos_enc[:, i] = np.cos(np.arange(0, n) / 10000**(2 * (i - 1) / dim))
+
+    return pos_enc
 
 def transformer_encoder_block(units, d_model, num_heads, dropout, name="transformer_encoder_block"):
     inputs = tf.keras.layers.Input(shape=(None, d_model), name="inputs")

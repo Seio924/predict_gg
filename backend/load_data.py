@@ -62,8 +62,8 @@ class LoadData():
                 num += 1
                 analysis_data.analyze_data()
                 
-                print("분석 완료")
-                time.sleep(5)
+                print("분석 완료 : " + str(num))
+                time.sleep(4)
 
                 if num == num_matches:
                     break

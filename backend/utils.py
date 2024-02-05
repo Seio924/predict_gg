@@ -70,6 +70,7 @@ class PreprocessData():
             initial_match_data = json.load(f)
 
         if 'status' in initial_match_data:
+            print("500 에러")
             return 0
         else:
             aram = 1
