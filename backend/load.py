@@ -7,7 +7,7 @@ load_instance = LoadData(api_key)
 
 #load_instance.process_challenger_data(1000)
 
-load_instance.process_diamond1_data(10)
+load_instance.process_diamond1_data(100)
 
 # load_instance.get_diamond1_info()
 

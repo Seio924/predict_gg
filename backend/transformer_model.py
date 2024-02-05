@@ -68,13 +68,14 @@ def positional_encoding(data):
     n, dim = data.shape
     pos_enc = np.zeros((n, dim))
 
-    ##
+    #열 데이터 순서 설정
     for i in range(dim):
         if i % 2 == 0:
             pos_enc[:, i] = np.sin(np.arange(0, n) / 10000**(2 * i / dim))
         else:
             pos_enc[:, i] = np.cos(np.arange(0, n) / 10000**(2 * (i - 1) / dim))
 
+    #행 데이터 순서 설정
     for i in range(n):
         if i % 2 == 0:
             pos_enc[i, :] *= np.sin(np.arange(0, dim) / 10000**(2 * i / n))
@@ -99,11 +100,17 @@ def transformer_encoder_block(units, d_model, num_heads, dropout, name="transfor
 
     return tf.keras.Model(inputs=[inputs, padding_mask], outputs=outputs, name=name)
 
-def build_transformer_model(num_blocks, units, d_model, num_heads, dropout, input_shape):
+def build_transformer_model(num_blocks, units, d_model, num_heads, dropout, input_shape, vocab_size):
+    #Input layer [모델의 입력 정의] -> seq_len : 데이터 행 길이
     inputs = tf.keras.layers.Input(shape=input_shape, name="inputs")
+    
+    #마스킹해서 현재 정보만
     padding_mask = tf.keras.layers.Input(shape=(1, 1, None), name="padding_mask")
 
-    x = inputs
+    # Embedding 레이어 추가 [input embedding과 positional encoding 더해줘야 함]
+    embedding = tf.keras.layers.Embedding(input_dim=vocab_size, output_dim=d_model)(inputs)
+
+    x = embedding
 
     for i in range(num_blocks):
         x = transformer_encoder_block(units=units, d_model=d_model, num_heads=num_heads, dropout=dropout, name=f"transformer_block_{i}")([x, padding_mask])
@@ -116,6 +123,10 @@ units = 512
 d_model = 128
 num_heads = 4
 dropout = 0.3
-input_shape = (seq_len, feature_dim)  # 실제 입력 모양으로 교체
+seq_len = 100  # 예시 값, 실제 데이터에 따라 조정
+feature_dim = 32  # 예시 값, 실제 데이터에 따라 조정
+vocab_size = 10000  # 예시 값, 실제 데이터에 따라 조정
 
-model = build_transformer_model(num_blocks, units, d_model, num_heads, dropout, input_shape)
+input_shape = (seq_len,)
+
+model = build_transformer_model(num_blocks, units, d_model, num_heads, dropout, input_shape, vocab_size)

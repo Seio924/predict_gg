@@ -148,7 +148,7 @@ class AnalysisData:
                 lose_std_40.append(i)
             
 
-        # 15분
+        """ # 15분
         if len(win_std_20) > 0:
             for h in win_std_20:
             #win_std_15_mean = [sum(row[i] for row in win_std_15) / len(win_std_15) for i in range(91)]
@@ -166,61 +166,61 @@ class AnalysisData:
             self.axes[1].set_xlabel('Time')
             self.axes[1].set_ylabel('Gold')
             self.axes[1].legend()
-            self.axes[1].grid(True)
+            self.axes[1].grid(True) """
 
 
         """ # 20분
         if len(win_std_20) > 0:
             win_std_20_mean = [sum(row[i] for row in win_std_20) / len(win_std_20) for i in range(121)]
-            self.axes[1, 0].plot(self.time[:121], win_std_20, label='20 Win Mean std_dev')
-            self.axes[1, 0].set_xlabel('Time')
-            self.axes[1, 0].set_ylabel('Gold')
-            self.axes[1, 0].legend()
-            self.axes[1, 0].grid(True)
+            self.axes[0].plot(self.time[:121], win_std_20_mean, label='20 Win Mean std_dev')
+            self.axes[0].set_xlabel('Time')
+            self.axes[0].set_ylabel('Gold')
+            self.axes[0].legend()
+            self.axes[0].grid(True)
 
 
         if len(lose_std_20) > 0:
             lose_std_20_mean = [sum(row[i] for row in lose_std_20) / len(lose_std_20) for i in range(121)]
-            self.axes[1, 1].plot(self.time[:121], lose_std_20, label='20 Lose Mean std_dev')
-            self.axes[1, 1].set_xlabel('Time')
-            self.axes[1, 1].set_ylabel('Gold')
-            self.axes[1, 1].legend()
-            self.axes[1, 1].grid(True)
+            self.axes[1].plot(self.time[:121], lose_std_20_mean, label='20 Lose Mean std_dev')
+            self.axes[1].set_xlabel('Time')
+            self.axes[1].set_ylabel('Gold')
+            self.axes[1].legend()
+            self.axes[1].grid(True) """
 
 
-        # 30분
+        """ # 30분
         if len(win_std_30) > 0:
             win_std_30_mean = [sum(row[i] for row in win_std_30) / len(win_std_30) for i in range(181)]
-            self.axes[2, 0].plot(self.time[:181], win_std_30, label='30 Win Mean std_dev')
-            self.axes[2, 0].set_xlabel('Time')
-            self.axes[2, 0].set_ylabel('Gold')
-            self.axes[2, 0].legend()
-            self.axes[2, 0].grid(True)
+            self.axes[0].plot(self.time[:181], win_std_30_mean, label='30 Win Mean std_dev')
+            self.axes[0].set_xlabel('Time')
+            self.axes[0].set_ylabel('Gold')
+            self.axes[0].legend()
+            self.axes[0].grid(True)
 
         if len(lose_std_30) > 0:
             lose_std_30_mean = [sum(row[i] for row in lose_std_30) / len(lose_std_30) for i in range(181)]
-            self.axes[2, 1].plot(self.time[:181], lose_std_30, label='30 Lose Mean std_dev')
-            self.axes[2, 1].set_xlabel('Time')
-            self.axes[2, 1].set_ylabel('Gold')
-            self.axes[2, 1].legend()
-            self.axes[2, 1].grid(True)
+            self.axes[1].plot(self.time[:181], lose_std_30_mean, label='30 Lose Mean std_dev')
+            self.axes[1].set_xlabel('Time')
+            self.axes[1].set_ylabel('Gold')
+            self.axes[1].legend()
+            self.axes[1].grid(True) """
 
         # 40분
         if len(win_std_40) > 0:
             win_std_40_mean = [sum(row[i] for row in win_std_40) / len(win_std_40) for i in range(241)]
-            self.axes[3, 0].plot(self.time[:241], win_std_40, label='40 Win Mean std_dev')
-            self.axes[3, 0].set_xlabel('Time')
-            self.axes[3, 0].set_ylabel('Gold')
-            self.axes[3, 0].legend()
-            self.axes[3, 0].grid(True)
+            self.axes[0].plot(self.time[:241], win_std_40_mean, label='40 Win Mean std_dev')
+            self.axes[0].set_xlabel('Time')
+            self.axes[0].set_ylabel('Gold')
+            self.axes[0].legend()
+            self.axes[0].grid(True)
 
         if len(lose_std_40) > 0:
             lose_std_40_mean = [sum(row[i] for row in lose_std_40) / len(lose_std_40) for i in range(241)]
-            self.axes[3, 1].plot(self.time[:241], lose_std_40, label='40 Lose Mean std_dev')
-            self.axes[3, 1].set_xlabel('Time')
-            self.axes[3, 1].set_ylabel('Gold')
-            self.axes[3, 1].legend()
-            self.axes[3, 1].grid(True) """
+            self.axes[1].plot(self.time[:241], lose_std_40_mean, label='40 Lose Mean std_dev')
+            self.axes[1].set_xlabel('Time')
+            self.axes[1].set_ylabel('Gold')
+            self.axes[1].legend()
+            self.axes[1].grid(True)
         
 
         self.fig.suptitle('Win   Lose')
