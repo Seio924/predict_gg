@@ -112,9 +112,11 @@ def build_transformer_model(num_blocks, units, d_model, num_heads, dropout, inpu
 
     x = embedding
 
+    #transformer_encoder_block을 여러번 반복해서 쌓아올림
     for i in range(num_blocks):
         x = transformer_encoder_block(units=units, d_model=d_model, num_heads=num_heads, dropout=dropout, name=f"transformer_block_{i}")([x, padding_mask])
 
+    #입력과 패딩 마스크 -> 트랜스포머 인코딩의 결과를 출력하는 케라스 모델 반환
     return tf.keras.Model(inputs=[inputs, padding_mask], outputs=x, name="transformer")
 
 # Example usage:
