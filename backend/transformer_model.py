@@ -64,14 +64,23 @@ class MultiHeadAttentionLayer(tf.keras.layers.Layer):
         return output
 
 def positional_encoding(data):
+    #순서 정해주기 [행과 열]
     n, dim = data.shape
     pos_enc = np.zeros((n, dim))
 
+    ##
     for i in range(dim):
         if i % 2 == 0:
             pos_enc[:, i] = np.sin(np.arange(0, n) / 10000**(2 * i / dim))
         else:
             pos_enc[:, i] = np.cos(np.arange(0, n) / 10000**(2 * (i - 1) / dim))
+
+    for i in range(n):
+        if i % 2 == 0:
+            pos_enc[i, :] *= np.sin(np.arange(0, dim) / 10000**(2 * i / n))
+        else:
+            pos_enc[i, :] *= np.cos(np.arange(0, dim) / 10000**(2 * (i - 1) / n))
+        
 
     return pos_enc
 
