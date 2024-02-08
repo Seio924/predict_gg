@@ -169,7 +169,7 @@ class AnalysisData:
             self.axes[1].grid(True) """
 
 
-        """ # 20분
+        # 20분
         if len(win_std_20) > 0:
             win_std_20_mean = [sum(row[i] for row in win_std_20) / len(win_std_20) for i in range(121)]
             self.axes[0].plot(self.time[:121], win_std_20_mean, label='20 Win Mean std_dev')
@@ -185,7 +185,7 @@ class AnalysisData:
             self.axes[1].set_xlabel('Time')
             self.axes[1].set_ylabel('Gold')
             self.axes[1].legend()
-            self.axes[1].grid(True) """
+            self.axes[1].grid(True)
 
 
         """ # 30분
@@ -205,7 +205,7 @@ class AnalysisData:
             self.axes[1].legend()
             self.axes[1].grid(True) """
 
-        # 40분
+        """ # 40분
         if len(win_std_40) > 0:
             win_std_40_mean = [sum(row[i] for row in win_std_40) / len(win_std_40) for i in range(241)]
             self.axes[0].plot(self.time[:241], win_std_40_mean, label='40 Win Mean std_dev')
@@ -220,7 +220,7 @@ class AnalysisData:
             self.axes[1].set_xlabel('Time')
             self.axes[1].set_ylabel('Gold')
             self.axes[1].legend()
-            self.axes[1].grid(True)
+            self.axes[1].grid(True) """
         
 
         self.fig.suptitle('Win   Lose')
