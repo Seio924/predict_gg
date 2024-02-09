@@ -1,40 +1,41 @@
-import json
-import pandas as pd
-from utils import PreprocessData
+import tensorflow as tf
 import numpy as np
-import requests
-
-api_key = 'RGAPI-59ffd1a9-2677-40b0-be5d-24151cd90ec9'
+from utils import PreprocessData
+from transformer_model import TransformerLayer, MultiHeadAttention
 
 test = PreprocessData('./backend/api_match_info.json', './backend/api_timeline_info.json')
 
-# 데이터 가져오기
-interval_list = test.get_condition_timeline(10000)
-interval_list = np.array(interval_list, dtype=int)
+train_data = []
 
-# 헤더 정의
-n = ["TIMESTAMP",
-    "TEAM1_TOP_CHAMPION", "TEAM1_TOP_GOLD", "TEAM1_TOP_POTION", "TEAM1_TOP_K", "TEAM1_TOP_D", "TEAM1_TOP_A",
-    "TEAM1_JUNGLE_CHAMPION", "TEAM1_JUNGLE_GOLD", "TEAM1_JUNGLE_POTION", "TEAM1_JUNGLE_K", "TEAM1_JUNGLE_D", "TEAM1_JUNGLE_A",
-    "TEAM1_MIDDLE_CHAMPION", "TEAM1_MIDDLE_GOLD", "TEAM1_MIDDLE_POTION", "TEAM1_MIDDLE_K", "TEAM1_MIDDLE_D", "TEAM1_MIDDLE_A",
-    "TEAM1_BOTTOM_CHAMPION", "TEAM1_BOTTOM_GOLD", "TEAM1_BOTTOM_POTION", "TEAM1_BOTTOM_K", "TEAM1_BOTTOM_D", "TEAM1_BOTTOM_A",
-    "TEAM1_UTILITY_CHAMPION", "TEAM1_UTILITY_GOLD", "TEAM1_UTILITY_POTION", "TEAM1_UTILITY_K", "TEAM1_UTILITY_D", "TEAM1_UTILITY_A",
-    "TEAM1_GOLD",
-    "START_ITEM", "TIER1_ITEM", "TIER2_ITEM", "TIER3_ITEM", "BOOTS_ITEM", "SPECIAL_ITEM", "WARD_ITEM",
-    "WARD_COUNT", "OBJECT_COUNT",
-    "TOWER_TOP_COUNT", "TOWER_MIDDLE_COUNT", "TOWER_BOTTOM_COUNT",
-    "TEAM1_TOP_CHAMPION", "TEAM1_TOP_GOLD", "TEAM1_TOP_POTION", "TEAM1_TOP_K", "TEAM1_TOP_D", "TEAM1_TOP_A",
-    "TEAM1_JUNGLE_CHAMPION", "TEAM1_JUNGLE_GOLD", "TEAM1_JUNGLE_POTION", "TEAM1_JUNGLE_K", "TEAM1_JUNGLE_D", "TEAM1_JUNGLE_A",
-    "TEAM1_MIDDLE_CHAMPION", "TEAM1_MIDDLE_GOLD", "TEAM1_MIDDLE_POTION", "TEAM1_MIDDLE_K", "TEAM1_MIDDLE_D", "TEAM1_MIDDLE_A",
-    "TEAM1_BOTTOM_CHAMPION", "TEAM1_BOTTOM_GOLD", "TEAM1_BOTTOM_POTION", "TEAM1_BOTTOM_K", "TEAM1_BOTTOM_D", "TEAM1_BOTTOM_A",
-    "TEAM1_UTILITY_CHAMPION", "TEAM1_UTILITY_GOLD", "TEAM1_UTILITY_POTION", "TEAM1_UTILITY_K", "TEAM1_UTILITY_D", "TEAM1_UTILITY_A",
-    "TEAM1_GOLD",
-    "START_ITEM", "TIER1_ITEM", "TIER2_ITEM", "TIER3_ITEM", "BOOTS_ITEM", "SPECIAL_ITEM", "WARD_ITEM",
-    "WARD_COUNT", "OBJECT_COUNT",
-    "TOWER_TOP_COUNT", "TOWER_MIDDLE_COUNT", "TOWER_BOTTOM_COUNT", "WIN_LOSE"]
+for i in range(100):
+    # 데이터 가져오기
+    interval_list = test.get_condition_timeline(10000)
 
-# DataFrame 생성
-df = pd.DataFrame(data=interval_list, columns=n)
+    # 학습 데이터 로드
+    train_data.append(interval_list)
 
-# DataFrame을 엑셀 파일로 저장
-df.to_excel("log.xlsx", index=False)
+train_data = np.array(train_data, dtype=int)
+
+# Dataset 객체 생성
+train_dataset = tf.data.Dataset.from_tensor_slices(train_data)
+
+# 배치 생성
+batch_size = 32
+train_dataset = train_dataset.shuffle(buffer_size=len(train_data)).batch(batch_size)
+
+# 모델 생성
+num_heads = 16
+d_model = 4
+transformer_layer = TransformerLayer(d_model=d_model, num_heads=num_heads)
+multi_head_attention = MultiHeadAttention(d_model=d_model, num_heads=num_heads)
+model = tf.keras.Sequential([
+    transformer_layer,
+    multi_head_attention
+])
+
+# 모델 컴파일
+model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+
+# 모델 학습
+num_epochs = 10
+model.fit(train_dataset, epochs=num_epochs)
