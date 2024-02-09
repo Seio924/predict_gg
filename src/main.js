@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain, globalShortcut, screen } = require("electro
 const path = require("path");
 const { SEND_MAIN_PING, SEND_WINDOW_MINIMIZE, SEND_WINDOW_MAXIMIZE, SEND_WINDOW_CLOSE } = require("./constants");
 const { getSummonerInfo } = require("../backend/riot_api"); // riot_api.js 파일의 경로를 적절히 수정
+const axios = require('axios');
 
 let win;
 let overlayWindow;
@@ -22,15 +23,14 @@ async function createWindow() {
     win.loadURL("http://localhost:3000");
 
     ipcMain.on(SEND_MAIN_PING, async (event, arg) => {
-        console.log("Main received a ping!!!");
-        const matchId = "KR_6930287260";
-        getSummonerInfo(matchId)
-            .then((apiInfo) => {
-                console.log("main.js API complete");
-            })
-            .catch((error) => {
-                console.error("error:", error);
-            });
+        console.log('Button clicked!');
+
+        try {
+            const response = await axios.post('http://localhost:4000/', { data: 'hello' });
+            console.log('server res:', response.data);
+        } catch (error) {
+            console.error('server error:', error);
+        }
     });
 
     ipcMain.on(SEND_WINDOW_MINIMIZE, (event, arg) => {
