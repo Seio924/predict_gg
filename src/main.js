@@ -23,10 +23,11 @@ async function createWindow() {
     win.loadURL("http://localhost:3000");
 
     ipcMain.on(SEND_MAIN_PING, async (event, arg) => {
-        console.log('Button clicked!');
+        console.log('File uploaded in Renderer process!');
+        console.log('Uploaded file name:', arg.fileName);
 
         try {
-            const response = await axios.post('http://localhost:4000/', { data: 'hello' });
+            const response = await axios.post('http://localhost:4000/', { data: arg.fileName });
             console.log('server res:', response.data);
         } catch (error) {
             console.error('server error:', error);
@@ -50,6 +51,8 @@ async function createWindow() {
         win.close();
         globalShortcut.unregisterAll();
     });
+
+
 }
 
 async function createOverlay() {

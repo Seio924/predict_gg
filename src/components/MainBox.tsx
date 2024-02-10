@@ -57,6 +57,17 @@ const FileUploadText = styled.p`
 
 function MainBox() {
   const [isActive, setActive] = useState(false);
+  const [fileName, setFileName] = useState("");
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+
+    if (files && files.length > 0) {
+      const uploadedFileName = files[0].name;
+      setFileName(uploadedFileName);
+    }
+  };
+
   const handleDragStart = () => setActive(true);
   const handleDragEnd = () => setActive(false);
   const handleDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
@@ -66,30 +77,42 @@ function MainBox() {
   const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
     e.stopPropagation();
+
+    const files = e.dataTransfer.files;
+
+    if (files && files.length > 0) {
+      const droppedFileName = files[0].name;
+      setFileName(droppedFileName);
+      //sendMail(droppedFileName);
+    }
+    setActive(false);
   };
 
   const { ipcRenderer } = window.require("electron");
 
-  const sendMail = () => {
-    ipcRenderer.send(SEND_MAIN_PING, "send");
+  const sendMail = (fileName: string) => {
+    ipcRenderer.send(SEND_MAIN_PING, { fileName });
   };
 
   return (
     <>
       <BoxContainer>
-        <UploadArea
+        <UploadArea 
           isActive={isActive}
           onDragOver={handleDragOver}
           onDrop={handleDrop}
           onDragEnter={handleDragStart}
           onDragLeave={handleDragEnd}
         >
-          <FileUploadBtn type="file" />
+          <FileUploadBtn
+            type="file"
+            onChange={handleFileChange}
+          />
           <UploadIcon />
           <FileUploadText>Upload HERE</FileUploadText>
         </UploadArea>
       </BoxContainer>
-      <button onClick={sendMail}>Send Mail</button>
+      <button onClick={() => sendMail(fileName)}>Send Mail</button>
     </>
   );
 }
