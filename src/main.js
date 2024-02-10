@@ -1,7 +1,6 @@
 const { app, BrowserWindow, ipcMain, globalShortcut, screen } = require("electron");
 const path = require("path");
 const { SEND_MAIN_PING, SEND_WINDOW_MINIMIZE, SEND_WINDOW_MAXIMIZE, SEND_WINDOW_CLOSE } = require("./constants");
-const { getSummonerInfo } = require("../backend/riot_api"); // riot_api.js 파일의 경로를 적절히 수정
 const axios = require('axios');
 
 let win;
