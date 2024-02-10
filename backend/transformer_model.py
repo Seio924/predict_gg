@@ -6,7 +6,8 @@ class PositionalEncoding(tf.keras.layers.Layer):
         super(PositionalEncoding, self).__init__()
 
     def call(self, data):
-        n, dim = data.shape
+        print(data.shape)
+        t, n, dim = data.shape
         pos_enc = np.zeros((n, dim))
 
         for i in range(dim):
@@ -53,55 +54,48 @@ class TransformerLayer(tf.keras.layers.Layer):
         self.num_heads = num_heads
         self.d_model = d_model
 
-    def call(self, data, look_ahead_mask=None):
+    def call(self, data, look_ahead_mask=None, padding_mask=None):
         data_with_pos_enc = PositionalEncoding()(data)
 
-        # query, key, value의 차원을 d_model로 줄이기 -> Linear layer와 곱하기
         query = self.query_dense(data_with_pos_enc)
         key = self.key_dense(data_with_pos_enc)
         value = self.value_dense(data_with_pos_enc)
         
-         # 다음 연산을 위해 각각의 차원을 num_heads로 나누기
         query = tf.concat(tf.split(query, self.num_heads, axis=-1), axis=0)
         key = tf.concat(tf.split(key, self.num_heads, axis=-1), axis=0)
         value = tf.concat(tf.split(value, self.num_heads, axis=-1), axis=0)
         
-        # scaled_dot_product_attention 함수를 호출하여 self-attention value 계산
         self_attention_value = self.attention(query, key, value)
 
-        # 룩어헤드 마스크 적용 (현재 시점에서 이후의 시점에 대한 정보를 모델이 보지못하도록)
         if look_ahead_mask is not None:
+            # 룩어헤드 마스크 적용
             self_attention_value *= look_ahead_mask
+
+        if padding_mask is not None:
+            # 패딩 마스크 적용
+            self_attention_value *= padding_mask
         
         return self_attention_value
 
-class MultiHeadAttention(tf.keras.layers.Layer):
-    def __init__(self, d_model, num_heads):
+
+class MultiHeadAttention(tf.keras.Model):
+    def __init__(self, d_model, num_heads, num_transformer_layers):
         super(MultiHeadAttention, self).__init__()
-        self.query_dense = tf.keras.layers.Dense(d_model)
-        self.key_dense = tf.keras.layers.Dense(d_model)
-        self.value_dense = tf.keras.layers.Dense(d_model)
-        self.attention = ScaledDotProductAttention()
-        self.final_dense = tf.keras.layers.Dense(d_model)
-        self.num_heads = num_heads
-        self.d_model = d_model
+        self.num_transformer_layers = num_transformer_layers
+        self.transformer_layers = [TransformerLayer(d_model, num_heads) for _ in range(num_transformer_layers)]
+        self.final_dense = tf.keras.layers.Dense(2, activation='softmax')
 
-    def call(self, data):
-        # Multi-head self-attention 수행을 위해 query, key, value 생성
-        query = self.query_dense(data)
-        key = self.key_dense(data)
-        value = self.value_dense(data)
+    def call(self, data):  # padding_mask 인수 추가
+        output, target, padding_mask = data
+        print("패딩마스크")
+        print(padding_mask)
+        for i in range(self.num_transformer_layers):
+            output = self.transformer_layers[i](output, look_ahead_mask=None, padding_mask=padding_mask)  # 패딩 마스크를 적용하는 부분, look_ahead_mask=None으로 수정
+        
+        # 모델의 출력을 받아서 이진 분류를 위한 로짓값으로 변환
+        logits = self.final_dense(output)
+        
+        # 손실을 계산하기 위해 예측값(logits)과 타겟 데이터(target) 반환
+        return logits, target
 
-        # 다음 연산을 위해 각각의 차원을 num_heads로 나누기
-        query = tf.concat(tf.split(query, self.num_heads, axis=-1), axis=0)
-        key = tf.concat(tf.split(key, self.num_heads, axis=-1), axis=0)
-        value = tf.concat(tf.split(value, self.num_heads, axis=-1), axis=0)
-        
-        # scaled_dot_product_attention 함수를 호출하여 각 head 별 self-attention value 계산
-        self_attention_value = self.attention(query, key, value)
-        
-        # 각 head의 self-attention value를 다시 합치기
-        concat_attention = tf.concat(tf.split(self_attention_value, self.num_heads, axis=0), axis=-1)
-        
-        # 마지막 linear layer 적용
-        return self.final_dense(concat_attention)
+

@@ -2,6 +2,8 @@ import requests
 import json
 import time
 from analysis import AnalysisData
+from utils import PreprocessData
+
 
 class LoadData():
     def __init__(self, api_key):
@@ -102,3 +104,45 @@ class LoadData():
                 break
         analysis_data.plot_results()
         print("끝")
+
+    def get_diamond1_data_list(self, num_matches):
+        self.get_diamond1_info()
+        data_list = []
+        win_lose_list = []
+
+        num = 0
+        for summoner_name in self.summonerId:
+            puuid = self.get_puuid(summoner_name)
+            match_ids = self.get_matchid(puuid)
+    
+            for match_id in match_ids:
+                
+                self.get_match_data(match_id)
+                self.get_timeline_data(match_id)
+                num += 1
+                
+                test = PreprocessData('./backend/api_match_info.json', './backend/api_timeline_info.json')
+
+                interval_list = test.get_condition_timeline(10000)
+                win_lose = test.get_match_data()[1]
+                
+                if not interval_list:
+                    print("데이터 가져오기 실패: " + str(num))
+                    pass
+                else:
+                    win_lose = [[win_lose[0], win_lose[1]] for i in range(len(interval_list))]
+
+                    data_list.append(interval_list)
+                    win_lose_list.append(win_lose)
+                    print("데이터 가져오기 : " + str(num))
+
+                time.sleep(3)
+
+                if num == num_matches:
+                    break
+                
+            
+            if num == num_matches:
+                break
+        
+        return (data_list, win_lose_list)

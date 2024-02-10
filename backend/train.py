@@ -1,41 +1,81 @@
 import tensorflow as tf
 import numpy as np
-from utils import PreprocessData
-from transformer_model import TransformerLayer, MultiHeadAttention
+from load_data import LoadData
+from transformer_model import MultiHeadAttention
 
-test = PreprocessData('./backend/api_match_info.json', './backend/api_timeline_info.json')
+LIST_LEN = 88
 
-train_data = []
+api_key = 'RGAPI-be004d99-1d57-4378-9f7b-87706aefc64a'
 
-for i in range(100):
-    # 데이터 가져오기
-    interval_list = test.get_condition_timeline(10000)
+def create_padding_mask(data):
+    # 입력 시퀀스에서 0인 부분을 찾아내는 마스크 생성
+    mask = tf.cast(tf.reduce_all(tf.math.equal(data, 0), axis=-1), tf.float32)
+    # 패딩된 부분을 1로, 그렇지 않은 부분을 0으로 변경
+    return mask[:, tf.newaxis, tf.newaxis, :]
 
-    # 학습 데이터 로드
-    train_data.append(interval_list)
+# 이진 크로스 엔트로피 손실 함수 정의
+def binary_crossentropy_loss(y_true, y_pred):
+    # y_true: 실제 승리 여부 데이터
+    # y_pred: 모델의 출력 (확률 값)
 
-train_data = np.array(train_data, dtype=int)
+    # 이진 크로스 엔트로피 손실 계산
+    loss = tf.keras.losses.binary_crossentropy(y_true, y_pred)
+
+    return loss
+
+load_instance = LoadData(api_key)
+
+# 데이터 가져오기
+train_data, win_lose_list = load_instance.get_diamond1_data_list(3)
+print(len(train_data[0]))
+print(len(train_data[1]))
+print(len(win_lose_list[0]))
+print(len(win_lose_list[1]))
+
+
+# 시계열 데이터의 최대 길이 계산
+max_length_data = max(len(seq) for seq in train_data)
+max_length_target = max(len(seq) for seq in win_lose_list)
+
+print(max_length_data)
+print(max_length_target)
+
+# 패딩을 적용한 배열 생성
+padded_data = np.zeros((len(train_data), max_length_data, LIST_LEN), dtype=int)
+for i, seq in enumerate(train_data):
+    padded_data[i, :len(seq), :] = seq
+
+# 패딩을 적용한 배열 생성
+padded_data2 = np.zeros((len(win_lose_list), max_length_target, 2), dtype=int)
+for i, seq in enumerate(win_lose_list):
+    print("len : " + str(len(seq)))
+    padded_data2[i, :len(seq), :] = seq
+
+print(padded_data)
+
+print(padded_data2)
+
+padding_mask = create_padding_mask(padded_data)
+
 
 # Dataset 객체 생성
-train_dataset = tf.data.Dataset.from_tensor_slices(train_data)
+input_dataset = tf.data.Dataset.from_tensor_slices((padded_data, padded_data2, padding_mask))
 
 # 배치 생성
-batch_size = 32
-train_dataset = train_dataset.shuffle(buffer_size=len(train_data)).batch(batch_size)
+batch_size = 128
+combined_dataset = input_dataset.shuffle(buffer_size=len(train_data)).batch(batch_size)
 
 # 모델 생성
-num_heads = 16
-d_model = 4
-transformer_layer = TransformerLayer(d_model=d_model, num_heads=num_heads)
-multi_head_attention = MultiHeadAttention(d_model=d_model, num_heads=num_heads)
-model = tf.keras.Sequential([
-    transformer_layer,
-    multi_head_attention
-])
+num_heads = 1
+d_model = LIST_LEN
+num_transformer_layers = 2
+learning_rate = 0.001
+num_epochs = 100
 
-# 모델 컴파일
-model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+# 모델 생성 및 컴파일
+model = MultiHeadAttention(d_model, num_heads, num_transformer_layers)
+optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate)
+model.compile(optimizer=optimizer, loss=binary_crossentropy_loss, metrics=['accuracy'])
 
 # 모델 학습
-num_epochs = 10
-model.fit(train_dataset, epochs=num_epochs)
+model.fit((padded_data, padded_data2, padding_mask), epochs=num_epochs)
