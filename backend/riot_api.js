@@ -1,7 +1,7 @@
 const request = require("request");
 const fs = require("fs");
 
-const apiKey = "RGAPI-59ffd1a9-2677-40b0-be5d-24151cd90ec9";
+const apiKey = "RGAPI-93af6425-9b93-4532-840e-40d8ae1b6a7f";
 
 function getSummonerInfo(matchId) {
   return new Promise((resolve, reject) => {
@@ -16,34 +16,33 @@ function getSummonerInfo(matchId) {
           const summonerInfo = JSON.parse(body);
           console.log("riot_api complete");
 
-          // 파일에 기록
-          fs.writeFileSync(
-            "backend/api_match_info.json",
-            JSON.stringify(summonerInfo, null, 2)
-          );
+          request(apiUrl2, (error2, response2, body2) => {
+            if (error2) {
+              reject(error2);
+            } else {
+              try {
+                const timelineInfo = JSON.parse(body2);
+                console.log("riot_timeline_api complete");
 
-          resolve(summonerInfo);
-        } catch (parseError) {
-          reject(parseError);
-        }
-      }
-    });
+                // 파일에 기록
+                fs.writeFileSync(
+                  "../backend/api_match_info.json",
+                  JSON.stringify(summonerInfo, null, 2)
+                );
+                
+                // 파일에 기록
+                fs.writeFileSync(
+                  "../backend/api_timeline_info.json",
+                  JSON.stringify(timelineInfo, null, 2)
+                );
 
-    request(apiUrl2, (error, response, body) => {
-      if (error) {
-        reject(error);
-      } else {
-        try {
-          const summonerInfo = JSON.parse(body);
-          console.log("riot_api complete");
-
-          // 파일에 기록
-          fs.writeFileSync(
-            "backend/api_timeline_info.json",
-            JSON.stringify(summonerInfo, null, 2)
-          );
-
-          resolve(summonerInfo);
+                // 두 요청 모두 완료되면 resolve 호출
+                resolve({ matchInfo: summonerInfo, timelineInfo });
+              } catch (parseError2) {
+                reject(parseError2);
+              }
+            }
+          });
         } catch (parseError) {
           reject(parseError);
         }
