@@ -5,7 +5,7 @@ from transformer_model import MultiHeadAttention
 
 LIST_LEN = 88
 
-api_key = 'RGAPI-be004d99-1d57-4378-9f7b-87706aefc64a'
+api_key = 'RGAPI-b073b9c4-d395-4c94-8f9e-b8c1ad4c9045'
 
 def create_padding_mask(data):
     # 입력 시퀀스에서 0인 부분을 찾아내는 마스크 생성

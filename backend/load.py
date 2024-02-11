@@ -1,7 +1,7 @@
 from load_data import LoadData
 
 
-api_key = 'RGAPI-59ffd1a9-2677-40b0-be5d-24151cd90ec9'
+api_key = 'RGAPI-45f32b24-d486-4041-b2e0-c5e9b961ab4f'
 
 load_instance = LoadData(api_key)
 
