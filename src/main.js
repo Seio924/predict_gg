@@ -47,7 +47,7 @@ async function createWindow() {
             const response = await axios.post('http://localhost:4000/', { data: arg.fileName });
             console.log('server res:', response.data);
 
-            fs.readFile('C:/Users/ksb02/Documents/GitHub/predict_gg/backend/api_timeline_info.json', 'utf8', (err, data) => {
+            fs.readFile('C:/Users/ksb02/Documents/GitHub/predict_gg/backend/api_match_info.json', 'utf8', (err, data) => {
                 if(err) {
                     console.error('Error reading file');
                     return;
@@ -55,8 +55,13 @@ async function createWindow() {
     
                 try {   
                     const jsonData = JSON.parse(data);
-                    const realTimestamp = jsonData.info.frames[0].events[0].realTimestamp;
-                    console.log('realTimestamp', realTimestamp);
+                    const realTimestamp = jsonData.info.gameEndTimestamp - jsonData.info.gameStartTimestamp;
+                    
+                    // 밀리초를 분과 초로 변환
+                    const minutes = Math.floor(realTimestamp / 60000);
+                    const seconds = ((realTimestamp % 60000) / 1000).toFixed(0);
+                    console.log('realTimestamp', `${minutes}:${(seconds < 10 ? '0' : '')}${seconds}`);
+                    
                 }
                 catch (error) {
                     console.error('Error JSON data: ', error);
