@@ -1,4 +1,3 @@
-import tkinter as tk
 import win32gui
 import win32con
 import win32api
@@ -24,7 +23,7 @@ class OverlayWindow:
             self.class_atom,
             'Overlay Window',
             win32con.WS_POPUP,
-            self.screen_width - 200, 10, 180, 70,  # 화면 오른쪽 위에 위치시키기
+            self.screen_width - 200, 10, 180, 70,  # 화면 오른쪽 위에 위치시키기 및 높이 조정
             None, None, wc.hInstance, None
         )
 
@@ -39,16 +38,33 @@ class OverlayWindow:
         self.blue_percentage = 50
         self.red_percentage = 50
 
+        # 버튼 생성
+        self.create_button()
+
+    def make_rounded_corners(self):
+        # 둥근 모서리를 가진 리전 생성
+        region = win32gui.CreateRoundRectRgn(0, 0, 180, 70, 20, 20)  # 높이 조정
+        # 윈도우에 리전 적용
+        win32gui.SetWindowRgn(self.hwnd, region, True)
+
+    def create_button(self):
+        # 버튼 생성
+        self.button_hwnd = win32gui.CreateWindow(
+            "BUTTON",
+            "시작하기",  # 텍스트 변경
+            win32con.WS_VISIBLE | win32con.WS_CHILD,
+            20, 9, 140, 50,  # 위치 및 크기 조정
+            self.hwnd,
+            None,
+            win32gui.GetModuleHandle(None),
+            None
+        )
+
+    def start_update_thread(self):
         # 데이터 업데이트 스레드 시작
         self.update_thread = threading.Thread(target=self.update_data_thread)
         self.update_thread.daemon = True  # 메인 스레드 종료 시 함께 종료
         self.update_thread.start()
-
-    def make_rounded_corners(self):
-        # 둥근 모서리를 가진 리전 생성
-        region = win32gui.CreateRoundRectRgn(0, 0, 180, 70, 20, 20)
-        # 윈도우에 리전 적용
-        win32gui.SetWindowRgn(self.hwnd, region, True)
 
     def update_data_thread(self):
         while True:
@@ -110,6 +126,11 @@ class OverlayWindow:
         elif msg == win32con.WM_USER + 1:  # 사용자 정의 메시지
             self.update_ui()  # UI 업데이트
             return 0
+        elif msg == win32con.WM_COMMAND and win32gui.HIWORD(wparam) == win32con.BN_CLICKED:  # 버튼 클릭 이벤트
+            # 버튼이 클릭되었을 때 처리
+            win32gui.ShowWindow(self.button_hwnd, win32con.SW_HIDE)  # 버튼 숨기기
+            self.start_update_thread()  # 데이터 업데이트 스레드 시작
+            return 0
         else:
             return win32gui.DefWindowProc(hwnd, msg, wparam, lparam)
 
@@ -124,24 +145,10 @@ class OverlayWindow:
         win32gui.PumpMessages()
 
 
-def start_overlay_window():
+def main():
     overlay_window = OverlayWindow()
     overlay_window.run()
 
 
-def main():
-    # Tkinter 윈도우 생성
-    root = tk.Tk()
-    root.title("Overlay Window Controller")
-
-    # 시작하기 버튼 생성
-    start_button = tk.Button(root, text="시작하기", command=start_overlay_window)
-    start_button.pack()
-
-    # Tkinter 이벤트 루프 시작
-    root.mainloop()
-
-
 if __name__ == "__main__":
     main()
-

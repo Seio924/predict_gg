@@ -64,16 +64,16 @@ function MainBox() {
 
     if (files && files.length > 0) {
       const uploadedFileName = files[0].name;
-      setFileName(uploadedFileName);
+      const fileExtension = uploadedFileName.split('.').pop(); // 파일의 확장자 추출
+      if (fileExtension === 'rofl') { // 확장자가 .rofl인 경우에만 버튼 활성화
+          setFileName(uploadedFileName);
+          setActive(false); // 파일이 업로드되면 isActive를 false로 설정하여 스타일 변경 해제
+      } else {
+          alert('파일 확장자는 .rofl이어야 합니다.');
+      }
     }
   };
 
-  const handleDragStart = () => setActive(true);
-  const handleDragEnd = () => setActive(false);
-  const handleDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-  };
   const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
     e.stopPropagation();
@@ -83,15 +83,18 @@ function MainBox() {
     if (files && files.length > 0) {
       const droppedFileName = files[0].name;
       setFileName(droppedFileName);
-      //sendMail(droppedFileName);
+      setActive(false); // 파일이 업로드되면 isActive를 false로 설정하여 스타일 변경 해제
     }
-    setActive(false);
   };
 
   const { ipcRenderer } = window.require("electron");
 
-  const sendMail = (fileName: string) => {
-    ipcRenderer.send(SEND_MAIN_PING, { fileName });
+  const sendMail = () => {
+    if (fileName) {
+      ipcRenderer.send(SEND_MAIN_PING, { fileName });
+    } else {
+      alert('파일을 먼저 업로드해주세요.');
+    }
   };
 
   return (
@@ -99,20 +102,23 @@ function MainBox() {
       <BoxContainer>
         <UploadArea 
           isActive={isActive}
-          onDragOver={handleDragOver}
+          onDragOver={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
           onDrop={handleDrop}
-          onDragEnter={handleDragStart}
-          onDragLeave={handleDragEnd}
+          onDragEnter={() => setActive(true)}
+          onDragLeave={() => setActive(false)}
         >
           <FileUploadBtn
             type="file"
             onChange={handleFileChange}
           />
           <UploadIcon />
-          <FileUploadText>Upload HERE</FileUploadText>
+          <FileUploadText>{fileName ? fileName : "Upload HERE"}</FileUploadText>
         </UploadArea>
       </BoxContainer>
-      <button onClick={() => sendMail(fileName)}>파일 업로드</button>
+      <button onClick={sendMail}>파일 업로드</button>
     </>
   );
 }
