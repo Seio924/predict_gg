@@ -49,6 +49,9 @@ class OverlayWindow:
         # 움직임 지속 시간 설정 (초 단위)
         self.duration = self.get_match_duration()  # 매치 지속 시간 가져오기
 
+        # 일시 정지 상태 변수
+        self.paused = False
+
     def make_rounded_corners(self):
         # 둥근 모서리를 가진 리전 생성
         region = win32gui.CreateRoundRectRgn(0, 0, 180, 70, 20, 20)  # 높이 조정
@@ -87,29 +90,25 @@ class OverlayWindow:
             current_time = time.time()
             elapsed_time = current_time - self.start_time
             if elapsed_time < self.duration:
-                if self.increasing:
-                    # 파란색 영역의 비율 증가
-                    self.blue_percentage = min(self.blue_percentage + 1, 100)  # 최대값이 100이 됨
-                    self.red_percentage = 100 - self.blue_percentage
-                    if self.blue_percentage == 100:
-                        self.increasing = False
-                else:
-                    # 파란색 영역의 비율 감소
-                    self.blue_percentage = max(self.blue_percentage - 1, 0)  # 최소값이 0이 됨
-                    self.red_percentage = 100 - self.blue_percentage
-                    if self.blue_percentage == 0:
-                        self.increasing = True
-                # UI 업데이트 요청
-                win32gui.PostMessage(self.hwnd, win32con.WM_USER + 1, 0, 0)
+                if not self.paused:
+                    if self.increasing:
+                        # 파란색 영역의 비율 증가
+                        self.blue_percentage = min(self.blue_percentage + 1, 100)  # 최대값이 100이 됨
+                        self.red_percentage = 100 - self.blue_percentage
+                        if self.blue_percentage == 100:
+                            self.increasing = False
+                    else:
+                        # 파란색 영역의 비율 감소
+                        self.blue_percentage = max(self.blue_percentage - 1, 0)  # 최소값이 0이 됨
+                        self.red_percentage = 100 - self.blue_percentage
+                        if self.blue_percentage == 0:
+                            self.increasing = True
+                    # UI 업데이트 요청
+                    win32gui.PostMessage(self.hwnd, win32con.WM_USER + 1, 0, 0)
             else:
-                # 움직임 종료 후 재설정
-                self.start_time = time.time()  # 시작 시간 재설정
-                self.blue_percentage = 50  # 파란색 영역 비율 초기화
-                self.red_percentage = 50  # 빨간색 영역 비율 초기화
-                self.increasing = True  # 증가 여부 초기화
-                # UI 업데이트 요청
-                win32gui.PostMessage(self.hwnd, win32con.WM_USER + 1, 0, 0)
+                self.paused = True
             time.sleep(1)  # 1초마다 업데이트
+
 
     def window_proc(self, hwnd, msg, wparam, lparam):
         if msg == win32con.WM_PAINT:
