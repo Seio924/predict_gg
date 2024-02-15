@@ -677,7 +677,7 @@ class PreprocessData():
 
                 whole_list = sorted(whole_list, key = lambda x: x[0])
 
-                whole_list = np.array(whole_list, dtype=int)
+                whole_list = np.array(whole_list)
 
                 for i in range(1, len(whole_list)):
                     if whole_list[i][-1] != 1111:

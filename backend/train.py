@@ -78,4 +78,4 @@ optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate)
 model.compile(optimizer=optimizer, loss=binary_crossentropy_loss, metrics=['accuracy'])
 
 # 모델 학습
-model.fit((padded_data, padded_data2, padding_mask), epochs=num_epochs)
+model.fit(combined_dataset, epochs=num_epochs)

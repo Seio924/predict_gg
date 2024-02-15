@@ -96,6 +96,6 @@ class MultiHeadAttention(tf.keras.Model):
         logits = self.final_dense(output)
         
         # 손실을 계산하기 위해 예측값(logits)과 타겟 데이터(target) 반환
-        return logits, target
+        return logits
 
 
