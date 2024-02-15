@@ -112,7 +112,7 @@ function MainBox() {
           <FileUploadText>Upload HERE</FileUploadText>
         </UploadArea>
       </BoxContainer>
-      <button onClick={() => sendMail(fileName)}>Send Mail</button>
+      <button onClick={() => sendMail(fileName)}>파일 업로드</button>
     </>
   );
 }

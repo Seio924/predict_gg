@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electron Overlay</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* 스크롤 없애기 */
+            display: flex;
+            height: 100vh; /* 화면의 높이를 100%로 설정 */
+        }
+
+        .left-side {
+            flex: 1; /* 왼쪽 섹션이 화면의 반을 차지하도록 설정 */
+            background-color: blue;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .right-side {
+            flex: 1; /* 오른쪽 섹션이 화면의 반을 차지하도록 설정 */
+            background-color: red;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .text-box {
+            width: 80%; /* 상자의 너비를 설정 */
+            height: 80%; /* 상자의 높이를 설정 */
+            border-radius: 10px; /* 상자의 모서리를 둥글게 설정 */
+            text-align: center; /* 텍스트를 가운데로 정렬 */
+            color: white; /* 글자 색상 설정 */
+            font-size: 24px; /* 글자 크기 설정 */
+            display: flex; /* 요소를 플렉스 컨테이너로 설정 */
+            justify-content: center; /* 가로 중앙 정렬 */
+            align-items: center; /* 세로 중앙 정렬 */
+        }
+    </style>
+</head>
+<body>
+    <div class="left-side">
+        <div class="text-box" style="background-color: rgba(0, 0, 255, 0.5);">
+            64%
+        </div>
+    </div>
+    <div class="right-side">
+        <div class="text-box" style="background-color: rgba(255, 0, 0, 0.5);">
+            36%
+        </div>
+    </div>
+</body>
+</html>

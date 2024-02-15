@@ -6,6 +6,7 @@ const axios = require('axios');
 let win;
 let overlayWindow;
 let isOverlayCreated = false;
+let ignoreMouseEvents = false;
 
 async function createWindow() {
     win = new BrowserWindow({
@@ -34,7 +35,7 @@ async function createWindow() {
     });
 
     ipcMain.on(SEND_WINDOW_MINIMIZE, (event, arg) => {
-        console.log("Main received a ping!!!");
+        // console.log("Main received a ping!!!");
         win.minimize();
     });
 
@@ -57,29 +58,48 @@ async function createWindow() {
 async function createOverlay() {
     if (!isOverlayCreated) {
         const { width, height } = screen.getPrimaryDisplay().workAreaSize;
-        const overlayWidth = 500;
-        const overlayHeight = 100;
-        const xPos = (width - overlayWidth) / 2;
-        const yPos = 0;
+        const overlayWidth = 180;
+        const overlayHeight = 80;
+        const xPos = width - overlayWidth - 20;
+        const yPos = 10;
 
         overlayWindow = new BrowserWindow({
             width: overlayWidth,
             height: overlayHeight,
             x: xPos,
             y: yPos,
-            transparent: true,
             frame: false,
             resizable: false,
             alwaysOnTop: true,
         });
 
-        overlayWindow.loadFile(path.join(__dirname, '../public/overlay.html'));
-        //overlayWindow.loadURL("http://localhost:3000");
-        overlayWindow.setIgnoreMouseEvents(true);
+        // if (ignoreMouseEvents) {
+        //     overlayWindow.setIgnoreMouseEvents(true);
+        // }
 
+        // 포커스를 계속 유지하도록 설정
+        overlayWindow.on('blur', () => {
+            overlayWindow.focus();
+        });
+
+        overlayWindow.loadFile(path.join(__dirname, '../public/overlay.html'));
+
+        // 렌더러 프로세스로부터 'start-overlay' 메시지를 수신하여 시작하기 버튼 클릭 이벤트를 처리합니다.
+        ipcMain.on('start-overlay', () => {
+            startOverlay();
+        });
+
+        
         isOverlayCreated = true;
     }
+    else {
+        // 오버레이 창이 이미 생성되었을 경우, 다시 최상위로 설정
+        overlayWindow.setAlwaysOnTop(true);
+        overlayWindow.focus();
+    }
 }
+
+
 
 async function searchProcess(targetName) {
     const { default: psList } = await import('ps-list');
@@ -88,6 +108,14 @@ async function searchProcess(targetName) {
         process.name.includes(targetName)
     );
     return results.length > 0 ? results : null;
+}
+
+// 시작하기 버튼을 누르면 마우스 이벤트를 무시하도록 설정
+async function startOverlay() {
+    ignoreMouseEvents = true;
+    if (overlayWindow) {
+        overlayWindow.setIgnoreMouseEvents(true);
+    }
 }
 
 app.whenReady().then(() => {
@@ -102,6 +130,7 @@ app.whenReady().then(() => {
             if (overlayWindow) {
                 overlayWindow.close();
                 overlayWindow = null;
+                isOverlayCreated = false;
             }
         }
     }, 5000);
