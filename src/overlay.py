@@ -41,9 +41,10 @@ text_tmp = "00:00"
 # 실제 플레이 타임
 m = get_match_duration() // 60000
 s = (get_match_duration() % 60000) // 1000
-sleep_num = 0.5
+sleep_num = 0
 
-
+increasing = True
+blue_percentage = 100
 
 # 화면 캡처 함수 (관심 영역만 캡처)
 def capture_screen(roi):
@@ -98,18 +99,53 @@ def create_overlay():
     win32gui.SetWindowPos(hwnd, win32con.HWND_TOPMOST, 0, 0, 0, 0,
                            win32con.SWP_NOMOVE | win32con.SWP_NOSIZE | win32con.SWP_NOACTIVATE)
 
+    # 모서리를 둥글게 만들기
+    region = win32gui.CreateRoundRectRgn(0, 0, 200, 100, 20, 20)
+    win32gui.SetWindowRgn(hwnd, region, True)
+
     return hwnd
+
+# 오버레이에 배경을 그리는 함수
+def draw_background(hwnd, hdc, text):
+    global increasing, blue_percentage
+
+    rect = (0, 0, 200, 100)  # 전체 윈도우 크기
+
+    if increasing:
+        blue_percentage += 2
+    else:
+        blue_percentage -= 2
+
+    # 파랑색 영역 계산
+    blue_width = blue_percentage
+    blue_rect = (rect[0], rect[1], blue_width, rect[3])
+
+    # 빨강색 영역 계산
+    red_width = rect[2] - blue_width  # 전체 가로 길이에서 파란색 영역의 너비를 뺀 값
+    red_rect = (blue_width, rect[1], red_width+blue_width, rect[3])
+
+    # 파랑색 영역 채우기
+    win32gui.FillRect(hdc, blue_rect, win32gui.CreateSolidBrush(win32api.RGB(0, 0, 255)))  # 파랑색 배경 채우기
+
+    # 빨강색 영역 채우기
+    win32gui.FillRect(hdc, red_rect, win32gui.CreateSolidBrush(win32api.RGB(255, 0, 0)))  # 빨강색 배경 채우기
+
+    if blue_percentage == 200:
+        increasing = False
+    elif blue_percentage == 0:
+        increasing = True
+
 
 # 오버레이에 텍스트를 그리는 함수
 def on_paint(hwnd, msg, wparam, lparam):
+    global text_tmp  # text_tmp를 전역 변수로 선언
+    
     hdc, ps = win32gui.BeginPaint(hwnd)
     
-    # 파란색으로 배경 채우기
-    rect = (0, 0, 200, 100)  # 전체 윈도우 크기
-    win32gui.FillRect(hdc, rect, win32gui.CreateSolidBrush(win32api.RGB(0, 0, 255)))  # 파란색 배경 채우기
-
+    # 배경 그리기
+    draw_background(hwnd, hdc, text_tmp)
+    
     # 텍스트 그리기
-    global text_tmp
     rect_text = (0, 0, 200, 100)  # 텍스트가 출력될 영역
     win32gui.SetTextColor(hdc, win32api.RGB(255, 255, 255))  # 텍스트 색상 설정 (흰색)
     win32gui.SetBkMode(hdc, win32con.TRANSPARENT)  # 배경 투명으로 설정
@@ -187,7 +223,7 @@ def capture_and_extract(hwnd):
         win32gui.InvalidateRect(hwnd, None, True)
         win32gui.UpdateWindow(hwnd)
 
-        time.sleep(sleep_num)
+        #time.sleep(sleep_num)
 
 if __name__ == '__main__':
     overlay_hwnd = create_overlay()
