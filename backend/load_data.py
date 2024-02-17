@@ -120,8 +120,24 @@ class LoadData():
                 self.get_match_data(match_id)
                 self.get_timeline_data(match_id)
                 num += 1
+
+                with open('backend/api_match_info.json', 'r', encoding="utf-8") as f:
+                    match_info = json.load(f)
+
+                with open('backend/api_timeline_info.json', 'r', encoding="utf-8") as f:
+                    timeline_info = json.load(f)
+
+                if "status" in match_info:
+                    print("데이터 가져오기 실패: " + str(num))
+                    pass
+
+                elif "status" in timeline_info:
+                    print("데이터 가져오기 실패: " + str(num))
+                    pass
                 
                 test = PreprocessData('./backend/api_match_info.json', './backend/api_timeline_info.json')
+
+                
 
                 interval_list = test.get_condition_timeline(10000)
                 win_lose = test.get_match_data()[1]

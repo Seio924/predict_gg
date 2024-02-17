@@ -34,7 +34,7 @@ class CustomGRU(tf.keras.layers.Layer):
 
 LIST_LEN = 88
 
-api_key = 'RGAPI-a67d1c19-7c88-407a-92af-21b2e5945829'
+api_key = 'RGAPI-6d3dda9d-b317-4db1-88ed-340d31cad6d4'
 
 def create_padding_mask(data):
     # 입력 시퀀스에서 0인 부분을 찾아내는 마스크 생성

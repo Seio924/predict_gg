@@ -41,7 +41,7 @@ text_tmp = "00:00"
 # 실제 플레이 타임
 m = get_match_duration() // 60000
 s = (get_match_duration() % 60000) // 1000
-sleep_num = 0
+sleep_num = 0.5
 
 increasing = True
 blue_percentage = 100
@@ -196,6 +196,12 @@ def capture_and_extract(hwnd):
         else:
             min = int(text_tmp[0:2]); sec = int(text_tmp[3:]) # 바로 앞 추출텍스트
             
+            # 프로그램 시작 후 이전의 텍스트가 00:00 일때 즉 아직 리플레이 속 시간 인식을 시작하지 않았을 때 00:00 유지 (파/빨 비율도 1:1)
+            if min == 0 and sec == 0:
+                text = text_tmp
+                text_tmp = text
+                continue
+
             #sleep_num 만큼 더한다.
             sec += math.ceil(sleep_num)
             if sec >= 60:
@@ -223,7 +229,7 @@ def capture_and_extract(hwnd):
         win32gui.InvalidateRect(hwnd, None, True)
         win32gui.UpdateWindow(hwnd)
 
-        #time.sleep(sleep_num)
+        time.sleep(sleep_num)
 
 if __name__ == '__main__':
     overlay_hwnd = create_overlay()
