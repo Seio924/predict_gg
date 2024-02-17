@@ -1,16 +1,19 @@
 import pandas as pd
 from utils import PreprocessData
 import numpy as np
+from load_data import LoadData
 
-api_key = 'RGAPI-673aae6c-9f30-49f5-bef9-4b0e4a0cc72e'
+api_key = 'RGAPI-a67d1c19-7c88-407a-92af-21b2e5945829'
 
 test = PreprocessData('./backend/api_match_info.json', './backend/api_timeline_info.json')
 
+load_instance = LoadData(api_key)
 # 데이터 가져오기
-interval_list = test.get_condition_timeline(10000)
+#interval_list = test.get_condition_timeline(10000)
 #interval_list = test.get_event()
+interval_list, get_win_lose_list = load_instance.get_diamond1_data_list(1)
 
-interval_list = np.array(interval_list, dtype=int)
+interval_list = np.array(interval_list[0], dtype=int)
 
 # 헤더 정의
 n = [
@@ -50,9 +53,9 @@ n = [
 
 
 # DataFrame 생성
-#df = pd.DataFrame(data=interval_list, columns=n)
+df = pd.DataFrame(data=interval_list, columns=n)
 
-df = pd.DataFrame(data=interval_list)
+#df = pd.DataFrame(data=interval_list)
 
 
 # DataFrame을 엑셀 파일로 저장

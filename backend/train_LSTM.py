@@ -5,13 +5,13 @@ from transformer_model import MultiHeadAttention
 
 LIST_LEN = 88
 
-api_key = 'RGAPI-673aae6c-9f30-49f5-bef9-4b0e4a0cc72e'
+api_key = 'RGAPI-a67d1c19-7c88-407a-92af-21b2e5945829'
 
 
 load_instance = LoadData(api_key)
 
 # 데이터 가져오기
-get_train_data, get_win_lose_list = load_instance.get_diamond1_data_list(1)
+get_train_data, get_win_lose_list = load_instance.get_diamond1_data_list(3000)
 
 train_data = []
 win_lose_list = []
@@ -36,4 +36,4 @@ model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy']
 
 model.fit(train_data, win_lose_list, batch_size=64, epochs=30, verbose=2)
 
-model.save('backend/model')
+model.save('backend/modelLSTM')

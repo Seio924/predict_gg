@@ -80,7 +80,7 @@ class PreprocessData():
         for i, c in enumerate(champion_list):
             champion_dic[c] = i
 
-        if initial_match_data['info']["gameMode"] != "ARAM":
+        if initial_match_data['info']["gameMode"] == "CLASSIC":
             aram = 0
 
             all_participants_data = initial_match_data['info']['participants']
@@ -649,7 +649,7 @@ class PreprocessData():
                     
                     event_list[-1] = 1111
                     event_list_result.append(event_list)
-            
+        
         return event_list_result
 
     def get_participant_frame(self):

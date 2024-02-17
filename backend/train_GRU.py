@@ -34,7 +34,7 @@ class CustomGRU(tf.keras.layers.Layer):
 
 LIST_LEN = 88
 
-api_key = 'RGAPI-8e526b45-b1ae-4a00-b1e3-96bce19f9ad3'
+api_key = 'RGAPI-a67d1c19-7c88-407a-92af-21b2e5945829'
 
 def create_padding_mask(data):
     # 입력 시퀀스에서 0인 부분을 찾아내는 마스크 생성
@@ -48,7 +48,7 @@ def create_padding_mask(data):
 load_instance = LoadData(api_key)
 
 # 데이터 가져오기
-train_data, win_lose_list = load_instance.get_diamond1_data_list(1000)
+train_data, win_lose_list = load_instance.get_diamond1_data_list(3000)
 
 
 # 시계열 데이터의 최대 길이 계산
@@ -116,3 +116,4 @@ model.fit(normalized_data, padded_data2, batch_size=batch_size, epochs=10, valid
 
 # 모델 요약
 #model.summary()
+model.save('backend/modelGRU')
