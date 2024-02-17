@@ -22,18 +22,21 @@ for one_game_data in get_train_data:
 
 for one_game_data in get_win_lose_list:
     for one_list in one_game_data:
-        win_lose_list.append(one_list[0])
+        win_lose_list.append(one_list)
 
 train_data = np.array(train_data)
 win_lose_list = np.array(win_lose_list)
 
+train_data = train_data.reshape(train_data.shape[0], 1, train_data.shape[1])
+
+print(win_lose_list)
 model = tf.keras.models.Sequential([
-    tf.keras.layers.LSTM(100, input_shape=(1, LIST_LEN)),
+    tf.keras.layers.LSTM(100, input_shape=(None, LIST_LEN)),
     tf.keras.layers.Dense(2, activation='softmax'),
 ])
 
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
-model.fit(train_data, win_lose_list, batch_size=64, epochs=30, verbose=2)
+model.fit(train_data, win_lose_list, batch_size=64, epochs=30)
 
 model.save('backend/modelLSTM')
