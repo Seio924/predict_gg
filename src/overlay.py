@@ -41,7 +41,7 @@ text_tmp = "00:00"
 # 실제 플레이 타임
 m = get_match_duration() // 60000
 s = (get_match_duration() % 60000) // 1000
-sleep_num = 0.5
+sleep_num = 0.3
 
 increasing = True
 blue_percentage = 100
@@ -167,7 +167,7 @@ def capture_and_extract(hwnd):
 
         if len(text) == 5 and text[2] == ":":
             check_min = int(text[0:2]); check_sec = int(text[3:])
-            if check_min >= m and check_sec > s:
+            if check_min >= m and check_sec >= s:
                 # 만약에 93:40일때 앞에 시간 더해서 text에 넣어주기
                 min = int(text_tmp[0:2]); sec = int(text_tmp[3:]) # 바로 앞 추출텍스트
             

@@ -129,11 +129,11 @@ class LoadData():
 
                 if "status" in match_info:
                     print("데이터 가져오기 실패: " + str(num))
-                    pass
+                    continue
 
                 elif "status" in timeline_info:
                     print("데이터 가져오기 실패: " + str(num))
-                    pass
+                    continue
                 
                 test = PreprocessData('./backend/api_match_info.json', './backend/api_timeline_info.json')
 
