@@ -146,7 +146,7 @@ class LoadData():
                     print("데이터 가져오기 실패: " + str(num))
                     pass
                 else:
-                    win_lose = [[win_lose[0], win_lose[1]] for i in range(len(interval_list))]
+                    #win_lose = [[win_lose[0], win_lose[1]] for i in range(len(interval_list))]
                     
                     data_list.append(interval_list)
                     win_lose_list.append(win_lose)
