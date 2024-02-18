@@ -5,6 +5,7 @@ from datetime import datetime
 from keras.callbacks import ModelCheckpoint  # keras의 ModelCheckpoint 사용
 from utils_2 import binary_cross_entropy_loss, mse_loss, rnn_sequential
 from load_data import LoadData
+import h5py
 
 class GeneralRNN():
     """RNN predictive model for time-series data.
@@ -32,32 +33,27 @@ class GeneralRNN():
         assert self.model_type in ['rnn', 'lstm', 'gru']
 
         # Predictor model define
-        self.predictor_model = None
+        self.predictor_model = self._build_model()  # 모델 빌드
 
+        timestamp = datetime.now().strftime('%H%M%S')
+        
         # Set path for model saving
-        model_path = 'backend/model'
-        if not os.path.exists(model_path):
-            os.makedirs(model_path)
-        self.save_file_name = '{}'.format(model_path) + \
-                            datetime.now().strftime('%H%M%S') + '.hdf5'
-    
-    def _build_model(self, x, y):
-        """Construct the model using feature and label statistics.
-        
-        Args:
-            - x: features
-            - y: labels
-            
-        Returns:
-            - model: predictor model
-        """    
-        
+        model_folder = 'backend/model'
+        if not os.path.exists(model_folder):
+            os.makedirs(model_folder)
 
+        # Create HDF5 file
+        self.save_file_name = os.path.join(model_folder, f'{timestamp}.hdf5')
+        with h5py.File(self.save_file_name, 'w'):
+            pass  # 아무 작업도 수행하지 않고 빈 HDF5 파일 생성
+
+    def _build_model(self):
+        """Construct the model using feature and label statistics."""
         # Parameters
         h_dim = self.h_dim
         n_layer = self.n_layer
-        dim = len(x[0][0][:])
-        max_seq_len = len(x[0][:])       
+        dim = 88  # Assuming LIST_LEN is always 88
+        max_seq_len = 301  # Assuming max_length_data is always 301
 
         model = tf.keras.Sequential()
         model.add(tf.keras.layers.Masking(mask_value=0., input_shape=(max_seq_len, dim)))
@@ -71,62 +67,33 @@ class GeneralRNN():
                                         beta_1=0.9, beta_2=0.999, amsgrad=False)
 
         if self.task == 'classification':
-            model.add(tf.keras.layers.Dense(y.shape[-1], activation='sigmoid'))
+            model.add(tf.keras.layers.Dense(1, activation='sigmoid'))
             model.compile(loss=binary_cross_entropy_loss, optimizer=adam)
             
         elif self.task == 'regression':
-            model.add(tf.keras.layers.Dense(y.shape[-1], activation='linear'))
+            model.add(tf.keras.layers.Dense(1, activation='linear'))
             model.compile(loss=mse_loss, optimizer=adam, metrics=['mse'])
 
         return model
     
     def fit(self, x, y):
-        """Fit the predictor model.
-        
-        Args:
-            - x: training features
-            - y: training labels
-            
-        Returns:
-            - self.predictor_model: trained predictor model
-        """
-        idx = np.random.permutation(len(x))
-        train_idx = idx[:int(len(idx)*0.8)]
-        valid_idx = idx[int(len(idx)*0.8):]
-
-        # Convert train_idx and valid_idx to integer scalar arrays
-        train_idx = np.arange(len(x))[train_idx]
-        valid_idx = np.arange(len(x))[valid_idx]
-        
-        train_x, train_y = x, y
-        
-        self.predictor_model = self._build_model(train_x, train_y)
-
+        """Fit the predictor model."""
         # Callback for the best model saving
         save_best = ModelCheckpoint(self.save_file_name, monitor='val_loss',
                                     mode='min', verbose=False,
                                     save_best_only=True)
 
         # Train the model
-        self.predictor_model.fit(train_x, train_y, 
+        self.predictor_model.fit(x, y, 
                                 batch_size=self.batch_size, epochs=self.epoch, 
-                                 
                                 callbacks=[save_best], verbose=True)
-
-        self.predictor_model.load_weights(self.save_file_name)
-        os.remove(self.save_file_name)
 
         return self.predictor_model
     
     def predict(self, test_x):
-        """Return the temporal and feature importance.
-        
-        Args:
-            - test_x: testing features
-            
-        Returns:
-            - test_y_hat: predictions on testing set
-        """
+        """Return the temporal and feature importance."""
+        # Add a new axis to make the input data a sequence
+        test_x = np.expand_dims(test_x, axis=0)
         test_y_hat = self.predictor_model.predict(test_x)
         return test_y_hat
 
@@ -138,11 +105,8 @@ if __name__ == "__main__":
 
     LIST_LEN = 88
 
-        
-
     # 시계열 데이터의 최대 길이 계산
     max_length_data = 301
-    max_length_target = 301
 
     # 패딩을 적용한 배열 생성
     padded_data = np.zeros((len(train_data), max_length_data, LIST_LEN))
@@ -150,7 +114,6 @@ if __name__ == "__main__":
         padded_data[i, :len(seq), :] = seq
 
     win_lose_list = np.array(win_lose_list, dtype="float32")
-
 
     # Instantiate the GeneralRNN model
     model_parameters = {
@@ -164,13 +127,8 @@ if __name__ == "__main__":
     }
     rnn_model = GeneralRNN(model_parameters)
 
-    # Assuming you have your time-series data 'x' and corresponding labels 'y'
-    # x should be of shape (num_samples, max_seq_len, num_features)
-    # y should be of shape (num_samples, num_labels) for regression
     # Train the model
-
     trained_model = rnn_model.fit(padded_data, win_lose_list)
 
     # Now you can use the trained model to predict
-    # Assuming you have test data 'test_x' of shape (num_samples_test, max_seq_len, num_features)
     predictions = rnn_model.predict(padded_data[0])
