@@ -38,7 +38,13 @@ class GeneralRNN():
         timestamp = datetime.now().strftime('%H%M%S')
         
         # Set path for model saving
-        model_folder = 'backend/model'
+        if self.model_type == 'rnn':
+            model_folder = 'backend/modelRNN'
+        elif self.model_type == 'lstm':
+            model_folder = 'backend/modelLSTM'
+        elif self.model_type == 'gru':
+            model_folder = 'backend/modelGRU'
+
         if not os.path.exists(model_folder):
             os.makedirs(model_folder)
 
@@ -71,8 +77,8 @@ class GeneralRNN():
             model.compile(loss=binary_cross_entropy_loss, optimizer=adam)
             
         elif self.task == 'regression':
-            model.add(tf.keras.layers.Dense(1, activation='linear'))
-            model.compile(loss=mse_loss, optimizer=adam, metrics=['mse'])
+            model.add(tf.keras.layers.Dense(2, activation='softmax'))
+            model.compile(loss=binary_cross_entropy_loss, optimizer=adam, metrics=['accuracy', 'mse'])
 
         return model
     
@@ -101,7 +107,9 @@ if __name__ == "__main__":
     api_key = 'RGAPI-6d3dda9d-b317-4db1-88ed-340d31cad6d4'
     load_instance = LoadData(api_key)
 
-    train_data, win_lose_list = load_instance.get_diamond1_data_list(10)
+    train_data, win_lose_list = load_instance.get_diamond1_data_list(3)
+    d = len(train_data[0])
+    print(d)
 
     LIST_LEN = 88
 
@@ -130,5 +138,62 @@ if __name__ == "__main__":
     # Train the model
     trained_model = rnn_model.fit(padded_data, win_lose_list)
 
+    predict_data = padded_data[0][:1].copy()
+    print(predict_data.shape)
+
+    # 패딩을 적용한 배열 생성
+    padded_predict_data = np.zeros((max_length_data, LIST_LEN))
+    for i, seq in enumerate(predict_data):
+        padded_predict_data[i, :] = seq
+
+    print(padded_predict_data.shape)
+    print(padded_predict_data)
+
     # Now you can use the trained model to predict
-    predictions = rnn_model.predict(padded_data[0])
+    predictions = rnn_model.predict(padded_predict_data)
+
+    print(predictions)
+
+    predict_data = padded_data[0][:30].copy()
+
+
+    padded_predict_data = np.zeros((max_length_data, LIST_LEN))
+    for i, seq in enumerate(predict_data):
+        padded_predict_data[i, :] = seq
+
+    predictions = rnn_model.predict(padded_predict_data)
+
+    print(predictions)
+
+    predict_data = padded_data[0][:60].copy()
+
+
+    padded_predict_data = np.zeros((max_length_data, LIST_LEN))
+    for i, seq in enumerate(predict_data):
+        padded_predict_data[i, :] = seq
+
+    predictions = rnn_model.predict(padded_predict_data)
+
+    print(predictions)
+
+    predict_data = padded_data[0][:91].copy()
+
+
+    padded_predict_data = np.zeros((max_length_data, LIST_LEN))
+    for i, seq in enumerate(predict_data):
+        padded_predict_data[i, :] = seq
+
+    predictions = rnn_model.predict(padded_predict_data)
+
+    print(predictions)
+
+    predict_data = padded_data[0][:121].copy()
+
+
+    padded_predict_data = np.zeros((max_length_data, LIST_LEN))
+    for i, seq in enumerate(predict_data):
+        padded_predict_data[i, :] = seq
+
+    predictions = rnn_model.predict(padded_predict_data)
+
+    print(predictions)

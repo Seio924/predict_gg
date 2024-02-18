@@ -27,7 +27,7 @@ if __name__ == "__main__":
     # Instantiate the GeneralRNN model
     model_parameters = {
         'task': 'regression',
-        'model_type': 'gru',  # or 'rnn', 'lstm'
+        'model_type': 'rnn',  # or 'rnn', 'lstm'
         'h_dim': 64,  # Hidden dimension
         'n_layer': 2,  # Number of layers
         'batch_size': 32,  # Batch size

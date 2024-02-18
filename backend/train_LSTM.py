@@ -1,42 +1,40 @@
+import os
 import tensorflow as tf
 import numpy as np
 from load_data import LoadData
-from transformer_model import MultiHeadAttention
+from models import GeneralRNN
 
-LIST_LEN = 87
+if __name__ == "__main__":
+    api_key = 'RGAPI-6d3dda9d-b317-4db1-88ed-340d31cad6d4'
+    load_instance = LoadData(api_key)
 
-api_key = 'RGAPI-a67d1c19-7c88-407a-92af-21b2e5945829'
+    train_data, win_lose_list = load_instance.get_diamond1_data_list(5000)
+    d = len(train_data[0])
+    print(d)
 
+    LIST_LEN = 88
 
-load_instance = LoadData(api_key)
+    # 시계열 데이터의 최대 길이 계산
+    max_length_data = 301
 
-# 데이터 가져오기
-get_train_data, get_win_lose_list = load_instance.get_diamond1_data_list(100)
+    # 패딩을 적용한 배열 생성
+    padded_data = np.zeros((len(train_data), max_length_data, LIST_LEN))
+    for i, seq in enumerate(train_data):
+        padded_data[i, :len(seq), :] = seq
 
-train_data = []
-win_lose_list = []
+    win_lose_list = np.array(win_lose_list, dtype="float32")
 
-for one_game_data in get_train_data:
-    for one_list in one_game_data:
-        train_data.append(one_list[:-1])
+    # Instantiate the GeneralRNN model
+    model_parameters = {
+        'task': 'regression',
+        'model_type': 'lstm',  # or 'rnn', 'lstm'
+        'h_dim': 64,  # Hidden dimension
+        'n_layer': 2,  # Number of layers
+        'batch_size': 32,  # Batch size
+        'epoch': 10,  # Number of epochs
+        'learning_rate': 0.001  # Learning rate
+    }
+    rnn_model = GeneralRNN(model_parameters)
 
-for one_game_data in get_win_lose_list:
-    for one_list in one_game_data:
-        win_lose_list.append(one_list)
-
-train_data = np.array(train_data)
-win_lose_list = np.array(win_lose_list)
-
-train_data = train_data.reshape(train_data.shape[0], 1, train_data.shape[1])
-
-print(win_lose_list)
-model = tf.keras.models.Sequential([
-    tf.keras.layers.LSTM(100, input_shape=(None, LIST_LEN)),
-    tf.keras.layers.Dense(2, activation='softmax'),
-])
-
-model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
-
-model.fit(train_data, win_lose_list, batch_size=64, epochs=30)
-
-model.save('backend/modelLSTM')
+    # Train the model
+    trained_model = rnn_model.fit(padded_data, win_lose_list)
