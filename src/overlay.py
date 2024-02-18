@@ -40,8 +40,10 @@ ROI = (x, y, w, h)
 text_tmp = "00:00"
 # 실제 플레이 타임
 m = get_match_duration() // 60000
-s = (get_match_duration() % 60000) // 1000
+s = int((get_match_duration() % 60000) / 1000)
+print(m, s)
 sleep_num = 0.3
+cnt = 0
 
 increasing = True
 blue_percentage = 100
@@ -157,7 +159,7 @@ def on_paint(hwnd, msg, wparam, lparam):
 
 # 캡처 및 텍스트 추출을 수행하는 함수
 def capture_and_extract(hwnd):
-    global text_tmp, m, s
+    global text_tmp, m, s, cnt
     while True:
         # 화면 캡처
         screen = capture_screen(ROI)
@@ -165,9 +167,12 @@ def capture_and_extract(hwnd):
         # 텍스트 추출
         text = extract_text(screen)
 
-        if len(text) == 5 and text[2] == ":":
+        if (len(text) == 5 and text[2] == ":" and text[0].isdigit() and text[1].isdigit() and text[3].isdigit() and text[4].isdigit()):
             check_min = int(text[0:2]); check_sec = int(text[3:])
             if check_min >= m and check_sec >= s:
+                cnt += 1
+                if cnt >= 2:
+                    continue
                 # 만약에 93:40일때 앞에 시간 더해서 text에 넣어주기
                 min = int(text_tmp[0:2]); sec = int(text_tmp[3:]) # 바로 앞 추출텍스트
             
@@ -192,8 +197,17 @@ def capture_and_extract(hwnd):
                     str_sec = "0" + str_sec
 
                 text = str_min + ":" + str_sec
-            text_tmp = text
+                text_tmp = text
+                
+            
+            else:
+                text_tmp = text
+                cnt = 0
         else:
+            cnt += 1
+            if cnt >= 2:
+                continue
+
             min = int(text_tmp[0:2]); sec = int(text_tmp[3:]) # 바로 앞 추출텍스트
             
             # 프로그램 시작 후 이전의 텍스트가 00:00 일때 즉 아직 리플레이 속 시간 인식을 시작하지 않았을 때 00:00 유지 (파/빨 비율도 1:1)
