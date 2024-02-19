@@ -395,19 +395,19 @@ class PreprocessData():
                                 event_list[WARD_ITEM+team_interval] += 1
 
                             elif line[j['participantId']] == "TOP":
-                                event_list[TEAM1_TOP_ITEM_GOLD+team_interval] += item_sold_cost[str(j['itemId'])]
+                                event_list[TEAM1_TOP_ITEM_GOLD+team_interval] += item_sold_cost[str(j['afterId'])]
 
                             elif line[j['participantId']] == "JUNGLE":
-                                event_list[TEAM1_JUNGLE_ITEM_GOLD+team_interval] += item_sold_cost[str(j['itemId'])]
+                                event_list[TEAM1_JUNGLE_ITEM_GOLD+team_interval] += item_sold_cost[str(j['afterId'])]
 
                             elif line[j['participantId']] == "MIDDLE":
-                                event_list[TEAM1_MIDDLE_ITEM_GOLD+team_interval] += item_sold_cost[str(j['itemId'])]
+                                event_list[TEAM1_MIDDLE_ITEM_GOLD+team_interval] += item_sold_cost[str(j['afterId'])]
 
                             elif line[j['participantId']] == "BOTTOM":
-                                event_list[TEAM1_BOTTOM_ITEM_GOLD+team_interval] += item_sold_cost[str(j['itemId'])]
+                                event_list[TEAM1_BOTTOM_ITEM_GOLD+team_interval] += item_sold_cost[str(j['afterId'])]
 
                             elif line[j['participantId']] == "UTILITY":
-                                event_list[TEAM1_UTILITY_ITEM_GOLD+team_interval] += item_sold_cost[str(j['itemId'])]
+                                event_list[TEAM1_UTILITY_ITEM_GOLD+team_interval] += item_sold_cost[str(j['afterId'])]
                                     
                             
                                 
@@ -451,19 +451,19 @@ class PreprocessData():
                                 event_list[WARD_ITEM+team_interval] -= 1
 
                             elif line[j['participantId']] == "TOP":
-                                event_list[TEAM1_TOP_ITEM_GOLD+team_interval] -= item_real_cost[str(j['itemId'])]
+                                event_list[TEAM1_TOP_ITEM_GOLD+team_interval] -= item_real_cost[str(j['beforeId'])]
 
                             elif line[j['participantId']] == "JUNGLE":
-                                event_list[TEAM1_JUNGLE_ITEM_GOLD+team_interval] -= item_real_cost[str(j['itemId'])]
+                                event_list[TEAM1_JUNGLE_ITEM_GOLD+team_interval] -= item_real_cost[str(j['beforeId'])]
 
                             elif line[j['participantId']] == "MIDDLE":
-                                event_list[TEAM1_MIDDLE_ITEM_GOLD+team_interval] -= item_real_cost[str(j['itemId'])]
+                                event_list[TEAM1_MIDDLE_ITEM_GOLD+team_interval] -= item_real_cost[str(j['beforeId'])]
 
                             elif line[j['participantId']] == "BOTTOM":
-                                event_list[TEAM1_BOTTOM_ITEM_GOLD+team_interval] -= item_real_cost[str(j['itemId'])]
+                                event_list[TEAM1_BOTTOM_ITEM_GOLD+team_interval] -= item_real_cost[str(j['beforeId'])]
 
                             elif line[j['participantId']] == "UTILITY":
-                                event_list[TEAM1_UTILITY_ITEM_GOLD+team_interval] -= item_real_cost[str(j['itemId'])]   
+                                event_list[TEAM1_UTILITY_ITEM_GOLD+team_interval] -= item_real_cost[str(j['beforeId'])]   
 
                             
                             
@@ -665,8 +665,6 @@ class PreprocessData():
                     elif line[j] == "UTILITY":
                         participant_frame_list[TEAM1_UTILITY_GOLD+team_interval] = i['participantFrames'][str(j)]['totalGold']
                     
-                            
-
                 for j in [TEAM1_TOP_GOLD, TEAM1_JUNGLE_GOLD, TEAM1_MIDDLE_GOLD, TEAM1_BOTTOM_GOLD, TEAM1_UTILITY_GOLD]:
                     team1_gold += participant_frame_list[j]
                     team2_gold += participant_frame_list[j+TEAM_INTERVAL]
