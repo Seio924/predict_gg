@@ -185,9 +185,9 @@ class PreprocessData():
                         team_interval = team[j['participantId']]
                         item_tear_name = item_tear[str(j['itemId'])]
                         if item_base_cost[str(j['itemId'])] == item_total_cost[str(j['itemId'])]:
-                            item_real_cost = int(item_base_cost[str(j['itemId'])])
+                            item_real_cost = item_base_cost[str(j['itemId'])]
                         elif item_base_cost[str(j['itemId'])] != item_total_cost[str(j['itemId'])]:
-                            item_real_cost = int(item_total_cost[str(j['itemId'])]) - int(item_base_cost[str(j['itemId'])])
+                            item_real_cost = item_total_cost[str(j['itemId'])] - item_base_cost[str(j['itemId'])]
                         
                         if item_tear_name == "boots" or item_tear_name == "potion":
                             if line[j['participantId']] == "TOP":
@@ -359,6 +359,10 @@ class PreprocessData():
                             #event_list[9] += item_tear[str(j['afterId'])]
                             
                             item_tear_name = item_tear[str(j['afterId'])]
+                            if item_base_cost[str(j['itemId'])] == item_total_cost[str(j['itemId'])]:
+                                item_real_cost = item_base_cost[str(j['itemId'])]
+                            elif item_base_cost[str(j['itemId'])] != item_total_cost[str(j['itemId'])]:
+                                item_real_cost = item_total_cost[str(j['itemId'])] - item_base_cost[str(j['itemId'])]
                         
                             if item_tear_name == "boots" or item_tear_name == "potion":
                                 if line[j['participantId']] == "TOP":
