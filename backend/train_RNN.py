@@ -5,7 +5,7 @@ from load_data import LoadData
 from models import GeneralRNN
 
 if __name__ == "__main__":
-    api_key = 'RGAPI-6d3dda9d-b317-4db1-88ed-340d31cad6d4'
+    api_key = 'RGAPI-1120a582-1b6f-4fc6-b1c3-9de51edfabbb'
     load_instance = LoadData(api_key)
 
     train_data, win_lose_list = load_instance.get_diamond1_data_list(5000)
