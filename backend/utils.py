@@ -5,47 +5,47 @@ TIMESTAMP = 0
 
 TEAM1_TOP_CHAMPION = 1
 TEAM1_TOP_GOLD = 2
-TEAM1_TOP_POTION = 3
-TEAM1_TOP_K = 4
-TEAM1_TOP_D = 5
-TEAM1_TOP_A = 6
+TEAM1_TOP_ITEM_GOLD = 3
+TEAM1_TOP_POTION = 4
+TEAM1_TOP_K = 5
+TEAM1_TOP_D = 6
+TEAM1_TOP_A = 7
 
-TEAM1_JUNGLE_CHAMPION = 7
-TEAM1_JUNGLE_GOLD = 8
-TEAM1_JUNGLE_POTION = 9
-TEAM1_JUNGLE_K = 10
-TEAM1_JUNGLE_D = 11
-TEAM1_JUNGLE_A = 12
+TEAM1_JUNGLE_CHAMPION = 8
+TEAM1_JUNGLE_GOLD = 9
+TEAM1_JUNGLE_ITEM_GOLD = 10
+TEAM1_JUNGLE_POTION = 11
+TEAM1_JUNGLE_K = 12
+TEAM1_JUNGLE_D = 13
+TEAM1_JUNGLE_A = 14
 
-TEAM1_MIDDLE_CHAMPION = 13
-TEAM1_MIDDLE_GOLD = 14
-TEAM1_MIDDLE_POTION = 15
-TEAM1_MIDDLE_K = 16
-TEAM1_MIDDLE_D = 17
-TEAM1_MIDDLE_A = 18
+TEAM1_MIDDLE_CHAMPION = 15
+TEAM1_MIDDLE_GOLD = 16
+TEAM1_MIDDLE_ITEM_GOLD = 17
+TEAM1_MIDDLE_POTION = 18
+TEAM1_MIDDLE_K = 19
+TEAM1_MIDDLE_D = 20
+TEAM1_MIDDLE_A = 21
 
-TEAM1_BOTTOM_CHAMPION = 19
-TEAM1_BOTTOM_GOLD = 20
-TEAM1_BOTTOM_POTION = 21
-TEAM1_BOTTOM_K = 22
-TEAM1_BOTTOM_D = 23
-TEAM1_BOTTOM_A = 24
+TEAM1_BOTTOM_CHAMPION = 22
+TEAM1_BOTTOM_GOLD = 23
+TEAM1_BOTTOM_ITEM_GOLD = 24
+TEAM1_BOTTOM_POTION = 25
+TEAM1_BOTTOM_K = 26
+TEAM1_BOTTOM_D = 27
+TEAM1_BOTTOM_A = 28
 
-TEAM1_UTILITY_CHAMPION = 25
-TEAM1_UTILITY_GOLD = 26
-TEAM1_UTILITY_POTION = 27
-TEAM1_UTILITY_K = 28
-TEAM1_UTILITY_D = 29
-TEAM1_UTILITY_A = 30
+TEAM1_UTILITY_CHAMPION = 29
+TEAM1_UTILITY_GOLD = 30
+TEAM1_UTILITY_ITEM_GOLD = 31
+TEAM1_UTILITY_POTION = 32
+TEAM1_UTILITY_K = 33
+TEAM1_UTILITY_D = 34
+TEAM1_UTILITY_A = 35
 
-TEAM1_GOLD = 31
+TEAM1_GOLD = 36
 
-START_ITEM = 32
-TIER1_ITEM = 33
-TIER2_ITEM = 34
-TIER3_ITEM = 35
-BOOTS_ITEM = 36
-SPECIAL_ITEM = 37
+BOOTS_ITEM = 37
 WARD_ITEM = 38
 
 WARD_COUNT = 39
@@ -121,11 +121,13 @@ class PreprocessData():
         # boots : 1, start : 10, tier1 : 100, tier2 : 1000, tier3 : 10000, special : 100000, potion : 1000000
 
         item_tear = {}
-        item_cost = {}
+        item_base_cost = {}
+        item_total_cost = {}
         item_sold_cost = {}
         
         for i in list(item_data['data'].keys()):
-            item_cost[i] = item_data['data'][i]['gold']['total']
+            item_base_cost[i] = item_data['data'][i]['gold']['base']
+            item_total_cost[i] = item_data['data'][i]['gold']['total']
             item_sold_cost[i] = item_data['data'][i]['gold']['sell']
 
             if item_data['data'][i]['name'] in boots:
@@ -152,7 +154,7 @@ class PreprocessData():
             elif item_data['data'][i]['name'] in ward:
                 item_tear[i] = 'ward'
 
-        return (item_tear, item_cost, item_sold_cost)
+        return (item_tear, item_base_cost, item_total_cost, item_sold_cost)
   
     def get_item_from_data(self, beforeId):
         with open('./backend/item.json', encoding="utf-8") as f:
@@ -166,10 +168,11 @@ class PreprocessData():
             initial_data = json.load(f)
         
         initial_data = initial_data['info']['frames']
-        item_tear, item_cost, item_sold_cost = self.get_item_data()
+        item_tear, item_base_cost, item_total_cost, item_sold_cost = self.get_item_data()
         team, win_lose, line, champion, aram = self.get_match_data()
 
         event_list_result = []
+        item_real_cost = 0
 
         if aram == 0:
 
@@ -181,6 +184,10 @@ class PreprocessData():
                     if j['type'] == 'ITEM_PURCHASED':
                         team_interval = team[j['participantId']]
                         item_tear_name = item_tear[str(j['itemId'])]
+                        if item_base_cost[str(j['itemId'])] == item_total_cost[str(j['itemId'])]:
+                            item_real_cost = int(item_base_cost[str(j['itemId'])])
+                        elif item_base_cost[str(j['itemId'])] != item_total_cost[str(j['itemId'])]:
+                            item_real_cost = int(item_total_cost[str(j['itemId'])]) - int(item_base_cost[str(j['itemId'])])
                         
                         if item_tear_name == "boots" or item_tear_name == "potion":
                             if line[j['participantId']] == "TOP":
@@ -213,20 +220,20 @@ class PreprocessData():
                                 else:
                                     event_list[BOOTS_ITEM+team_interval] += 10000
                             
-                        elif item_tear_name == "start":
-                            event_list[START_ITEM+team_interval] += 1
+                        elif line[j['participantId']] == "TOP":
+                            event_list[TEAM1_TOP_ITEM_GOLD+team_interval] += item_real_cost
 
-                        elif item_tear_name == "tier1":
-                            event_list[TIER1_ITEM+team_interval] += 1
+                        elif line[j['participantId']] == "JUNGLE":
+                            event_list[TEAM1_JUNGLE_ITEM_GOLD+team_interval] += item_real_cost
 
-                        elif item_tear_name == "tier2":
-                            event_list[TIER2_ITEM+team_interval] += 1
+                        elif line[j['participantId']] == "MIDDLE":
+                            event_list[TEAM1_MIDDLE_ITEM_GOLD+team_interval] += item_real_cost
 
-                        elif item_tear_name == "tier3":
-                            event_list[TIER3_ITEM+team_interval] += 1
+                        elif line[j['participantId']] == "BOTTOM":
+                            event_list[TEAM1_BOTTOM_ITEM_GOLD+team_interval] += item_real_cost
 
-                        elif item_tear_name == "special":
-                            event_list[SPECIAL_ITEM+team_interval] += 1
+                        elif line[j['participantId']] == "UTILITY":
+                            event_list[TEAM1_UTILITY_ITEM_GOLD+team_interval] += item_real_cost
 
                         elif item_tear_name == "ward":
                             event_list[WARD_ITEM+team_interval] += 1
@@ -234,67 +241,51 @@ class PreprocessData():
 
                     elif j['type'] == 'ITEM_DESTROYED':
                         team_interval = team[j['participantId']]
-
                         item_tear_name = item_tear[str(j['itemId'])]
                         
                         if item_tear_name == "boots" or item_tear_name == "potion":
                             if line[j['participantId']] == "TOP":
                                 if item_tear[str(j['itemId'])] == "potion":
                                     event_list[TEAM1_TOP_POTION+team_interval] -= 1
-                                    event_list[TEAM1_TOP_GOLD+team_interval] -= item_cost[str(j['itemId'])]
+                                    event_list[TEAM1_TOP_GOLD+team_interval] -= item_base_cost[str(j['itemId'])]
                                 else:
                                     event_list[BOOTS_ITEM+team_interval] -= 10000
+
                             elif line[j['participantId']] == "JUNGLE":
                                 if item_tear[str(j['itemId'])] == "potion":
                                     event_list[TEAM1_JUNGLE_POTION+team_interval] -= 1
-                                    event_list[TEAM1_JUNGLE_GOLD+team_interval] -= item_cost[str(j['itemId'])]
+                                    event_list[TEAM1_JUNGLE_GOLD+team_interval] -= item_base_cost[str(j['itemId'])]
                                 else:
                                     event_list[BOOTS_ITEM+team_interval] -= 1000
                             
                             elif line[j['participantId']] == "MIDDLE":
                                 if item_tear[str(j['itemId'])] == "potion":
                                     event_list[TEAM1_MIDDLE_POTION+team_interval] -= 1
-                                    event_list[TEAM1_MIDDLE_GOLD+team_interval] -= item_cost[str(j['itemId'])]
+                                    event_list[TEAM1_MIDDLE_GOLD+team_interval] -= item_base_cost[str(j['itemId'])]
                                 else:
                                     event_list[BOOTS_ITEM+team_interval] -= 100
                             
                             elif line[j['participantId']] == "BOTTOM":
                                 if item_tear[str(j['itemId'])] == "potion":
                                     event_list[TEAM1_BOTTOM_POTION+team_interval] -= 1
-                                    event_list[TEAM1_BOTTOM_GOLD+team_interval] -= item_cost[str(j['itemId'])]
+                                    event_list[TEAM1_BOTTOM_GOLD+team_interval] -= item_base_cost[str(j['itemId'])]
                                 else:
                                     event_list[BOOTS_ITEM+team_interval] -= 10
                             
                             elif line[j['participantId']] == "UTILITY":
                                 if item_tear[str(j['itemId'])] == "potion":
                                     event_list[TEAM1_UTILITY_POTION+team_interval] -= 1
-                                    event_list[TEAM1_UTILITY_GOLD+team_interval] -= item_cost[str(j['itemId'])]
+                                    event_list[TEAM1_UTILITY_GOLD+team_interval] -= item_base_cost[str(j['itemId'])]
                                 else:
                                     event_list[BOOTS_ITEM+team_interval] -= 1
-                            
-                        elif item_tear_name == "start":
-                            event_list[START_ITEM+team_interval] -= 1
-
-                        elif item_tear_name == "tier1":
-                            event_list[TIER1_ITEM+team_interval] -= 1
-
-                        elif item_tear_name == "tier2":
-                            event_list[TIER2_ITEM+team_interval] -= 1
-
-                        elif item_tear_name == "tier3":
-                            event_list[TIER3_ITEM+team_interval] -= 1
-
-                        elif item_tear_name == "special":
-                            event_list[SPECIAL_ITEM+team_interval] -= 1
 
                         elif item_tear_name == "ward":
                             event_list[WARD_ITEM+team_interval] -= 1
 
                     elif j['type'] == 'ITEM_SOLD':
                         team_interval = team[j['participantId']]
-                        minus_gold = item_sold_cost[str(j['itemId'])] - item_cost[str(j['itemId'])]
-
                         item_tear_name = item_tear[str(j['itemId'])]
+                        minus_gold = item_sold_cost[str(j['itemId'])] - item_base_cost[str(j['itemId'])]
                         
                         if item_tear_name == "boots" or item_tear_name == "potion":
                             if line[j['participantId']] == "TOP":
@@ -302,6 +293,7 @@ class PreprocessData():
                                     event_list[TEAM1_TOP_POTION+team_interval] -= 1
                                 else:
                                     event_list[BOOTS_ITEM+team_interval] -= 10000
+
                             elif line[j['participantId']] == "JUNGLE":
                                 if item_tear[str(j['itemId'])] == "potion":
                                     event_list[TEAM1_JUNGLE_POTION+team_interval] -= 1
@@ -325,35 +317,29 @@ class PreprocessData():
                                     event_list[TEAM1_UTILITY_POTION+team_interval] -= 1
                                 else:
                                     event_list[BOOTS_ITEM+team_interval] -= 1
-                            
-                        elif item_tear_name == "start":
-                            event_list[START_ITEM+team_interval] -= 1
-
-                        elif item_tear_name == "tier1":
-                            event_list[TIER1_ITEM+team_interval] -= 1
-
-                        elif item_tear_name == "tier2":
-                            event_list[TIER2_ITEM+team_interval] -= 1
-
-                        elif item_tear_name == "tier3":
-                            event_list[TIER3_ITEM+team_interval] -= 1
-
-                        elif item_tear_name == "special":
-                            event_list[SPECIAL_ITEM+team_interval] -= 1
 
                         elif item_tear_name == "ward":
                             event_list[WARD_ITEM+team_interval] -= 1
                         
-                        if line[j['participantId']] == "TOP":
+                        elif line[j['participantId']] == "TOP":
                             event_list[TEAM1_TOP_GOLD+team_interval] = minus_gold
+                            event_list[TEAM1_TOP_ITEM_GOLD+team_interval] -= item_sold_cost[str(j['itemId'])]
+
                         elif line[j['participantId']] == "JUNGLE":
                             event_list[TEAM1_JUNGLE_GOLD+team_interval] = minus_gold
+                            event_list[TEAM1_JUNGLE_ITEM_GOLD+team_interval] -= item_sold_cost[str(j['itemId'])]
+
                         elif line[j['participantId']] == "MIDDLE":
                             event_list[TEAM1_MIDDLE_GOLD+team_interval] = minus_gold
+                            event_list[TEAM1_MIDDLE_ITEM_GOLD+team_interval] -= item_sold_cost[str(j['itemId'])]
+
                         elif line[j['participantId']] == "BOTTOM":
                             event_list[TEAM1_BOTTOM_GOLD+team_interval] = minus_gold
+                            event_list[TEAM1_BOTTOM_ITEM_GOLD+team_interval] -= item_sold_cost[str(j['itemId'])]
+                            
                         elif line[j['participantId']] == "UTILITY":
                             event_list[TEAM1_UTILITY_GOLD+team_interval] = minus_gold
+                            event_list[TEAM1_UTILITY_ITEM_GOLD+team_interval] -= item_sold_cost[str(j['itemId'])]
                         
                         event_list[TEAM1_GOLD+team_interval] = minus_gold
     
@@ -397,25 +383,24 @@ class PreprocessData():
                                         event_list[TEAM1_UTILITY_POTION+team_interval] += 1
                                     else:
                                         event_list[BOOTS_ITEM+team_interval] += 1
-                                
-                            elif item_tear_name == "start":
-                                event_list[START_ITEM+team_interval] += 1
 
-                            elif item_tear_name == "tier1":
-                                event_list[TIER1_ITEM+team_interval] += 1
+                            elif line[j['participantId']] == "TOP":
+                                event_list[TEAM1_TOP_ITEM_GOLD+team_interval] += item_sold_cost[str(j['itemId'])]
 
-                            elif item_tear_name == "tier2":
-                                event_list[TIER2_ITEM+team_interval] += 1
+                            elif line[j['participantId']] == "JUNGLE":
+                                event_list[TEAM1_JUNGLE_ITEM_GOLD+team_interval] += item_sold_cost[str(j['itemId'])]
 
-                            elif item_tear_name == "tier3":
-                                event_list[TIER3_ITEM+team_interval] += 1
+                            elif line[j['participantId']] == "MIDDLE":
+                                event_list[TEAM1_MIDDLE_ITEM_GOLD+team_interval] += item_sold_cost[str(j['itemId'])]
 
-                            elif item_tear_name == "special":
-                                event_list[SPECIAL_ITEM+team_interval] += 1
+                            elif line[j['participantId']] == "BOTTOM":
+                                event_list[TEAM1_BOTTOM_ITEM_GOLD+team_interval] += item_sold_cost[str(j['itemId'])]
 
+                            elif line[j['participantId']] == "UTILITY":
+                                event_list[TEAM1_UTILITY_ITEM_GOLD+team_interval] += item_sold_cost[str(j['itemId'])]
+                                    
                             elif item_tear_name == "ward":
                                 event_list[WARD_ITEM+team_interval] += 1
-                        
                                 
                         else:
                             # beforeId가 0이 아니라는 말은 샀던걸 되돌렸다는 말. 그러면 beforeId만큼 tear를 내려줘야한다. 대신 상위아이템인 경우는 하위아이템만큼 더해준다.
@@ -452,25 +437,24 @@ class PreprocessData():
                                         event_list[TEAM1_UTILITY_POTION+team_interval] -= 1
                                     else:
                                         event_list[BOOTS_ITEM+team_interval] -= 1
-                                
-                            elif item_tear_name == "start":
-                                event_list[START_ITEM+team_interval] -= 1
+                            
+                            elif line[j['participantId']] == "TOP":
+                                event_list[TEAM1_TOP_ITEM_GOLD+team_interval] -= item_real_cost[str(j['itemId'])]
 
-                            elif item_tear_name == "tier1":
-                                event_list[TIER1_ITEM+team_interval] -= 1
+                            elif line[j['participantId']] == "JUNGLE":
+                                event_list[TEAM1_JUNGLE_ITEM_GOLD+team_interval] -= item_real_cost[str(j['itemId'])]
 
-                            elif item_tear_name == "tier2":
-                                event_list[TIER2_ITEM+team_interval] -= 1
+                            elif line[j['participantId']] == "MIDDLE":
+                                event_list[TEAM1_MIDDLE_ITEM_GOLD+team_interval] -= item_real_cost[str(j['itemId'])]
 
-                            elif item_tear_name == "tier3":
-                                event_list[TIER3_ITEM+team_interval] -= 1
+                            elif line[j['participantId']] == "BOTTOM":
+                                event_list[TEAM1_BOTTOM_ITEM_GOLD+team_interval] -= item_real_cost[str(j['itemId'])]
 
-                            elif item_tear_name == "special":
-                                event_list[SPECIAL_ITEM+team_interval] -= 1
+                            elif line[j['participantId']] == "UTILITY":
+                                event_list[TEAM1_UTILITY_ITEM_GOLD+team_interval] -= item_real_cost[str(j['itemId'])]   
 
                             elif item_tear_name == "ward":
                                 event_list[WARD_ITEM+team_interval] -= 1
-                            
                             
                             item_from_data = self.get_item_from_data(str(j['beforeId']))
                             for i in item_from_data:
@@ -506,21 +490,6 @@ class PreprocessData():
                                             event_list[TEAM1_UTILITY_POTION+team_interval] += 1
                                         else:
                                             event_list[BOOTS_ITEM+team_interval] += 1
-                                    
-                                elif item_tear_name == "start":
-                                    event_list[START_ITEM+team_interval] += 1
-
-                                elif item_tear_name == "tier1":
-                                    event_list[TIER1_ITEM+team_interval] += 1
-
-                                elif item_tear_name == "tier2":
-                                    event_list[TIER2_ITEM+team_interval] += 1
-
-                                elif item_tear_name == "tier3":
-                                    event_list[TIER3_ITEM+team_interval] += 1
-
-                                elif item_tear_name == "special":
-                                    event_list[SPECIAL_ITEM+team_interval] += 1
 
                                 elif item_tear_name == "ward":
                                     event_list[WARD_ITEM+team_interval] += 1
