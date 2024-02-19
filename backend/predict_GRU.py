@@ -1,37 +1,96 @@
-import tensorflow as tf
 from load_data import LoadData
+from models import GeneralRNN
 import numpy as np
-
-from train_GRU import CustomGRU  # RNN 클래스 대신 CustomGRU 클래스 가져오기
-
-# 사용자 정의 클래스를 포함하여 모델 로드
-Pmodel = tf.keras.models.load_model('backend/modelGRU', custom_objects={'CustomGRU': CustomGRU})
+from utils import PreprocessData
+import tensorflow as tf
 
 
-LIST_LEN = 88
-api_key = 'RGAPI-a67d1c19-7c88-407a-92af-21b2e5945829'
-load_instance = LoadData(api_key)
+
+api_key = 'RGAPI-f2bf170c-5745-42a5-a8f7-a591e780d2fa'
+
+test = PreprocessData('./backend/api_match_info.json', './backend/api_timeline_info.json')
 
 # 데이터 가져오기
-get_train_data, get_win_lose_list = load_instance.get_diamond1_data_list(1)
+train_data = test.get_condition_timeline(10000)
+train_data = np.array(train_data)
+print(train_data)
+d = len(train_data[0])
+print(d)
 
-train_data = []
-win_lose_list = []
+LIST_LEN = 88
 
+# 시계열 데이터의 최대 길이 계산
 max_length_data = 301
 
- # 패딩을 적용한 배열 생성
-padded_predict_data = np.zeros((len(get_train_data), max_length_data, LIST_LEN), dtype=int)
-for i, seq in enumerate(train_data):
-    padded_predict_data[i, :len(seq), :] = seq
+# Instantiate the GeneralRNN model
+model_parameters = {
+    'task': 'regression',
+    'model_type': 'gru',  # or 'rnn', 'lstm'
+    'h_dim': 64,  # Hidden dimension
+    'n_layer': 2,  # Number of layers
+    'batch_size': 32,  # Batch size
+    'epoch': 10,  # Number of epochs
+    'learning_rate': 0.001  # Learning rate
+}
+rnn_model = GeneralRNN(model_parameters)
 
-mean_values = np.mean(padded_predict_data[:, :, 1:], axis=(0, 1))  # 타임스탬프를 제외한 특성의 평균
-std_values = np.std(padded_predict_data[:, :, 1:], axis=(0, 1))    # 타임스탬프를 제외한 특성의 표준편차
 
-normalized_predict_data = padded_predict_data.copy()
-normalized_predict_data[:, :, 1:] = (padded_predict_data[:, :, 1:] - mean_values) / std_values
+predict_data = train_data[:1].copy()
+print(predict_data.shape)
+
+# 패딩을 적용한 배열 생성
+padded_predict_data = np.zeros((max_length_data, LIST_LEN))
+for i, seq in enumerate(predict_data):
+    padded_predict_data[i, :] = seq
+
+print(padded_predict_data.shape)
+print(padded_predict_data)
+
+# Now you can use the trained model to predict
+predictions = rnn_model.predict(padded_predict_data)
+
+print(predictions)
+
+predict_data = train_data[:30].copy()
 
 
-# 예측 수행
-predict_data = Pmodel.predict(normalized_predict_data)
-print(predict_data)
+padded_predict_data = np.zeros((max_length_data, LIST_LEN))
+for i, seq in enumerate(predict_data):
+    padded_predict_data[i, :] = seq
+
+predictions = rnn_model.predict(padded_predict_data)
+
+print(predictions)
+
+predict_data = train_data[:60].copy()
+
+
+padded_predict_data = np.zeros((max_length_data, LIST_LEN))
+for i, seq in enumerate(predict_data):
+    padded_predict_data[i, :] = seq
+
+predictions = rnn_model.predict(padded_predict_data)
+
+print(predictions)
+
+predict_data = train_data[:91].copy()
+
+
+padded_predict_data = np.zeros((max_length_data, LIST_LEN))
+for i, seq in enumerate(predict_data):
+    padded_predict_data[i, :] = seq
+
+predictions = rnn_model.predict(padded_predict_data)
+
+print(predictions)
+
+predict_data = train_data[:121].copy()
+
+
+padded_predict_data = np.zeros((max_length_data, LIST_LEN))
+for i, seq in enumerate(predict_data):
+    padded_predict_data[i, :] = seq
+
+predictions = rnn_model.predict(padded_predict_data)
+
+print(predictions)

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import MainBox from "./components/MainBox";
 import MainBackground from "./img/main_background.png";
 import TitleBar from "./components/TitleBar";
+import PredictBtn from "./components/PredictBtn";
 
 const MainPage = styled.div`
   width: 100%;
@@ -30,6 +31,7 @@ function App() {
         <TitleBar />
         <Container>
           <MainBox />
+          <PredictBtn />
         </Container>
       </MainPage>
     </>

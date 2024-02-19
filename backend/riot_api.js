@@ -1,7 +1,7 @@
 const request = require("request");
 const fs = require("fs");
 
-const apiKey = "RGAPI-6d3dda9d-b317-4db1-88ed-340d31cad6d4";
+const apiKey = "RGAPI-f2bf170c-5745-42a5-a8f7-a591e780d2fa";
 
 function getSummonerInfo(matchId) {
   return new Promise((resolve, reject) => {
@@ -29,7 +29,7 @@ function getSummonerInfo(matchId) {
                   "../backend/api_match_info.json",
                   JSON.stringify(summonerInfo, null, 2)
                 );
-                
+
                 // 파일에 기록
                 fs.writeFileSync(
                   "../backend/api_timeline_info.json",

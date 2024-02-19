@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import UploadingIcon from "../img/uploading_icon.png";
 import { SEND_MAIN_PING } from "../constants";
-
+import { SEND_MATCH_INFO } from "../constants";
+import GameInfoBox from "./GameInfoBox";
 const BoxContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -10,7 +11,7 @@ const BoxContainer = styled.div`
   height: 330px;
   width: 580px;
   background-color: rgba(30, 32, 35, 0.7);
-  border-radius: 10px;
+  border-radius: 7px;
 `;
 
 const UploadArea = styled.label<{ isActive: boolean }>`
@@ -21,7 +22,7 @@ const UploadArea = styled.label<{ isActive: boolean }>`
   height: 290px;
   width: 540px;
   background-color: #1e2023;
-  border-radius: 5px;
+  border-radius: 7px;
   border: 3px dashed #1e2023;
   cursor: pointer;
 
@@ -50,26 +51,36 @@ const UploadIcon = styled.div`
 `;
 
 const FileUploadText = styled.p`
-  font-size: 25px;
+  font-size: 23px;
   font-weight: 900;
-  color: white;
+  color: #eeeeef;
 `;
 
 function MainBox() {
   const [isActive, setActive] = useState(false);
   const [fileName, setFileName] = useState("");
+  const [championName, setChampionName] = useState([]);
+  const [summonerName, setSummonerName] = useState([]);
+  const [teamId, setTeamId] = useState([]);
+  const [assists, setAssists] = useState([]);
+  const [deaths, setDeaths] = useState([]);
+  const [kills, setKills] = useState([]);
+
+  const { ipcRenderer } = window.require("electron");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
 
     if (files && files.length > 0) {
       const uploadedFileName = files[0].name;
-      const fileExtension = uploadedFileName.split('.').pop(); // 파일의 확장자 추출
-      if (fileExtension === 'rofl') { // 확장자가 .rofl인 경우에만 버튼 활성화
-          setFileName(uploadedFileName);
-          setActive(false); // 파일이 업로드되면 isActive를 false로 설정하여 스타일 변경 해제
+      const fileExtension = uploadedFileName.split(".").pop(); // 파일의 확장자 추출
+      if (fileExtension === "rofl") {
+        // 확장자가 .rofl인 경우에만 버튼 활성화
+        setFileName(uploadedFileName);
+        ipcRenderer.send(SEND_MAIN_PING, { fileName: uploadedFileName });
+        setActive(false); // 파일이 업로드되면 isActive를 false로 설정하여 스타일 변경 해제
       } else {
-          alert('파일 확장자는 .rofl이어야 합니다.');
+        alert("파일 확장자는 .rofl이어야 합니다.");
       }
     }
   };
@@ -82,43 +93,59 @@ function MainBox() {
 
     if (files && files.length > 0) {
       const droppedFileName = files[0].name;
-      setFileName(droppedFileName);
-      setActive(false); // 파일이 업로드되면 isActive를 false로 설정하여 스타일 변경 해제
+      const fileExtension = droppedFileName.split(".").pop(); // 파일의 확장자 추출
+      if (fileExtension === "rofl") {
+        // 확장자가 .rofl인 경우에만 버튼 활성화
+        setFileName(droppedFileName);
+        ipcRenderer.send(SEND_MAIN_PING, { fileName: droppedFileName });
+        setActive(false); // 파일이 업로드되면 isActive를 false로 설정하여 스타일 변경 해제
+      } else {
+        alert("파일 확장자는 .rofl이어야 합니다.");
+      }
     }
   };
 
-  const { ipcRenderer } = window.require("electron");
-
-  const sendMail = () => {
-    if (fileName) {
-      ipcRenderer.send(SEND_MAIN_PING, { fileName });
-    } else {
-      alert('파일을 먼저 업로드해주세요.');
-    }
-  };
+  ipcRenderer.on(SEND_MATCH_INFO, (event, arg) => {
+    console.log(arg);
+    setChampionName(arg.championNameList);
+    setSummonerName(arg.summonerNameList);
+    setTeamId(arg.teamIdList);
+    setAssists(arg.assistsList);
+    setDeaths(arg.deathsList);
+    setKills(arg.killsList);
+  });
 
   return (
     <>
       <BoxContainer>
-        <UploadArea 
-          isActive={isActive}
-          onDragOver={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-          onDrop={handleDrop}
-          onDragEnter={() => setActive(true)}
-          onDragLeave={() => setActive(false)}
-        >
-          <FileUploadBtn
-            type="file"
-            onChange={handleFileChange}
-          />
-          <UploadIcon />
-          <FileUploadText>{fileName ? fileName : "Upload HERE"}</FileUploadText>
-        </UploadArea>
+        {championName.length == 0 ? (
+          <UploadArea
+            isActive={isActive}
+            onDragOver={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+            onDrop={handleDrop}
+            onDragEnter={() => setActive(true)}
+            onDragLeave={() => setActive(false)}
+          >
+            <FileUploadBtn type="file" onChange={handleFileChange} />
+            <UploadIcon />
+            <FileUploadText>
+              {fileName ? fileName : "Upload HERE"}
+            </FileUploadText>
+          </UploadArea>
+        ) : (
+          <GameInfoBox
+            championName={championName}
+            summonerName={summonerName}
+            teamId={teamId}
+            assists={assists}
+            deaths={deaths}
+            kills={kills}
+          ></GameInfoBox>
+        )}
       </BoxContainer>
-      <button onClick={sendMail}>파일 업로드</button>
     </>
   );
 }

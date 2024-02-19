@@ -3,7 +3,7 @@ from utils import PreprocessData
 import numpy as np
 from load_data import LoadData
 
-api_key = 'RGAPI-a67d1c19-7c88-407a-92af-21b2e5945829'
+api_key = 'RGAPI-f2bf170c-5745-42a5-a8f7-a591e780d2fa'
 
 test = PreprocessData('./backend/api_match_info.json', './backend/api_timeline_info.json')
 
