@@ -42,9 +42,18 @@ class LoadData():
 
     def get_diamond1_info(self):
         diamond1_url = "https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/DIAMOND/I?page=1&api_key=" + self.api_key
+        diamond2_url = "https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/DIAMOND/I?page=2&api_key=" + self.api_key
+        diamond3_url = "https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/DIAMOND/I?page=3&api_key=" + self.api_key
         r7 = requests.get(diamond1_url)
-        self.summonerId = [entry['summonerName'] for entry in r7.json() if entry.get('summonerName', '') != '']        
-        self.summonerId.sort()
+        r8 = requests.get(diamond2_url)
+        r9 = requests.get(diamond3_url)
+        self.summonerId1 = [entry['summonerName'] for entry in r7.json() if entry.get('summonerName', '') != '']        
+        self.summonerId2 = [entry['summonerName'] for entry in r8.json() if entry.get('summonerName', '') != '']        
+        self.summonerId3 = [entry['summonerName'] for entry in r9.json() if entry.get('summonerName', '') != '']        
+
+        self.summonerId = self.summonerId1 + self.summonerId2 + self.summonerId3
+
+        self.summonerId = list(set(self.summonerId))
 
         with open('backend/api_diamond1_info.json', 'w', encoding='utf-8') as json_file:
             json.dump(self.summonerId, json_file, ensure_ascii=False, indent=4)
@@ -128,10 +137,12 @@ class LoadData():
                     timeline_info = json.load(f)
 
                 if "status" in match_info:
+                    num -= 1
                     print("데이터 가져오기 실패: " + str(num))
                     continue
 
                 elif "status" in timeline_info:
+                    num -= 1
                     print("데이터 가져오기 실패: " + str(num))
                     continue
                 
@@ -143,6 +154,7 @@ class LoadData():
                 win_lose = test.get_match_data()[1]
                 
                 if not interval_list:
+                    num -= 1
                     print("데이터 가져오기 실패: " + str(num))
                     pass
                 else:
