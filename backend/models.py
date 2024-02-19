@@ -29,13 +29,15 @@ class GeneralRNN():
         self.batch_size = model_parameters['batch_size']
         self.epoch = model_parameters['epoch']
         self.learning_rate = model_parameters['learning_rate']
+        self.model_filename = model_parameters['filename']
+        self.model_using_filename = model_parameters['use_filename']
+
         
         assert self.model_type in ['rnn', 'lstm', 'gru']
 
         # Predictor model define
         self.predictor_model = self._build_model()  # 모델 빌드
 
-        timestamp = datetime.now().strftime('%H%M%S')
         
         # Set path for model saving
         if self.model_type == 'rnn':
@@ -49,7 +51,7 @@ class GeneralRNN():
             os.makedirs(model_folder)
 
         # Create HDF5 file
-        self.save_file_name = os.path.join(model_folder, f'{timestamp}.hdf5')
+        self.save_file_name = os.path.join(model_folder, f'{self.model_filename}.hdf5')
         with h5py.File(self.save_file_name, 'w'):
             pass  # 아무 작업도 수행하지 않고 빈 HDF5 파일 생성
 
@@ -58,7 +60,7 @@ class GeneralRNN():
         # Parameters
         h_dim = self.h_dim
         n_layer = self.n_layer
-        dim = 88  # Assuming LIST_LEN is always 88
+        dim = 87  # Assuming LIST_LEN is always 88
         max_seq_len = 301  # Assuming max_length_data is always 301
 
         model = tf.keras.Sequential()
@@ -85,7 +87,7 @@ class GeneralRNN():
     def fit(self, x, y):
         """Fit the predictor model."""
         # Callback for the best model saving
-        save_best = ModelCheckpoint(self.save_file_name, monitor='val_loss',
+        save_best = ModelCheckpoint(self.model_using_filename, monitor='val_loss',
                                     mode='min', verbose=False,
                                     save_best_only=True)
 
@@ -102,98 +104,3 @@ class GeneralRNN():
         test_x = np.expand_dims(test_x, axis=0)
         test_y_hat = self.predictor_model.predict(test_x)
         return test_y_hat
-
-if __name__ == "__main__":
-    api_key = 'RGAPI-6d3dda9d-b317-4db1-88ed-340d31cad6d4'
-    load_instance = LoadData(api_key)
-
-    train_data, win_lose_list = load_instance.get_diamond1_data_list(3)
-    d = len(train_data[0])
-    print(d)
-
-    LIST_LEN = 88
-
-    # 시계열 데이터의 최대 길이 계산
-    max_length_data = 301
-
-    # 패딩을 적용한 배열 생성
-    padded_data = np.zeros((len(train_data), max_length_data, LIST_LEN))
-    for i, seq in enumerate(train_data):
-        padded_data[i, :len(seq), :] = seq
-
-    win_lose_list = np.array(win_lose_list, dtype="float32")
-
-    # Instantiate the GeneralRNN model
-    model_parameters = {
-        'task': 'regression',
-        'model_type': 'gru',  # or 'rnn', 'lstm'
-        'h_dim': 64,  # Hidden dimension
-        'n_layer': 2,  # Number of layers
-        'batch_size': 32,  # Batch size
-        'epoch': 10,  # Number of epochs
-        'learning_rate': 0.001  # Learning rate
-    }
-    rnn_model = GeneralRNN(model_parameters)
-
-    # Train the model
-    trained_model = rnn_model.fit(padded_data, win_lose_list)
-
-    predict_data = padded_data[0][:1].copy()
-    print(predict_data.shape)
-
-    # 패딩을 적용한 배열 생성
-    padded_predict_data = np.zeros((max_length_data, LIST_LEN))
-    for i, seq in enumerate(predict_data):
-        padded_predict_data[i, :] = seq
-
-    print(padded_predict_data.shape)
-    print(padded_predict_data)
-
-    # Now you can use the trained model to predict
-    predictions = rnn_model.predict(padded_predict_data)
-
-    print(predictions)
-
-    predict_data = padded_data[0][:30].copy()
-
-
-    padded_predict_data = np.zeros((max_length_data, LIST_LEN))
-    for i, seq in enumerate(predict_data):
-        padded_predict_data[i, :] = seq
-
-    predictions = rnn_model.predict(padded_predict_data)
-
-    print(predictions)
-
-    predict_data = padded_data[0][:60].copy()
-
-
-    padded_predict_data = np.zeros((max_length_data, LIST_LEN))
-    for i, seq in enumerate(predict_data):
-        padded_predict_data[i, :] = seq
-
-    predictions = rnn_model.predict(padded_predict_data)
-
-    print(predictions)
-
-    predict_data = padded_data[0][:91].copy()
-
-
-    padded_predict_data = np.zeros((max_length_data, LIST_LEN))
-    for i, seq in enumerate(predict_data):
-        padded_predict_data[i, :] = seq
-
-    predictions = rnn_model.predict(padded_predict_data)
-
-    print(predictions)
-
-    predict_data = padded_data[0][:121].copy()
-
-
-    padded_predict_data = np.zeros((max_length_data, LIST_LEN))
-    for i, seq in enumerate(predict_data):
-        padded_predict_data[i, :] = seq
-
-    predictions = rnn_model.predict(padded_predict_data)
-
-    print(predictions)
