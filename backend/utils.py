@@ -359,10 +359,6 @@ class PreprocessData():
                             #event_list[9] += item_tear[str(j['afterId'])]
                             
                             item_tear_name = item_tear[str(j['afterId'])]
-                            if item_base_cost[str(j['itemId'])] == item_total_cost[str(j['itemId'])]:
-                                item_real_cost = item_base_cost[str(j['itemId'])]
-                            elif item_base_cost[str(j['itemId'])] != item_total_cost[str(j['itemId'])]:
-                                item_real_cost = item_total_cost[str(j['itemId'])] - item_base_cost[str(j['itemId'])]
                         
                             if item_tear_name == "boots" or item_tear_name == "potion":
                                 if line[j['participantId']] == "TOP":
@@ -420,6 +416,10 @@ class PreprocessData():
                             #시작아이템 물약2 + 신발 UNDO3번 before 2003 after 0
                             
                             item_tear_name = item_tear[str(j['beforeId'])]
+                            if item_base_cost[str(j['beforeId'])] == item_total_cost[str(j['beforeId'])]:
+                                item_real_cost = item_base_cost[str(j['beforeId'])]
+                            elif item_base_cost[str(j['beforeId'])] != item_total_cost[str(j['beforeId'])]:
+                                item_real_cost = item_total_cost[str(j['beforeId'])] - item_base_cost[str(j['beforeId'])]
                         
                             if item_tear_name == "boots" or item_tear_name == "potion":
                                 if line[j['participantId']] == "TOP":
@@ -455,19 +455,19 @@ class PreprocessData():
                                 event_list[WARD_ITEM+team_interval] -= 1
 
                             elif line[j['participantId']] == "TOP":
-                                event_list[TEAM1_TOP_ITEM_GOLD+team_interval] -= item_real_cost[str(j['beforeId'])]
+                                event_list[TEAM1_TOP_ITEM_GOLD+team_interval] -= item_real_cost
 
                             elif line[j['participantId']] == "JUNGLE":
-                                event_list[TEAM1_JUNGLE_ITEM_GOLD+team_interval] -= item_real_cost[str(j['beforeId'])]
+                                event_list[TEAM1_JUNGLE_ITEM_GOLD+team_interval] -= item_real_cost
 
                             elif line[j['participantId']] == "MIDDLE":
-                                event_list[TEAM1_MIDDLE_ITEM_GOLD+team_interval] -= item_real_cost[str(j['beforeId'])]
+                                event_list[TEAM1_MIDDLE_ITEM_GOLD+team_interval] -= item_real_cost
 
                             elif line[j['participantId']] == "BOTTOM":
-                                event_list[TEAM1_BOTTOM_ITEM_GOLD+team_interval] -= item_real_cost[str(j['beforeId'])]
+                                event_list[TEAM1_BOTTOM_ITEM_GOLD+team_interval] -= item_real_cost
 
                             elif line[j['participantId']] == "UTILITY":
-                                event_list[TEAM1_UTILITY_ITEM_GOLD+team_interval] -= item_real_cost[str(j['beforeId'])]   
+                                event_list[TEAM1_UTILITY_ITEM_GOLD+team_interval] -= item_real_cost 
 
                             
                             
