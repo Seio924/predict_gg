@@ -20,15 +20,15 @@ function runOverlayScript() {
   overlayProcess = spawn("python", ["src/overlay.py"]);
 
   overlayProcess.stdout.on("data", (data) => {
-    console.log(`stdout: ${data}`);
+    console.log(`overlay stdout: ${data}`);
   });
 
   overlayProcess.stderr.on("data", (data) => {
-    console.error(`stderr: ${data}`);
+    console.error(`overlay stderr: ${data}`);
   });
 
   overlayProcess.on("close", (code) => {
-    console.log(`child process exited with code ${code}`);
+    console.log(`overlay : child process exited with code ${code}`);
   });
 }
 
@@ -37,16 +37,18 @@ function runTestScript() {
   testProcess = spawn("python", ["backend/predict_GRU.py"]);
 
   testProcess.stdout.on("data", (data) => {
-    console.log(`stdout: ${data}`);
+    console.log(`predict_GRU stdout: ${data}`);
   });
 
   testProcess.stderr.on("data", (data) => {
-    console.error(`stderr: ${data}`);
+    console.error(`predict_GRU stderr: ${data}`);
   });
 
   testProcess.on("close", (code) => {
-    console.log(`child process exited with code ${code}`);
+    console.log(`predict_GRU : child process exited with code ${code}`);
+
     runOverlayScript();
+
   });
 }
 
