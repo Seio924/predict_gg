@@ -1,6 +1,4 @@
-import React, { useState } from "react";
 import styled from "styled-components";
-import UploadingIcon from "../img/uploading_icon.png";
 
 const WholeArea = styled.div`
   display: flex;

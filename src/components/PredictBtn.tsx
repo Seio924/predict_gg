@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { SEND_MATCH_INFO, SEND_PREDICT_GAME } from "../constants";
+import Modal from "react-modal";
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -43,11 +44,18 @@ const BtnText = styled.p`
   color: #eeeeef;
 `;
 
+// 모달 스타일
+const customModalStyle = {
+  content: {
+    width: '300px', // 너비 설정
+    height: '100px', // 높이 설정
+    margin: 'auto', // 화면 중앙 정렬을 위해 margin을 auto로 설정
+  }
+};
+
 interface PredictBtnProps {
   resetMainBox: () => void;
-  // 다른 파일 업로드 시 MainBox를 초기화하는 함수
   handleUpload: () => void;
-  // 다른 파일 업로드 버튼 클릭 시 실행되는 함수
 }
 
 const PredictBtn: React.FC<PredictBtnProps> = ({
@@ -55,6 +63,8 @@ const PredictBtn: React.FC<PredictBtnProps> = ({
   handleUpload,
 }) => {
   const [isActive, setActive] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [userInput, setUserInput] = useState("");
 
   useEffect(() => {
     const ipcRenderer = window.require("electron").ipcRenderer;
@@ -68,12 +78,10 @@ const PredictBtn: React.FC<PredictBtnProps> = ({
   }, []);
 
   const onClick = () => {
-    const ipcRenderer = window.require("electron").ipcRenderer;
     if (!isActive) {
       alert("리플레이 파일을 선택해주세요.");
     } else {
-      alert("good");
-      ipcRenderer.send(SEND_PREDICT_GAME);
+      openModal();
     }
   };
 
@@ -87,15 +95,48 @@ const PredictBtn: React.FC<PredictBtnProps> = ({
     ipcRenderer.send("stopOverlayProcess");
   };
 
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
+  const handleSubmit = () => {
+    const ipcRenderer = window.require("electron").ipcRenderer;
+    const fs = window.require("fs");
+    if (!isNaN(Number(userInput))) {
+      alert("입력한 숫자: " + userInput); 
+      fs.writeFileSync("backend/userInput.txt", userInput);
+      ipcRenderer.send(SEND_PREDICT_GAME);
+      setActive(false);
+    } else {
+      alert("숫자를 입력하세요.");
+    }
+    setUserInput("");
+    closeModal();
+  };
+
   return (
     <ButtonContainer>
-      {/* 왼쪽에 추가할 버튼 */}
       <Button isActive={false} onClick={onUploadClick}>
         <BtnText>다른 파일 업로드</BtnText>
       </Button>
       <Button isActive={isActive} onClick={onClick}>
         <BtnText>Predict Now</BtnText>
       </Button>
+      <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customModalStyle}>
+        <div>
+          <h2>숫자를 입력하세요</h2>
+          <input
+            type="number"
+            value={userInput}
+            onChange={(e) => setUserInput(e.target.value)}
+          />
+          <button onClick={handleSubmit}>확인</button>
+        </div>
+      </Modal>
     </ButtonContainer>
   );
 };
