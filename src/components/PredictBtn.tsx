@@ -1,15 +1,23 @@
+// PredictBtn.tsx
+
+import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
-import React, { useState } from "react";
 import { SEND_MATCH_INFO, SEND_PREDICT_GAME } from "../constants";
+import { ipcRenderer } from "electron";
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 580px;
+`;
 
 const Button = styled.div<{ isActive: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
   height: 45px;
-  width: 580px;
+  width: 280px;
   border-radius: 7px;
-  margin-top: 15px;
   cursor: pointer;
   ${(props) =>
     props.isActive
@@ -27,6 +35,9 @@ const Button = styled.div<{ isActive: boolean }>`
             rgba(91, 90, 90, 0.7)
           );
         `};
+  &:first-child {
+    margin-right: 18px;
+  }
 `;
 
 const BtnText = styled.p`
@@ -35,33 +46,60 @@ const BtnText = styled.p`
   color: #eeeeef;
 `;
 
-function PredictBtn() {
+interface PredictBtnProps {
+  resetMainBox: () => void;
+  // 다른 파일 업로드 시 MainBox를 초기화하는 함수
+  handleUpload: () => void;
+  // 다른 파일 업로드 버튼 클릭 시 실행되는 함수
+}
+
+const PredictBtn: React.FC<PredictBtnProps> = ({
+  resetMainBox,
+  handleUpload,
+}) => {
   const [isActive, setActive] = useState(false);
 
-  const { ipcRenderer } = window.require("electron");
+  useEffect(() => {
+    const ipcRenderer = window.require("electron").ipcRenderer;
+    ipcRenderer.on(SEND_MATCH_INFO, (event, arg) => {
+      setActive(true);
+    });
 
-  ipcRenderer.on(SEND_MATCH_INFO, (event, arg) => {
-    // SET isActive based on your logic
-    setActive(true);
-  });
+    return () => {
+      ipcRenderer.removeAllListeners(SEND_MATCH_INFO);
+    };
+  }, []);
 
   const onClick = () => {
-    if (isActive == false) {
+    if (!isActive) {
       alert("리플레이 파일을 선택해주세요.");
     } else {
       alert("good");
-      const { ipcRenderer } = window.require("electron");
-      ipcRenderer.send(SEND_PREDICT_GAME, {send_text:"predict_game!"});
+      ipcRenderer.send(SEND_PREDICT_GAME);
     }
   };
 
+  const onUploadClick = () => {
+    resetMainBox(); // MainBox를 초기화하기 위해 전달된 함수 호출
+    handleUpload(); // 다른 파일 업로드 버튼 클릭 시 실행되는 함수 호출
+    setActive(false); // Predict Now 버튼을 초기화하기 위해 isActive를 false로 설정
+
+    // 오버레이 프로세스 종료
+    const ipcRenderer = window.require("electron").ipcRenderer;
+    ipcRenderer.send("stopOverlayProcess");
+  };
+
   return (
-    <>
+    <ButtonContainer>
+      {/* 왼쪽에 추가할 버튼 */}
+      <Button isActive={false} onClick={onUploadClick}>
+        <BtnText>다른 파일 업로드</BtnText>
+      </Button>
       <Button isActive={isActive} onClick={onClick}>
         <BtnText>Predict Now</BtnText>
       </Button>
-    </>
+    </ButtonContainer>
   );
-}
+};
 
 export default PredictBtn;

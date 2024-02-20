@@ -45,6 +45,10 @@ for i in range(1, playtime):
 
 print(winning_rate)
 
+with open("predict_data.txt", "w") as file:
+    for rate in winning_rate:
+        file.write(f"{rate}\n")
+
 
 # 그래프 그리기
 x_values = range(0, len(winning_rate) * 10, 10)

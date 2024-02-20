@@ -34,7 +34,7 @@ function runOverlayScript() {
 
 // hello.py를 실행하는 함수
 function runTestScript() {
-  testProcess = spawn("python", ["backend/hello.py"]);
+  testProcess = spawn("python", ["backend/predict_GRU.py"]);
 
   testProcess.stdout.on("data", (data) => {
     console.log(`stdout: ${data}`);
@@ -46,6 +46,7 @@ function runTestScript() {
 
   testProcess.on("close", (code) => {
     console.log(`child process exited with code ${code}`);
+    runOverlayScript();
   });
 }
 
@@ -53,7 +54,7 @@ async function createWindow() {
   win = new BrowserWindow({
     width: 1072,
     height: 659,
-    //frame: false,
+    frame: false,
     resizable: true,
     webPreferences: {
       nodeIntegration: true,
@@ -121,20 +122,24 @@ async function createWindow() {
         } catch (error) {
           console.error("Error JSON data: ", error);
         }
-      });
+      });  
 
-      // 함수 호출
-      runOverlayScript();
     } catch (error) {
       console.error("server error:", error);
     }
   });
 
   ipcMain.on(SEND_PREDICT_GAME, async (event, arg) => {
-    console.log(arg.send_text);
-
     runTestScript();
   });
+
+  // 이벤트 핸들러 등록
+  ipcMain.on("stopOverlayProcess", () => {
+    if (overlayProcess) {
+      overlayProcess.kill();
+    }
+  });
+
 
   ipcMain.on(SEND_WINDOW_MINIMIZE, (event, arg) => {
     win.minimize();

@@ -17,6 +17,12 @@ def get_match_duration():
         duration = match_info['info']['gameEndTimestamp'] - match_info['info']['gameStartTimestamp']
     return duration
 
+def get_text_file():
+    with open('backend/predict_data.txt', 'r', encoding="utf-8") as f:
+        # 예측 승률 리스트로 변환
+        lines = f.readlines()
+        predict_data = [int(line.strip()) for line in lines]
+
 # Tesseract OCR 엔진의 경로를 설정합니다. 본인의 컴퓨터에 맞게 수정하세요.
 pytesseract.pytesseract.tesseract_cmd = r'C:/Program Files/Tesseract-OCR/tesseract.exe'
 

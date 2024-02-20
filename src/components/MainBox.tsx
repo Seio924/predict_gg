@@ -4,6 +4,7 @@ import UploadingIcon from "../img/uploading_icon.png";
 import { SEND_MAIN_PING } from "../constants";
 import { SEND_MATCH_INFO } from "../constants";
 import GameInfoBox from "./GameInfoBox";
+
 const BoxContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -56,15 +57,15 @@ const FileUploadText = styled.p`
   color: #eeeeef;
 `;
 
-function MainBox() {
+function MainBox({ resetMainBox }: { resetMainBox: () => void }) {
   const [isActive, setActive] = useState(false);
   const [fileName, setFileName] = useState("");
-  const [championName, setChampionName] = useState([]);
-  const [summonerName, setSummonerName] = useState([]);
-  const [teamId, setTeamId] = useState([]);
-  const [assists, setAssists] = useState([]);
-  const [deaths, setDeaths] = useState([]);
-  const [kills, setKills] = useState([]);
+  const [championName, setChampionName] = useState<string[]>([]);
+  const [summonerName, setSummonerName] = useState<string[]>([]);
+  const [teamId, setTeamId] = useState<number[]>([]);
+  const [assists, setAssists] = useState<number[]>([]);
+  const [deaths, setDeaths] = useState<number[]>([]);
+  const [kills, setKills] = useState<number[]>([]);
 
   const { ipcRenderer } = window.require("electron");
 
@@ -73,12 +74,11 @@ function MainBox() {
 
     if (files && files.length > 0) {
       const uploadedFileName = files[0].name;
-      const fileExtension = uploadedFileName.split(".").pop(); // 파일의 확장자 추출
+      const fileExtension = uploadedFileName.split(".").pop();
       if (fileExtension === "rofl") {
-        // 확장자가 .rofl인 경우에만 버튼 활성화
         setFileName(uploadedFileName);
         ipcRenderer.send(SEND_MAIN_PING, { fileName: uploadedFileName });
-        setActive(false); // 파일이 업로드되면 isActive를 false로 설정하여 스타일 변경 해제
+        setActive(false);
       } else {
         alert("파일 확장자는 .rofl이어야 합니다.");
       }
@@ -93,12 +93,11 @@ function MainBox() {
 
     if (files && files.length > 0) {
       const droppedFileName = files[0].name;
-      const fileExtension = droppedFileName.split(".").pop(); // 파일의 확장자 추출
+      const fileExtension = droppedFileName.split(".").pop();
       if (fileExtension === "rofl") {
-        // 확장자가 .rofl인 경우에만 버튼 활성화
         setFileName(droppedFileName);
         ipcRenderer.send(SEND_MAIN_PING, { fileName: droppedFileName });
-        setActive(false); // 파일이 업로드되면 isActive를 false로 설정하여 스타일 변경 해제
+        setActive(false);
       } else {
         alert("파일 확장자는 .rofl이어야 합니다.");
       }
@@ -118,22 +117,20 @@ function MainBox() {
   return (
     <>
       <BoxContainer>
-        {championName.length == 0 ? (
+        {championName.length === 0 ? (
           <UploadArea
             isActive={isActive}
             onDragOver={(e) => {
               e.preventDefault();
               e.stopPropagation();
             }}
-            onDrop={handleDrop}
+            onDrop={(e) => handleDrop(e)}
             onDragEnter={() => setActive(true)}
             onDragLeave={() => setActive(false)}
           >
-            <FileUploadBtn type="file" onChange={handleFileChange} />
+            <FileUploadBtn type="file" onChange={(e) => handleFileChange(e)} />
             <UploadIcon />
-            <FileUploadText>
-              {fileName ? fileName : "Upload HERE"}
-            </FileUploadText>
+            <FileUploadText>{fileName ? fileName : "Upload HERE"}</FileUploadText>
           </UploadArea>
         ) : (
           <GameInfoBox
@@ -143,7 +140,7 @@ function MainBox() {
             assists={assists}
             deaths={deaths}
             kills={kills}
-          ></GameInfoBox>
+          />
         )}
       </BoxContainer>
     </>
