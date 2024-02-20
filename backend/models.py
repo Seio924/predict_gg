@@ -29,15 +29,13 @@ class GeneralRNN():
         self.batch_size = model_parameters['batch_size']
         self.epoch = model_parameters['epoch']
         self.learning_rate = model_parameters['learning_rate']
-        self.model_filename = model_parameters['filename']
-        self.model_using_filename = model_parameters['use_filename']
-
         
         assert self.model_type in ['rnn', 'lstm', 'gru']
 
         # Predictor model define
         self.predictor_model = self._build_model()  # 모델 빌드
 
+        timestamp = datetime.now().strftime('%H%M%S')
         
         # Set path for model saving
         if self.model_type == 'rnn':
@@ -51,7 +49,7 @@ class GeneralRNN():
             os.makedirs(model_folder)
 
         # Create HDF5 file
-        self.save_file_name = os.path.join(model_folder, f'{self.model_filename}.hdf5')
+        self.save_file_name = os.path.join(model_folder, f'{timestamp}.hdf5')
         with h5py.File(self.save_file_name, 'w'):
             pass  # 아무 작업도 수행하지 않고 빈 HDF5 파일 생성
 
@@ -87,7 +85,7 @@ class GeneralRNN():
     def fit(self, x, y):
         """Fit the predictor model."""
         # Callback for the best model saving
-        save_best = ModelCheckpoint(self.model_using_filename, monitor='val_loss',
+        save_best = ModelCheckpoint(self.save_file_name, monitor='val_loss',
                                     mode='min', verbose=False,
                                     save_best_only=True)
 
@@ -98,9 +96,4 @@ class GeneralRNN():
 
         return self.predictor_model
     
-    def predict(self, test_x):
-        """Return the temporal and feature importance."""
-        # Add a new axis to make the input data a sequence
-        test_x = np.expand_dims(test_x, axis=0)
-        test_y_hat = self.predictor_model.predict(test_x)
-        return test_y_hat
+    

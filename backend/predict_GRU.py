@@ -3,17 +3,17 @@ from models import GeneralRNN
 import numpy as np
 from utils import PreprocessData
 import tensorflow as tf
+from utils_2 import binary_cross_entropy_loss, mse_loss, rnn_sequential
+import matplotlib.pyplot as plt
 
 
-
-api_key = 'RGAPI-edea93ad-3df3-481e-802a-8803b447dfb9'
+api_key = 'RGAPI-80ba1ae9-cccc-4e83-a491-b5db20a7614b'
 
 test = PreprocessData('./backend/api_match_info.json', './backend/api_timeline_info.json')
 
 # 데이터 가져오기
 train_data = test.get_condition_timeline(10000)
 playtime = len(train_data)
-
 train_data = np.array(train_data)
 print(train_data)
 
@@ -22,21 +22,10 @@ LIST_LEN = 87
 # 시계열 데이터의 최대 길이 계산
 max_length_data = 301
 
-# Instantiate the GeneralRNN model
-model_parameters = {
-    'task': 'regression',
-    'model_type': 'gru',  # or 'rnn', 'lstm'
-    'h_dim': 64,  # Hidden dimension
-    'n_layer': 2,  # Number of layers
-    'batch_size': 32,  # Batch size
-    'epoch': 10,  # Number of epochs
-    'learning_rate': 0.001,  # Learning rate
-    'filename': 'time_10',  # Learning rate
-    'use_filename': 'time_10'  # Learning rate
-}
-rnn_model = GeneralRNN(model_parameters)
-
 winning_rate = []
+
+with tf.keras.utils.custom_object_scope({'binary_cross_entropy_loss': binary_cross_entropy_loss}):
+    loaded_model = tf.keras.models.load_model('C:/GitHub/predict_gg/backend/model_trained_GRU')
 
 for i in range(1, playtime):
 
@@ -45,11 +34,27 @@ for i in range(1, playtime):
     # 패딩을 적용한 배열 생성
     padded_predict_data = np.zeros((max_length_data, LIST_LEN))
     for i, seq in enumerate(predict_data):
-        padded_predict_data[i, :] = seq[:, :LIST_LEN]
+        padded_predict_data[i, :] = seq
 
 
-    # Now you can use the trained model to predict
-    predictions = rnn_model.predict(padded_predict_data)
+    pred_x = np.expand_dims(padded_predict_data, axis=0)
+    predictions = loaded_model.predict(pred_x)
 
-    winning_rate.append(predictions)
-    print(predictions)
+
+    winning_rate.append([predictions[0][0], predictions[0][1]])
+
+print(winning_rate)
+
+
+# 그래프 그리기
+x_values = range(0, len(winning_rate) * 10, 10)
+team1_winning_rates = [item[0] for item in winning_rate]
+team2_winning_rates = [item[1] for item in winning_rate]
+
+plt.plot(x_values, team1_winning_rates, label='Team 1 Winning Rate')
+#plt.plot(x_values, team2_winning_rates, label='Team 2 Winning Rate')
+plt.xlabel('Time (seconds)')
+plt.ylabel('Winning Rate')
+plt.title('Winning Rate Over Time')
+plt.legend()
+plt.show()

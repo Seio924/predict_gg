@@ -6,10 +6,10 @@ from models import GeneralRNN
 import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
-    api_key = 'RGAPI-1120a582-1b6f-4fc6-b1c3-9de51edfabbb'
+    api_key = 'RGAPI-80ba1ae9-cccc-4e83-a491-b5db20a7614b'
     load_instance = LoadData(api_key)
 
-    train_data, win_lose_list = load_instance.get_diamond1_data_list(5000)
+    train_data, win_lose_list = load_instance.get_diamond1_data_list(10000)
     d = len(train_data[0])
     print(d)
 
@@ -21,7 +21,7 @@ if __name__ == "__main__":
     # 패딩을 적용한 배열 생성
     padded_data = np.zeros((len(train_data), max_length_data, LIST_LEN))
     for i, seq in enumerate(train_data):
-        padded_data[i, :len(seq), :] = seq[:, :LIST_LEN]
+        padded_data[i, :len(seq), :] = seq
 
     win_lose_list = np.array(win_lose_list, dtype="float32")
 
@@ -33,25 +33,24 @@ if __name__ == "__main__":
         'n_layer': 2,  # Number of layers
         'batch_size': 32,  # Batch size
         'epoch': 10,  # Number of epochs
-        'learning_rate': 0.001,  # Learning rate
-        'filename': 'time_10',  # Learning rate
-        'use_filename': 'time_10'  # Learning rate
+        'learning_rate': 0.001  # Learning rate
     }
     rnn_model = GeneralRNN(model_parameters)
 
     # Train the model
     trained_model = rnn_model.fit(padded_data, win_lose_list)
 
+    trained_model.save('C:/GitHub/predict_gg/backend/model_trained_LSTM')
 
     # Plot loss
-    plt.plot(trained_model.history['loss'])
+    plt.plot(trained_model.history.history['loss'])
     plt.title('Model Loss')
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
     plt.show()
 
     # Plot accuracy
-    plt.plot(trained_model.history['accuracy'])
+    plt.plot(trained_model.history.history['accuracy'])
     plt.title('Model Accuracy')
     plt.xlabel('Epoch')
     plt.ylabel('Accuracy')

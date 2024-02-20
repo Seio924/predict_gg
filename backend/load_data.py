@@ -121,7 +121,7 @@ class LoadData():
 
         num = 0
         for summoner_name in self.summonerId:
-            puuid = self.get_puuid("리그자")
+            puuid = self.get_puuid(summoner_name)
             match_ids = self.get_matchid(puuid)
     
             for match_id in match_ids:
