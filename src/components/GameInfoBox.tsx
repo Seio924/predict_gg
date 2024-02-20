@@ -34,22 +34,18 @@ const VSContainer = styled.div`
 const InfoContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-left: 20px;
-`;
-
-const ChampionImg = styled.div<{ imageUrl?: string }>`
-  width: 32px;
-  height: 32px;
-  background-image: url(${(props) => props.imageUrl});
-  background-size: cover;
-  margin-right: 10px;
-`;
-
-const ChampionInfos = styled.div`
-  display: flex;
-  flex-direction: column;
   justify-content: center;
 `;
+
+const ChampionImg = styled.div<{ championName?: string }>`
+  width: 20px;
+  height: 20px;
+  margin-bottom: 20px;
+  background-image: url(${UploadingIcon});
+  background-size: cover;
+`;
+
+const ChampionInfos = styled.div``;
 
 const SummonerName = styled.p`
   font-size: 15px;
@@ -83,8 +79,6 @@ function GameInfoBox({
   const team1 = [0, 1, 2, 3, 4];
   const team2 = [5, 6, 7, 8, 9];
 
-  console.log(championName);
-
   return (
     <>
       <WholeArea>
@@ -93,9 +87,7 @@ function GameInfoBox({
             {team1.map((index) => (
               <InfoContainer>
                 <ChampionImg
-                  imageUrl={`https://ddragon.leagueoflegends.com/cdn/14.3.1/img/champion/${
-                    championName && championName[index]
-                  }.png`}
+                  championName={championName && championName[index]}
                 />
                 <ChampionInfos>
                   <SummonerName>
@@ -118,9 +110,7 @@ function GameInfoBox({
             {team2.map((index) => (
               <InfoContainer>
                 <ChampionImg
-                  imageUrl={`https://ddragon.leagueoflegends.com/cdn/14.3.1/img/champion/${
-                    championName && championName[index]
-                  }.png`}
+                  championName={championName && championName[index]}
                 />
 
                 <ChampionInfos>

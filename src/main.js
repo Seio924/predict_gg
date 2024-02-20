@@ -130,7 +130,13 @@ async function createWindow() {
   });
 
   ipcMain.on(SEND_PREDICT_GAME, async (event, arg) => {
+<<<<<<< HEAD
     runTestScript();
+=======
+      console.log(arg.send_text)
+
+      runTestScript();
+>>>>>>> parent of 2f78235 (design: GameInfoBox)
   });
 
   // 이벤트 핸들러 등록
