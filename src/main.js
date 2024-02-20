@@ -122,8 +122,7 @@ async function createWindow() {
         } catch (error) {
           console.error("Error JSON data: ", error);
         }
-      });  
-
+      });
     } catch (error) {
       console.error("server error:", error);
     }
@@ -139,7 +138,6 @@ async function createWindow() {
       overlayProcess.kill();
     }
   });
-
 
   ipcMain.on(SEND_WINDOW_MINIMIZE, (event, arg) => {
     win.minimize();
