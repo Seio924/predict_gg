@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import React, { useState } from "react";
-import { SEND_MATCH_INFO } from "../constants";
+import { SEND_MATCH_INFO, SEND_PREDICT_GAME } from "../constants";
 
 const Button = styled.div<{ isActive: boolean }>`
   display: flex;
@@ -50,6 +50,8 @@ function PredictBtn() {
       alert("리플레이 파일을 선택해주세요.");
     } else {
       alert("good");
+      const { ipcRenderer } = window.require("electron");
+      ipcRenderer.send(SEND_PREDICT_GAME, {send_text:"predict_game!"});
     }
   };
 

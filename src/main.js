@@ -5,6 +5,7 @@ const {
   SEND_WINDOW_MAXIMIZE,
   SEND_WINDOW_CLOSE,
   SEND_MATCH_INFO,
+  SEND_PREDICT_GAME,
 } = require("./constants");
 const axios = require("axios");
 const fs = require("fs");
@@ -12,6 +13,7 @@ const { spawn } = require("child_process");
 
 let win;
 let overlayProcess; // overlay.py 프로세스 변수
+let testProcess;
 
 // overlay.py를 실행하는 함수
 function runOverlayScript() {
@@ -26,6 +28,23 @@ function runOverlayScript() {
   });
 
   overlayProcess.on("close", (code) => {
+    console.log(`child process exited with code ${code}`);
+  });
+}
+
+// hello.py를 실행하는 함수
+function runTestScript() {
+  testProcess = spawn("python", ["backend/hello.py"]);
+
+  testProcess.stdout.on("data", (data) => {
+    console.log(`stdout: ${data}`);
+  });
+
+  testProcess.stderr.on("data", (data) => {
+    console.error(`stderr: ${data}`);
+  });
+
+  testProcess.on("close", (code) => {
     console.log(`child process exited with code ${code}`);
   });
 }
@@ -109,6 +128,12 @@ async function createWindow() {
     } catch (error) {
       console.error("server error:", error);
     }
+  });
+
+  ipcMain.on(SEND_PREDICT_GAME, async (event, arg) => {
+      console.log(arg.send_text)
+
+      runTestScript();
   });
 
   ipcMain.on(SEND_WINDOW_MINIMIZE, (event, arg) => {
