@@ -1,9 +1,6 @@
-// PredictBtn.tsx
-
 import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { SEND_MATCH_INFO, SEND_PREDICT_GAME } from "../constants";
-import { ipcRenderer } from "electron";
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -71,6 +68,7 @@ const PredictBtn: React.FC<PredictBtnProps> = ({
   }, []);
 
   const onClick = () => {
+    const ipcRenderer = window.require("electron").ipcRenderer;
     if (!isActive) {
       alert("리플레이 파일을 선택해주세요.");
     } else {

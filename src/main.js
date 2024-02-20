@@ -129,7 +129,6 @@ async function createWindow() {
   });
 
   ipcMain.on(SEND_PREDICT_GAME, async (event, arg) => {
-    console.log(arg.send_text);
     runTestScript();
   });
 
