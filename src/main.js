@@ -53,7 +53,7 @@ async function createWindow() {
   win = new BrowserWindow({
     width: 1072,
     height: 659,
-    frame: false,
+    //frame: false,
     resizable: true,
     webPreferences: {
       nodeIntegration: true,
@@ -131,9 +131,9 @@ async function createWindow() {
   });
 
   ipcMain.on(SEND_PREDICT_GAME, async (event, arg) => {
-      console.log(arg.send_text)
+    console.log(arg.send_text);
 
-      runTestScript();
+    runTestScript();
   });
 
   ipcMain.on(SEND_WINDOW_MINIMIZE, (event, arg) => {
