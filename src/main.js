@@ -122,21 +122,16 @@ async function createWindow() {
         } catch (error) {
           console.error("Error JSON data: ", error);
         }
-      });  
-
+      });
     } catch (error) {
       console.error("server error:", error);
     }
   });
 
   ipcMain.on(SEND_PREDICT_GAME, async (event, arg) => {
-<<<<<<< HEAD
-    runTestScript();
-=======
-      console.log(arg.send_text)
+    console.log(arg.send_text);
 
-      runTestScript();
->>>>>>> parent of 2f78235 (design: GameInfoBox)
+    runTestScript();
   });
 
   // 이벤트 핸들러 등록
@@ -145,7 +140,6 @@ async function createWindow() {
       overlayProcess.kill();
     }
   });
-
 
   ipcMain.on(SEND_WINDOW_MINIMIZE, (event, arg) => {
     win.minimize();
