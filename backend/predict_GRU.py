@@ -9,10 +9,13 @@ import matplotlib.pyplot as plt
 
 api_key = 'RGAPI-80ba1ae9-cccc-4e83-a491-b5db20a7614b'
 
+with open('backend/userInput.txt', 'r', encoding="utf-8") as f:
+    time_num = f.read().strip()
+
 test = PreprocessData('./backend/api_match_info.json', './backend/api_timeline_info.json')
 
 # 데이터 가져오기
-train_data = test.get_condition_timeline(10000)
+train_data = test.get_condition_timeline(int(time_num))
 playtime = len(train_data)
 train_data = np.array(train_data)
 print(train_data)
