@@ -10,54 +10,99 @@ TEAM1_TOP_POTION = 4
 TEAM1_TOP_K = 5
 TEAM1_TOP_D = 6
 TEAM1_TOP_A = 7
+TEAM1_TOP_STATPERK_DEFENCE = 8
+TEAM1_TOP_STATPERK_FLEX = 9
+TEAM1_TOP_STATPERK_OFFENSE = 10
+TEAM1_TOP_PRIMARY1 = 11
+TEAM1_TOP_PRIMARY2 = 12
+TEAM1_TOP_PRIMARY3 = 13
+TEAM1_TOP_PRIMARY4 = 14
+TEAM1_TOP_SUBSTYLE1 = 15
+TEAM1_TOP_SUBSTYLE2 = 16
 
-TEAM1_JUNGLE_CHAMPION = 8
-TEAM1_JUNGLE_GOLD = 9
-TEAM1_JUNGLE_ITEM_GOLD = 10
-TEAM1_JUNGLE_POTION = 11
-TEAM1_JUNGLE_K = 12
-TEAM1_JUNGLE_D = 13
-TEAM1_JUNGLE_A = 14
+TEAM1_JUNGLE_CHAMPION = 17
+TEAM1_JUNGLE_GOLD = 18
+TEAM1_JUNGLE_ITEM_GOLD = 19
+TEAM1_JUNGLE_POTION = 20
+TEAM1_JUNGLE_K = 21
+TEAM1_JUNGLE_D = 22
+TEAM1_JUNGLE_A = 23
+TEAM1_JUNGLE_STATPERK_DEFENCE = 24
+TEAM1_JUNGLE_STATPERK_FLEX = 25
+TEAM1_JUNGLE_STATPERK_OFFENSE = 26
+TEAM1_JUNGLE_PRIMARY1 = 27
+TEAM1_JUNGLE_PRIMARY2 = 28
+TEAM1_JUNGLE_PRIMARY3 = 29
+TEAM1_JUNGLE_PRIMARY4 = 30
+TEAM1_JUNGLE_SUBSTYLE1 = 31
+TEAM1_JUNGLE_SUBSTYLE2 = 32
 
-TEAM1_MIDDLE_CHAMPION = 15
-TEAM1_MIDDLE_GOLD = 16
-TEAM1_MIDDLE_ITEM_GOLD = 17
-TEAM1_MIDDLE_POTION = 18
-TEAM1_MIDDLE_K = 19
-TEAM1_MIDDLE_D = 20
-TEAM1_MIDDLE_A = 21
+TEAM1_MIDDLE_CHAMPION = 33
+TEAM1_MIDDLE_GOLD = 34
+TEAM1_MIDDLE_ITEM_GOLD = 35
+TEAM1_MIDDLE_POTION = 36
+TEAM1_MIDDLE_K = 37
+TEAM1_MIDDLE_D = 38
+TEAM1_MIDDLE_A = 39
+TEAM1_MIDDLE_STATPERK_DEFENCE = 40
+TEAM1_MIDDLE_STATPERK_FLEX = 41
+TEAM1_MIDDLE_STATPERK_OFFENSE = 42
+TEAM1_MIDDLE_PRIMARY1 = 43
+TEAM1_MIDDLE_PRIMARY2 = 44
+TEAM1_MIDDLE_PRIMARY3 = 45
+TEAM1_MIDDLE_PRIMARY4 = 46
+TEAM1_MIDDLE_SUBSTYLE1 = 47
+TEAM1_MIDDLE_SUBSTYLE2 = 48
 
-TEAM1_BOTTOM_CHAMPION = 22
-TEAM1_BOTTOM_GOLD = 23
-TEAM1_BOTTOM_ITEM_GOLD = 24
-TEAM1_BOTTOM_POTION = 25
-TEAM1_BOTTOM_K = 26
-TEAM1_BOTTOM_D = 27
-TEAM1_BOTTOM_A = 28
+TEAM1_BOTTOM_CHAMPION = 49
+TEAM1_BOTTOM_GOLD = 50
+TEAM1_BOTTOM_ITEM_GOLD = 51
+TEAM1_BOTTOM_POTION = 52
+TEAM1_BOTTOM_K = 53
+TEAM1_BOTTOM_D = 54
+TEAM1_BOTTOM_A = 55
+TEAM1_BOTTOM_STATPERK_DEFENCE = 56
+TEAM1_BOTTOM_STATPERK_FLEX = 57
+TEAM1_BOTTOM_STATPERK_OFFENSE = 58
+TEAM1_BOTTOM_PRIMARY1 = 59
+TEAM1_BOTTOM_PRIMARY2 = 60
+TEAM1_BOTTOM_PRIMARY3 = 61
+TEAM1_BOTTOM_PRIMARY4 = 62
+TEAM1_BOTTOM_SUBSTYLE1 = 63
+TEAM1_BOTTOM_SUBSTYLE2 = 64
 
-TEAM1_UTILITY_CHAMPION = 29
-TEAM1_UTILITY_GOLD = 30
-TEAM1_UTILITY_ITEM_GOLD = 31
-TEAM1_UTILITY_POTION = 32
-TEAM1_UTILITY_K = 33
-TEAM1_UTILITY_D = 34
-TEAM1_UTILITY_A = 35
+TEAM1_UTILITY_CHAMPION = 65
+TEAM1_UTILITY_GOLD = 66
+TEAM1_UTILITY_ITEM_GOLD = 67
+TEAM1_UTILITY_POTION = 68
+TEAM1_UTILITY_K = 69
+TEAM1_UTILITY_D = 70
+TEAM1_UTILITY_A = 71
+TEAM1_UTILITY_STATPERK_DEFENCE = 72
+TEAM1_UTILITY_STATPERK_FLEX = 73
+TEAM1_UTILITY_STATPERK_OFFENSE = 74
+TEAM1_UTILITY_PRIMARY1 = 75
+TEAM1_UTILITY_PRIMARY2 = 76
+TEAM1_UTILITY_PRIMARY3 = 77
+TEAM1_UTILITY_PRIMARY4 = 78
+TEAM1_UTILITY_SUBSTYLE1 = 79
+TEAM1_UTILITY_SUBSTYLE2 = 80
 
-TEAM1_GOLD = 36
+TEAM1_GOLD = 81
 
-BOOTS_ITEM = 37
-WARD_ITEM = 38
+BOOTS_ITEM = 82
+WARD_ITEM = 83
 
-WARD_COUNT = 39
-OBJECT_COUNT = 40
+WARD_COUNT = 84
+OBJECT_COUNT = 85
 
-TOWER_TOP_COUNT = 41
-TOWER_MIDDLE_COUNT = 42
-TOWER_BOTTOM_COUNT = 43
+TOWER_TOP_COUNT = 86
+TOWER_MIDDLE_COUNT = 87
+TOWER_BOTTOM_COUNT = 88
 
-TEAM_INTERVAL = 43
+TEAM_INTERVAL = 88
 
-LIST_LEN = 88
+LIST_LEN = 178
 
 class PreprocessData():
     def __init__(self, match_file_dir, timeline_file_dir):
@@ -74,6 +119,7 @@ class PreprocessData():
         team = {}
         line = {}
         champion_list = ["MONKEYKING", "SMOLDER", "AATROX", "AHRI", "AKALI", "AKSHAN", "ALISTAR", "AMUMU", "ANIVIA", "ANNIE", "APHELIOS", "ASHE", "AURELIONSOL", "AZIR", "BARD", "BELVETH", "BLITZCRANK", "BRAND", "BRAUM", "BRIAR", "CAITLYN", "CAMILLE", "CASSIOPEIA", "CHOGATH", "CORKI", "DARIUS", "DIANA", "DRMUNDO", "DRAVEN", "EKKO", "ELISE", "EVELYNN", "EZREAL", "FIDDLESTICKS", "FIORA", "FIZZ", "GALIO", "GANGPLANK", "GAREN", "GNAR", "GRAGAS", "GRAVES", "GWEN", "HECARIM", "HEIMERDINGER", "HWEI", "ILLAOI", "IRELIA", "IVERN", "JANNA", "JARVANIV", "JAX", "JAYCE", "JHIN", "JINX", "KSANTE", "KAISA", "KALISTA", "KARMA", "KARTHUS", "KASSADIN", "KATARINA", "KAYLE", "KAYN", "KENNEN", "KHAZIX", "KINDRED", "KLED", "KOGMAW", "LEBLANC", "LEESIN", "LEONA", "LILLIA", "LISSANDRA", "LUCIAN", "LULU", "LUX", "MALPHITE", "MALZAHAR", "MAOKAI", "MASTERYI", "MILIO", "MISSFORTUNE", "MORDEKAISER", "MORGANA", "NAAFIRI", "NAMI", "NASUS", "NAUTILUS", "NEEKO", "NIDALEE", "NILAH", "NOCTURNE", "NUNU", "OLAF", "ORIANNA", "ORNN", "PANTHEON", "POPPY", "PYKE", "QIYANA", "QUINN", "RAKAN", "RAMMUS", "REKSAI", "RELL", "RENATA", "RENEKTON", "RENGAR", "RIVEN", "RUMBLE", "RYZE", "SAMIRA", "SEJUANI", "SENNA", "SERAPHINE", "SETT", "SHACO", "SHEN", "SHYVANA", "SINGED", "SION", "SIVIR", "SKARNER", "SONA", "SORAKA", "SWAIN", "SYLAS", "SYNDRA", "TAHMKENCH", "TALIYAH", "TALON", "TARIC", "TEEMO", "THRESH", "TRISTANA", "TRUNDLE", "TRYNDAMERE", "TWISTEDFATE", "TWITCH", "UDYR", "URGOT", "VARUS", "VAYNE", "VEIGAR", "VELKOZ", "VEX", "VI", "VIEGO", "VIKTOR", "VLADIMIR", "VOLIBEAR", "WARWICK", "WUKONG", "XAYAH", "XERATH", "XINZHAO", "YASUO", "YONE", "YORICK", "YUUMI", "ZAC", "ZED", "ZERI", "ZIGGS", "ZILEAN", "ZOE", "ZYRA"]
+        perk_list = []
         champion_dic = {}
         champion = {}
 
@@ -102,9 +148,24 @@ class PreprocessData():
                         win_lose[1] = 1
                 
                 champion[participant_data['participantId']] = champion_dic[participant_data['championName'].upper()]
+                
+                statperk_defense = participant_data['perks']['statPerks']['defense']
+                statperk_flex = participant_data['perks']['statPerks']['flex']
+                statperk_offense = participant_data['perks']['statPerks']['offense']
+                primary_perk = []
+                substyle_perk = []
 
+                for p in participant_data['perks']['styles']:
+                    if p['description'] == "primaryStyle":
+                        for perk in p['selections']:
+                            primary_perk.append(perk['perk'])
+                    elif p['description'] == "subStyle":
+                        for perk in p['selections']:
+                            substyle_perk.append(perk['perk'])
 
-        return (team, win_lose, line, champion, aram)
+                perk_list.append([statperk_defense, statperk_flex, statperk_offense, primary_perk[0], primary_perk[1], primary_perk[2], primary_perk[3], substyle_perk[0], substyle_perk[1]])
+
+        return (team, win_lose, line, champion, aram, perk_list)
 
     def get_item_data(self):
         with open('./backend/item.json', encoding="utf-8") as f:
@@ -169,7 +230,7 @@ class PreprocessData():
         
         initial_data = initial_data['info']['frames']
         item_tear, item_base_cost, item_total_cost, item_sold_cost = self.get_item_data()
-        team, win_lose, line, champion, aram = self.get_match_data()
+        team, win_lose, line, champion, aram, perk_list = self.get_match_data()
 
         event_list_result = []
         item_real_cost = 0
@@ -641,7 +702,7 @@ class PreprocessData():
             initial_data = json.load(f)
         
         initial_data = initial_data['info']['frames']
-        team, win_lose, line, champion, aram = self.get_match_data()
+        team, win_lose, line, champion, aram, perk_list = self.get_match_data()
 
         participant_frame_list_result = []
 
@@ -690,6 +751,7 @@ class PreprocessData():
         participant_frame_list = self.get_participant_frame()
 
         champion = self.get_match_data()[3]
+        perk_list = self.get_match_data()[-1]
 
         interval_list_result = []
 
@@ -795,11 +857,43 @@ class PreprocessData():
                     elif whole_list[i-1][TEAM1_UTILITY_A+TEAM_INTERVAL] - whole_list[i-1][TEAM1_UTILITY_K+TEAM_INTERVAL] >= 4:
                         whole_list[i-1][TEAM1_UTILITY_GOLD+TEAM_INTERVAL] += 60                  
 
+            s_d = [TEAM1_TOP_STATPERK_DEFENCE, TEAM1_JUNGLE_STATPERK_DEFENCE, TEAM1_MIDDLE_STATPERK_DEFENCE, TEAM1_BOTTOM_STATPERK_DEFENCE, TEAM1_UTILITY_STATPERK_DEFENCE]
+            s_f = [TEAM1_TOP_STATPERK_FLEX, TEAM1_JUNGLE_STATPERK_FLEX, TEAM1_MIDDLE_STATPERK_FLEX, TEAM1_BOTTOM_STATPERK_FLEX, TEAM1_UTILITY_STATPERK_FLEX]
+            s_o = [TEAM1_TOP_STATPERK_OFFENSE, TEAM1_JUNGLE_STATPERK_OFFENSE, TEAM1_MIDDLE_STATPERK_OFFENSE, TEAM1_BOTTOM_STATPERK_OFFENSE, TEAM1_UTILITY_STATPERK_OFFENSE]
+            p_1 = [TEAM1_TOP_PRIMARY1, TEAM1_JUNGLE_PRIMARY1, TEAM1_MIDDLE_PRIMARY1, TEAM1_BOTTOM_PRIMARY1, TEAM1_UTILITY_PRIMARY1]
+            p_2 = [TEAM1_TOP_PRIMARY2, TEAM1_JUNGLE_PRIMARY2, TEAM1_MIDDLE_PRIMARY2, TEAM1_BOTTOM_PRIMARY2, TEAM1_UTILITY_PRIMARY2]
+            p_3 = [TEAM1_TOP_PRIMARY3, TEAM1_JUNGLE_PRIMARY3, TEAM1_MIDDLE_PRIMARY3, TEAM1_BOTTOM_PRIMARY3, TEAM1_UTILITY_PRIMARY3]
+            p_4 = [TEAM1_TOP_PRIMARY4, TEAM1_JUNGLE_PRIMARY4, TEAM1_MIDDLE_PRIMARY4, TEAM1_BOTTOM_PRIMARY4, TEAM1_UTILITY_PRIMARY4]
+            s_1 = [TEAM1_TOP_SUBSTYLE1, TEAM1_JUNGLE_SUBSTYLE1, TEAM1_MIDDLE_SUBSTYLE1, TEAM1_BOTTOM_SUBSTYLE1, TEAM1_UTILITY_SUBSTYLE1]
+            s_2 = [TEAM1_TOP_SUBSTYLE2, TEAM1_JUNGLE_SUBSTYLE2, TEAM1_MIDDLE_SUBSTYLE2, TEAM1_BOTTOM_SUBSTYLE2, TEAM1_UTILITY_SUBSTYLE2]
 
             for i in whole_list:
                 for j, loc in enumerate([TEAM1_TOP_CHAMPION, TEAM1_JUNGLE_CHAMPION, TEAM1_MIDDLE_CHAMPION, TEAM1_BOTTOM_CHAMPION, TEAM1_UTILITY_CHAMPION]):
                     i[loc] = champion[j+1]
                     i[loc+TEAM_INTERVAL] = champion[j+1+5]
+
+                for h in range(5):
+                    i[s_d[h]] = perk_list[h][0]
+                    i[s_f[h]] = perk_list[h][1]
+                    i[s_o[h]] = perk_list[h][2]
+                    i[p_1[h]] = perk_list[h][3]
+                    i[p_2[h]] = perk_list[h][4]
+                    i[p_3[h]] = perk_list[h][5]
+                    i[p_4[h]] = perk_list[h][6]
+                    i[s_1[h]] = perk_list[h][7]
+                    i[s_2[h]] = perk_list[h][8]
+
+                for h in range(5, 10):
+                    i[s_d[h-5]+TEAM_INTERVAL] = perk_list[h][0]
+                    i[s_f[h-5]+TEAM_INTERVAL] = perk_list[h][1]
+                    i[s_o[h-5]+TEAM_INTERVAL] = perk_list[h][2]
+                    i[p_1[h-5]+TEAM_INTERVAL] = perk_list[h][3]
+                    i[p_2[h-5]+TEAM_INTERVAL] = perk_list[h][4]
+                    i[p_3[h-5]+TEAM_INTERVAL] = perk_list[h][5]
+                    i[p_4[h-5]+TEAM_INTERVAL] = perk_list[h][6]
+                    i[s_1[h-5]+TEAM_INTERVAL] = perk_list[h][7]
+                    i[s_2[h-5]+TEAM_INTERVAL] = perk_list[h][8]
+
 
             
 
