@@ -248,8 +248,18 @@ class LoadData():
                 
             
             if num == num_matches:
-                with open('backend/api_interval_list.json', 'w', encoding='utf-8') as json_file:
-                        json.dump(data_list, json_file, ensure_ascii=False, indent=4)
+                with open('backend/api_interval_list1.json', 'w', encoding='utf-8') as json_file:
+                    json.dump(data_list, json_file, ensure_ascii=False, indent=4)
+                # with open('backend/api_interval_list2.json', 'w', encoding='utf-8') as json_file:
+                #     json.dump(data_list, json_file, ensure_ascii=False, indent=4)
+                # with open('backend/api_interval_list3.json', 'w', encoding='utf-8') as json_file:
+                #     json.dump(data_list, json_file, ensure_ascii=False, indent=4)
+                # with open('backend/api_interval_list4.json', 'w', encoding='utf-8') as json_file:
+                #     json.dump(data_list, json_file, ensure_ascii=False, indent=4)
+                # with open('backend/api_interval_list5.json', 'w', encoding='utf-8') as json_file:
+                #     json.dump(data_list, json_file, ensure_ascii=False, indent=4)
+                # with open('backend/api_interval_list6.json', 'w', encoding='utf-8') as json_file:
+                #     json.dump(data_list, json_file, ensure_ascii=False, indent=4)      
                 break
 
 if __name__ == "__main__":
