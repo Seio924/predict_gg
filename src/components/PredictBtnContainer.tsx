@@ -10,11 +10,31 @@ const ButtonContainer = styled.div`
   width: 580px;
 `;
 
+const SelectNumberContainer = styled.div``;
+
+const SelectBox = styled.select`
+  width: 200px;
+  height: 30px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: #eeeeef;
+  background-color: #1e2023;
+`;
+
 const customModalStyle = {
   content: {
     width: "300px",
     height: "100px",
     margin: "auto",
+    backgroundColor: "#323539",
+    border: "none",
+  },
+  overlay: {
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
 };
 
@@ -23,7 +43,7 @@ interface PredictBtnProps {
   handleUpload?: () => void;
 }
 
-function PredictBtn({ resetMainBox, handleUpload }: PredictBtnProps) {
+function PredictBtnContainer({ resetMainBox, handleUpload }: PredictBtnProps) {
   const [isActive, setActive] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [userInput, setUserInput] = useState("");
@@ -92,18 +112,19 @@ function PredictBtn({ resetMainBox, handleUpload }: PredictBtnProps) {
         onRequestClose={closeModal}
         style={customModalStyle}
       >
-        <div>
+        <SelectNumberContainer>
           <h2>숫자를 입력하세요</h2>
-          <input
-            type="number"
-            value={userInput}
-            onChange={(e) => setUserInput(e.target.value)}
-          />
+          <SelectBox>
+            <option value="option1">5초</option>
+            <option value="option1">10초</option>
+            <option value="option2">30초</option>
+            <option value="option3">60초</option>
+          </SelectBox>
           <button onClick={handleSubmit}>확인</button>
-        </div>
+        </SelectNumberContainer>
       </Modal>
     </ButtonContainer>
   );
 }
 
-export default PredictBtn;
+export default PredictBtnContainer;

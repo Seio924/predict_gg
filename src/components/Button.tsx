@@ -1,6 +1,27 @@
 import styled, { css } from "styled-components";
 
-const Btn = styled.div<{ btnColor: boolean }>`
+const defaultBackgroundColor = css`
+  background-color: rgba(0, 0, 0, 0);
+  border: 1px solid #ffffff;
+`;
+
+const firstColorBackground = css`
+  background-image: linear-gradient(
+    265deg,
+    rgba(24, 200, 255, 0.7),
+    rgba(147, 63, 254, 0.7)
+  );
+`;
+
+const secondColorBackground = css`
+  background-image: linear-gradient(
+    265deg,
+    rgba(198, 197, 197, 0.7),
+    rgba(91, 90, 90, 0.7)
+  );
+`;
+
+const Btn = styled.div<{ btnColor?: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,21 +31,11 @@ const Btn = styled.div<{ btnColor: boolean }>`
   margin-top: 15px;
   cursor: pointer;
   ${(props) =>
-    props.btnColor
-      ? css`
-          background-image: linear-gradient(
-            265deg,
-            rgba(24, 200, 255, 0.7),
-            rgba(147, 63, 254, 0.7)
-          );
-        `
-      : css`
-          background-image: linear-gradient(
-            265deg,
-            rgba(198, 197, 197, 0.7),
-            rgba(91, 90, 90, 0.7)
-          );
-        `};
+    props.btnColor === true
+      ? firstColorBackground
+      : props.btnColor === false
+      ? secondColorBackground
+      : defaultBackgroundColor};
   &:first-child {
     margin-right: 18px;
   }
@@ -37,7 +48,7 @@ const BtnText = styled.p`
 `;
 
 interface IProps {
-  btnColor: boolean;
+  btnColor?: boolean;
   onClick: () => void;
   children?: React.ReactNode;
 }

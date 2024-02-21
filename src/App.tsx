@@ -3,7 +3,7 @@ import styled from "styled-components";
 import MainBox from "./components/MainBox";
 import MainBackground from "./img/main_background.png";
 import TitleBar from "./components/TitleBar";
-import PredictBtn from "./components/PredictBtn";
+import PredictBtnContainer from "./components/PredictBtnContainer";
 
 const MainPage = styled.div`
   width: 100%;
@@ -41,7 +41,10 @@ function App() {
         <TitleBar />
         <Container>
           <MainBox key={key} resetMainBox={resetMainBox} />
-          <PredictBtn resetMainBox={resetMainBox} handleUpload={handleUpload} />
+          <PredictBtnContainer
+            resetMainBox={resetMainBox}
+            handleUpload={handleUpload}
+          />
         </Container>
       </MainPage>
     </>
