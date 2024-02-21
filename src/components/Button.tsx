@@ -21,11 +21,23 @@ const secondColorBackground = css`
   );
 `;
 
-const Btn = styled.div<{ btnColor?: boolean }>`
+const defaultText = css`
+  font-size: 14px;
+  font-weight: 400;
+  color: #eeeeef;
+`;
+
+const firstText = css`
+  font-size: 20px;
+  font-weight: 600;
+  color: #eeeeef;
+`;
+
+const Btn = styled.div<{ btnColor?: boolean; height?: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 45px;
+  height: ${(props) => props.height || "45px"};
   width: 100%;
   border-radius: 7px;
   margin-top: 15px;
@@ -41,22 +53,26 @@ const Btn = styled.div<{ btnColor?: boolean }>`
   }
 `;
 
-const BtnText = styled.p`
-  font-size: 20px;
-  font-weight: 600;
-  color: #eeeeef;
+const BtnText = styled.p<{ btnColor?: boolean }>`
+  ${(props) =>
+    props.btnColor === true
+      ? firstText
+      : props.btnColor === false
+      ? firstText
+      : defaultText};
 `;
 
 interface IProps {
   btnColor?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
+  height?: string;
   children?: React.ReactNode;
 }
 
-function Button({ btnColor, onClick, children }: IProps) {
+function Button({ btnColor, onClick, height, children }: IProps) {
   return (
     <>
-      <Btn btnColor={btnColor} onClick={onClick}>
+      <Btn height={height} btnColor={btnColor} onClick={onClick}>
         <BtnText>{children}</BtnText>
       </Btn>
     </>

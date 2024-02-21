@@ -907,7 +907,7 @@ class PreprocessData():
                 interval_list[-1][0] = i
                 
                 interval_list_result.append(interval_list[-1][:LIST_LEN-1].copy())
-            
+                interval_list_result[-1] = interval_list_result[-1].tolist()
                     
 
         return interval_list_result

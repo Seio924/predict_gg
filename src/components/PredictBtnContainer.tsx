@@ -10,10 +10,14 @@ const ButtonContainer = styled.div`
   width: 580px;
 `;
 
-const SelectNumberContainer = styled.div``;
+const SelectNumberContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const SelectBox = styled.select`
-  width: 200px;
+  width: 300px;
   height: 30px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -25,10 +29,27 @@ const SelectBox = styled.select`
   background-color: #1e2023;
 `;
 
+const SelectBtnContainer = styled.div`
+  display: flex;
+  width: 300px;
+  margin-top: 10px;
+`;
+
+const SelectNumberText = styled.p`
+  font-size: 18px;
+  font-weight: 600;
+  color: #eeeeef;
+  margin-bottom: 23px;
+`;
+
 const customModalStyle = {
   content: {
-    width: "300px",
-    height: "100px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "370px",
+    height: "160px",
+    borderRadius: "8px",
     margin: "auto",
     backgroundColor: "#323539",
     border: "none",
@@ -113,14 +134,21 @@ function PredictBtnContainer({ resetMainBox, handleUpload }: PredictBtnProps) {
         style={customModalStyle}
       >
         <SelectNumberContainer>
-          <h2>숫자를 입력하세요</h2>
+          <SelectNumberText>숫자를 입력하세요</SelectNumberText>
           <SelectBox>
             <option value="option1">5초</option>
             <option value="option1">10초</option>
             <option value="option2">30초</option>
             <option value="option3">60초</option>
           </SelectBox>
-          <button onClick={handleSubmit}>확인</button>
+          <SelectBtnContainer>
+            <Button height="35px" onClick={handleSubmit}>
+              Cancel
+            </Button>
+            <Button height="35px" btnColor={true}>
+              Submit
+            </Button>
+          </SelectBtnContainer>
         </SelectNumberContainer>
       </Modal>
     </ButtonContainer>

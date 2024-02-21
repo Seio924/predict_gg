@@ -200,7 +200,6 @@ class LoadData():
         summonerId = summonerId[summoner_num:summoner_num + 500]
 
         for summoner_name in summonerId:
-            print(summoner_name)
 
             puuid = self.get_puuid(summoner_name)
             match_ids = self.get_matchid(puuid)
@@ -248,10 +247,10 @@ class LoadData():
                 
             
             if num == num_matches:
-                with open('backend/api_interval_list1.json', 'w', encoding='utf-8') as json_file:
+                #with open('backend/api_interval_list1.json', 'w', encoding='utf-8') as json_file:
+                #    json.dump(data_list, json_file, ensure_ascii=False, indent=4)
+                with open('backend/api_interval_list2.json', 'w', encoding='utf-8') as json_file:
                     json.dump(data_list, json_file, ensure_ascii=False, indent=4)
-                # with open('backend/api_interval_list2.json', 'w', encoding='utf-8') as json_file:
-                #     json.dump(data_list, json_file, ensure_ascii=False, indent=4)
                 # with open('backend/api_interval_list3.json', 'w', encoding='utf-8') as json_file:
                 #     json.dump(data_list, json_file, ensure_ascii=False, indent=4)
                 # with open('backend/api_interval_list4.json', 'w', encoding='utf-8') as json_file:
@@ -263,25 +262,25 @@ class LoadData():
                 break
 
 if __name__ == "__main__":
-    load_data_instance1 = LoadData(api_key='RGAPI-316d8d46-a57a-40fd-9de4-1b72796e3425')
-    #load_data_instance2 = LoadData(api_key='원빈api')
+    load_data_instance1 = LoadData(api_key='RGAPI-0a7e5bf3-79b3-4b29-93d4-b750f72924c1')
+    #load_data_instance2 = LoadData(api_key='RGAPI-9d4a2055-7363-43f5-a1d4-e3747acd9a7e')
     #load_data_instance3 = LoadData(api_key='재혁api')
     # load_data_instance4 = LoadData(api_key='현욱api')
     # load_data_instance5 = LoadData(api_key='재원api')
-    # load_data_instance6 = LoadData(api_key='보미api')
+    # load_data_instance6 = LoadData(api_key='수빈api')
 
     # load_data_instance1.get_summoner_Id() # 함수 안에서 하면 계속 리스트가 섞이거나 다른 닉네임으로 교체되는 경우가 있어서 여기서 필요하면 한 번만 실행 (건들이지 말 것)
 
-    load_data_instance1.get_summoner_invertal_list(summoner_start=0, num_matches=10000) #10000개 데이터 리스트 저장
-    # load_data_instance2.get_summoner_invertal_list(summoner_start=500, num_matches=10000)
+    load_data_instance1.get_summoner_invertal_list(summoner_start=0, num_matches=20) #10000개 데이터 리스트 저장
+    #load_data_instance2.get_summoner_invertal_list(summoner_start=500, num_matches=10000)
     #load_data_instance3.get_summoner_invertal_list(summoner_start=1000, num_matches=10000)
     # load_data_instance4.get_summoner_invertal_list(summoner_start=1500, num_matches=10000)
     # load_data_instance5.get_summoner_invertal_list(summoner_start=2000, num_matches=10000)
     # load_data_instance6.get_summoner_invertal_list(summoner_start=2500, num_matches=10000)
 
-    with open('backend/api_interval_list.json', 'r', encoding="utf-8") as f:
-        api_interval_list = json.load(f)
+    #with open('backend/api_interval_list.json', 'r', encoding="utf-8") as f:
+    #    api_interval_list = json.load(f)
 
     # 리스트(.json 파일) 안 내용 엔터 없애는거 (나중에 모델에서 쓰셈)
-    api_interval_list = [[interval.tolist()[:-1] if isinstance(interval, np.ndarray) else interval[:-1] for interval in sublist] for sublist in api_interval_list]
-    print(api_interval_list)
+    #api_interval_list = [[interval.tolist()[:-1] if isinstance(interval, np.ndarray) else interval[:-1] for interval in sublist] for sublist in api_interval_list]
+    #print(api_interval_list)
