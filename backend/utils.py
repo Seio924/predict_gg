@@ -261,25 +261,25 @@ class PreprocessData():
                                 if item_tear_name == "potion":
                                     event_list[TEAM1_JUNGLE_POTION+team_interval] += 1
                                 else:
-                                    event_list[BOOTS_ITEM+team_interval] += 10000
+                                    event_list[BOOTS_ITEM+team_interval] += 1000
                             
                             elif line[j['participantId']] == "MIDDLE":
                                 if item_tear_name == "potion":
                                     event_list[TEAM1_MIDDLE_POTION+team_interval] += 1
                                 else:
-                                    event_list[BOOTS_ITEM+team_interval] += 10000
+                                    event_list[BOOTS_ITEM+team_interval] += 100
                             
                             elif line[j['participantId']] == "BOTTOM":
                                 if item_tear_name == "potion":
                                     event_list[TEAM1_BOTTOM_POTION+team_interval] += 1
                                 else:
-                                    event_list[BOOTS_ITEM+team_interval] += 10000
+                                    event_list[BOOTS_ITEM+team_interval] += 10
                             
                             elif line[j['participantId']] == "UTILITY":
                                 if item_tear_name == "potion":
                                     event_list[TEAM1_UTILITY_POTION+team_interval] += 1
                                 else:
-                                    event_list[BOOTS_ITEM+team_interval] += 10000
+                                    event_list[BOOTS_ITEM+team_interval] += 1
                         
                         if item_tear_name == "ward":
                             event_list[WARD_ITEM+team_interval] += 1

@@ -51,7 +51,7 @@ const customModalStyle = {
     height: "160px",
     borderRadius: "8px",
     margin: "auto",
-    backgroundColor: "#323539",
+    backgroundColor: "rgba(50, 53, 57, 0.96)",
     border: "none",
   },
   overlay: {
@@ -122,10 +122,20 @@ function PredictBtnContainer({ resetMainBox, handleUpload }: PredictBtnProps) {
 
   return (
     <ButtonContainer>
-      <Button btnColor={false} onClick={onUploadClick}>
+      <Button
+        btnColor={false}
+        onClick={onUploadClick}
+        textSize="20px"
+        textWeight="600"
+      >
         다른 파일 업로드
       </Button>
-      <Button btnColor={isActive} onClick={onClick}>
+      <Button
+        btnColor={isActive}
+        onClick={onClick}
+        textSize="20px"
+        textWeight="600"
+      >
         Predict Now
       </Button>
       <Modal
@@ -142,10 +152,21 @@ function PredictBtnContainer({ resetMainBox, handleUpload }: PredictBtnProps) {
             <option value="option3">60초</option>
           </SelectBox>
           <SelectBtnContainer>
-            <Button height="35px" onClick={handleSubmit}>
+            <Button
+              height="35px"
+              textSize="14px"
+              textWeight="400"
+              onClick={closeModal}
+            >
               Cancel
             </Button>
-            <Button height="35px" btnColor={true}>
+            <Button
+              height="35px"
+              btnColor={true}
+              onClick={handleSubmit}
+              textSize="14px"
+              textWeight="400"
+            >
               Submit
             </Button>
           </SelectBtnContainer>

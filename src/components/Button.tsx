@@ -21,18 +21,6 @@ const secondColorBackground = css`
   );
 `;
 
-const defaultText = css`
-  font-size: 14px;
-  font-weight: 400;
-  color: #eeeeef;
-`;
-
-const firstText = css`
-  font-size: 20px;
-  font-weight: 600;
-  color: #eeeeef;
-`;
-
 const Btn = styled.div<{ btnColor?: boolean; height?: string }>`
   display: flex;
   justify-content: center;
@@ -53,27 +41,35 @@ const Btn = styled.div<{ btnColor?: boolean; height?: string }>`
   }
 `;
 
-const BtnText = styled.p<{ btnColor?: boolean }>`
-  ${(props) =>
-    props.btnColor === true
-      ? firstText
-      : props.btnColor === false
-      ? firstText
-      : defaultText};
+const BtnText = styled.p<IProps>`
+  font-size: ${(props) => props.textSize || "14px"};
+  font-weight: ${(props) => props.textWeight || "400"};
+  color: #eeeeef;
 `;
 
 interface IProps {
   btnColor?: boolean;
   onClick?: () => void;
   height?: string;
+  textSize?: string;
+  textWeight?: string;
   children?: React.ReactNode;
 }
 
-function Button({ btnColor, onClick, height, children }: IProps) {
+function Button({
+  btnColor,
+  onClick,
+  height,
+  textSize,
+  textWeight,
+  children,
+}: IProps) {
   return (
     <>
       <Btn height={height} btnColor={btnColor} onClick={onClick}>
-        <BtnText>{children}</BtnText>
+        <BtnText textSize={textSize} textWeight={textWeight}>
+          {children}
+        </BtnText>
       </Btn>
     </>
   );
