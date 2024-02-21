@@ -48,7 +48,6 @@ function runTestScript() {
     console.log(`predict_GRU : child process exited with code ${code}`);
 
     runOverlayScript();
-
   });
 }
 

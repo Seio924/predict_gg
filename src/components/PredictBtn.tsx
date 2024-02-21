@@ -1,67 +1,29 @@
 import React, { useState, useEffect } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { SEND_MATCH_INFO, SEND_PREDICT_GAME } from "../constants";
 import Modal from "react-modal";
+import Button from "./Button";
 
 const ButtonContainer = styled.div`
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
   width: 580px;
 `;
 
-const Button = styled.div<{ isActive: boolean }>`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 45px;
-  width: 280px;
-  border-radius: 7px;
-  cursor: pointer;
-  ${(props) =>
-    props.isActive
-      ? css`
-          background-image: linear-gradient(
-            265deg,
-            rgba(24, 200, 255, 0.7),
-            rgba(147, 63, 254, 0.7)
-          );
-        `
-      : css`
-          background-image: linear-gradient(
-            265deg,
-            rgba(198, 197, 197, 0.7),
-            rgba(91, 90, 90, 0.7)
-          );
-        `};
-  &:first-child {
-    margin-right: 18px;
-  }
-`;
-
-const BtnText = styled.p`
-  font-size: 20px;
-  font-weight: 600;
-  color: #eeeeef;
-`;
-
-// 모달 스타일
 const customModalStyle = {
   content: {
-    width: '300px', // 너비 설정
-    height: '100px', // 높이 설정
-    margin: 'auto', // 화면 중앙 정렬을 위해 margin을 auto로 설정
-  }
+    width: "300px",
+    height: "100px",
+    margin: "auto",
+  },
 };
 
 interface PredictBtnProps {
-  resetMainBox: () => void;
-  handleUpload: () => void;
+  resetMainBox?: () => void;
+  handleUpload?: () => void;
 }
 
-const PredictBtn: React.FC<PredictBtnProps> = ({
-  resetMainBox,
-  handleUpload,
-}) => {
+function PredictBtn({ resetMainBox, handleUpload }: PredictBtnProps) {
   const [isActive, setActive] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [userInput, setUserInput] = useState("");
@@ -86,11 +48,10 @@ const PredictBtn: React.FC<PredictBtnProps> = ({
   };
 
   const onUploadClick = () => {
-    resetMainBox(); // MainBox를 초기화하기 위해 전달된 함수 호출
-    handleUpload(); // 다른 파일 업로드 버튼 클릭 시 실행되는 함수 호출
-    setActive(false); // Predict Now 버튼을 초기화하기 위해 isActive를 false로 설정
+    resetMainBox && resetMainBox();
+    handleUpload && handleUpload();
+    setActive(false);
 
-    // 오버레이 프로세스 종료
     const ipcRenderer = window.require("electron").ipcRenderer;
     ipcRenderer.send("stopOverlayProcess");
   };
@@ -107,7 +68,7 @@ const PredictBtn: React.FC<PredictBtnProps> = ({
     const ipcRenderer = window.require("electron").ipcRenderer;
     const fs = window.require("fs");
     if (!isNaN(Number(userInput))) {
-      alert("입력한 숫자: " + userInput); 
+      alert("입력한 숫자: " + userInput);
       fs.writeFileSync("backend/userInput.txt", userInput);
       ipcRenderer.send(SEND_PREDICT_GAME);
       setActive(false);
@@ -120,13 +81,17 @@ const PredictBtn: React.FC<PredictBtnProps> = ({
 
   return (
     <ButtonContainer>
-      <Button isActive={false} onClick={onUploadClick}>
-        <BtnText>다른 파일 업로드</BtnText>
+      <Button btnColor={false} onClick={onUploadClick}>
+        다른 파일 업로드
       </Button>
-      <Button isActive={isActive} onClick={onClick}>
-        <BtnText>Predict Now</BtnText>
+      <Button btnColor={isActive} onClick={onClick}>
+        Predict Now
       </Button>
-      <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customModalStyle}>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={customModalStyle}
+      >
         <div>
           <h2>숫자를 입력하세요</h2>
           <input
@@ -139,6 +104,6 @@ const PredictBtn: React.FC<PredictBtnProps> = ({
       </Modal>
     </ButtonContainer>
   );
-};
+}
 
 export default PredictBtn;

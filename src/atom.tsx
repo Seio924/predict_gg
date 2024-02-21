@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 
-export const fileNameState = atom({
-  key: "fileNameState",
-  default: "",
+export const isActivePredictBtn = atom({
+  key: "isActivePredictBtn",
+  default: false,
 });
