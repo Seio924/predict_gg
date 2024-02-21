@@ -4,6 +4,7 @@ import time
 from analysis import AnalysisData
 from utils import PreprocessData
 import numpy as np
+import ast
 
 class LoadData():
     def __init__(self, api_key):
@@ -247,18 +248,31 @@ class LoadData():
                 
             
             if num == num_matches:
-                #with open('backend/api_interval_list1.json', 'w', encoding='utf-8') as json_file:
-                #    json.dump(data_list, json_file, ensure_ascii=False, indent=4)
-                with open('backend/api_interval_list2.json', 'w', encoding='utf-8') as json_file:
-                    json.dump(data_list, json_file, ensure_ascii=False, indent=4)
-                # with open('backend/api_interval_list3.json', 'w', encoding='utf-8') as json_file:
-                #     json.dump(data_list, json_file, ensure_ascii=False, indent=4)
-                # with open('backend/api_interval_list4.json', 'w', encoding='utf-8') as json_file:
-                #     json.dump(data_list, json_file, ensure_ascii=False, indent=4)
-                # with open('backend/api_interval_list5.json', 'w', encoding='utf-8') as json_file:
-                #     json.dump(data_list, json_file, ensure_ascii=False, indent=4)
-                # with open('backend/api_interval_list6.json', 'w', encoding='utf-8') as json_file:
-                #     json.dump(data_list, json_file, ensure_ascii=False, indent=4)      
+                # 텍스트 파일 열기 (쓰기 모드로)
+                with open("backend/api_interval_list1.txt", "w") as file:
+                    # 리스트의 각 요소를 파일에 쓰기
+                    for item in data_list:
+                        file.write(str(item) + "\n")
+                # with open("backend/api_interval_list2.txt", "w") as file:
+                #     # 리스트의 각 요소를 파일에 쓰기
+                #     for item in data_list:
+                #         file.write(str(item) + "\n")
+                # with open("backend/api_interval_list3.txt", "w") as file:
+                #     # 리스트의 각 요소를 파일에 쓰기
+                #     for item in data_list:
+                #         file.write(str(item) + "\n")
+                # with open("backend/api_interval_list4.txt", "w") as file:
+                #     # 리스트의 각 요소를 파일에 쓰기
+                #     for item in data_list:
+                #         file.write(str(item) + "\n")
+                # with open("backend/api_interval_list5.txt", "w") as file:
+                #     # 리스트의 각 요소를 파일에 쓰기
+                #     for item in data_list:
+                #         file.write(str(item) + "\n")
+                # with open("backend/api_interval_list6.txt", "w") as file:
+                #     # 리스트의 각 요소를 파일에 쓰기
+                #     for item in data_list:
+                #         file.write(str(item) + "\n")
                 break
 
 if __name__ == "__main__":
@@ -271,16 +285,23 @@ if __name__ == "__main__":
 
     # load_data_instance1.get_summoner_Id() # 함수 안에서 하면 계속 리스트가 섞이거나 다른 닉네임으로 교체되는 경우가 있어서 여기서 필요하면 한 번만 실행 (건들이지 말 것)
 
-    load_data_instance1.get_summoner_invertal_list(summoner_start=0, num_matches=20) #10000개 데이터 리스트 저장
+    load_data_instance1.get_summoner_invertal_list(summoner_start=0, num_matches=10000) #10000개 데이터 리스트 저장
     #load_data_instance2.get_summoner_invertal_list(summoner_start=500, num_matches=10000)
     #load_data_instance3.get_summoner_invertal_list(summoner_start=1000, num_matches=10000)
     # load_data_instance4.get_summoner_invertal_list(summoner_start=1500, num_matches=10000)
     # load_data_instance5.get_summoner_invertal_list(summoner_start=2000, num_matches=10000)
     # load_data_instance6.get_summoner_invertal_list(summoner_start=2500, num_matches=10000)
 
-    #with open('backend/api_interval_list.json', 'r', encoding="utf-8") as f:
-    #    api_interval_list = json.load(f)
+    # 텍스트 파일 열기 (읽기 모드로)
+    with open("backend/api_interval_list1.txt", "r") as file:
+        api_interval_list = []
+        # 파일의 내용 읽기
+        string_data = file.read()
+        # 줄 단위로 문자열을 분리
+        lines = string_data.strip().split("\n")
+        # 각 줄을 파이썬 리스트로 변환
+        for line in lines:
+            # 문자열을 파이썬 리스트로 변환하여 result 리스트에 추가
+            api_interval_list.append(ast.literal_eval(line))
 
-    # 리스트(.json 파일) 안 내용 엔터 없애는거 (나중에 모델에서 쓰셈)
-    #api_interval_list = [[interval.tolist()[:-1] if isinstance(interval, np.ndarray) else interval[:-1] for interval in sublist] for sublist in api_interval_list]
-    #print(api_interval_list)
+    print(len(api_interval_list))
