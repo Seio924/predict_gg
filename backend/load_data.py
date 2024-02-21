@@ -261,7 +261,7 @@ load_data_instance1 = LoadData(api_key='RGAPI-316d8d46-a57a-40fd-9de4-1b72796e34
 
 # load_data_instance1.get_summoner_Id() # 함수 안에서 하면 계속 리스트가 섞이거나 다른 닉네임으로 교체되는 경우가 있어서 여기서 필요하면 한 번만 실행 (건들이지 말 것)
 
-load_data_instance1.get_summoner_invertal_list(summoner_start=0, num_matches=2) #10000개 데이터 리스트 저장
+load_data_instance1.get_summoner_invertal_list(summoner_start=0, num_matches=10000) #10000개 데이터 리스트 저장
 # load_data_instance2.get_summoner_invertal_list(summoner_start=500, num_matches=10000)
 #load_data_instance3.get_summoner_invertal_list(summoner_start=1000, num_matches=10000)
 # load_data_instance4.get_summoner_invertal_list(summoner_start=1500, num_matches=10000)
