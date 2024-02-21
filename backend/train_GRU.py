@@ -9,7 +9,7 @@ if __name__ == "__main__":
     api_key = 'RGAPI-b5c0a11a-0ffb-48af-8aad-30a224a287ec'
     load_instance = LoadData(api_key)
 
-    train_data, win_lose_list = load_instance.get_diamond1_data_list(50)
+    train_data, win_lose_list = load_instance.get_summoner_data_list(50)
     d = len(train_data[0])
     print(train_data)
 
