@@ -7,7 +7,7 @@ from utils_2 import binary_cross_entropy_loss, mse_loss, rnn_sequential
 import matplotlib.pyplot as plt
 
 
-api_key = 'RGAPI-80ba1ae9-cccc-4e83-a491-b5db20a7614b'
+api_key = 'RGAPI-b5c0a11a-0ffb-48af-8aad-30a224a287ec'
 
 with open('backend/userInput.txt', 'r', encoding="utf-8") as f:
     time_num = f.read().strip()
@@ -15,12 +15,12 @@ with open('backend/userInput.txt', 'r', encoding="utf-8") as f:
 test = PreprocessData('./backend/api_match_info.json', './backend/api_timeline_info.json')
 
 # 데이터 가져오기
-train_data = test.get_condition_timeline(int(time_num))
+train_data = test.get_condition_timeline(10000)
 playtime = len(train_data)
 train_data = np.array(train_data)
 print(train_data)
 
-LIST_LEN = 87
+LIST_LEN = 177
 
 # 시계열 데이터의 최대 길이 계산
 max_length_data = 301

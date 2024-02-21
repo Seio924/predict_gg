@@ -6,14 +6,14 @@ from models import GeneralRNN
 import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
-    api_key = 'RGAPI-80ba1ae9-cccc-4e83-a491-b5db20a7614b'
+    api_key = 'RGAPI-b5c0a11a-0ffb-48af-8aad-30a224a287ec'
     load_instance = LoadData(api_key)
 
     train_data, win_lose_list = load_instance.get_diamond1_data_list(50)
     d = len(train_data[0])
-    print(d)
+    print(train_data)
 
-    LIST_LEN = 87
+    LIST_LEN = 177
 
     # 시계열 데이터의 최대 길이 계산
     max_length_data = 301
