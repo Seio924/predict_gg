@@ -40,22 +40,31 @@ class LoadData():
         with open('backend/api_challenger_info.json', 'w', encoding='utf-8') as json_file:
             json.dump(self.summonerId, json_file, ensure_ascii=False, indent=4)
 
-    def get_diamond1_info(self):
-        diamond1_url = "https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/DIAMOND/I?page=1&api_key=" + self.api_key
-        diamond2_url = "https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/DIAMOND/I?page=2&api_key=" + self.api_key
-        diamond3_url = "https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/DIAMOND/I?page=3&api_key=" + self.api_key
-        r7 = requests.get(diamond1_url)
-        r8 = requests.get(diamond2_url)
-        r9 = requests.get(diamond3_url)
-        self.summonerId1 = [entry['summonerName'] for entry in r7.json() if entry.get('summonerName', '') != '']        
-        self.summonerId2 = [entry['summonerName'] for entry in r8.json() if entry.get('summonerName', '') != '']        
-        self.summonerId3 = [entry['summonerName'] for entry in r9.json() if entry.get('summonerName', '') != '']        
+    def get_summoner_Id(self):
+        challenger_url = "https://kr.api.riotgames.com/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5?api_key=" + self.api_key
+        grandmaster_url = "https://kr.api.riotgames.com/lol/league/v4/grandmasterleagues/by-queue/RANKED_SOLO_5x5?api_key=" + self.api_key
+        master_url = "https://kr.api.riotgames.com/lol/league/v4/masterleagues/by-queue/RANKED_SOLO_5x5?api_key=" + self.api_key
+        diamond_urls = [f"https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/DIAMOND/{tier}?page=1&api_key={self.api_key}" for tier in ['I', 'II', 'III', 'IV']]
+        emerald_urls = [f"https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/EMERALD/{tier}?page=1&api_key={self.api_key}" for tier in ['I', 'II', 'III', 'IV']]
+        platinum_urls = [f"https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/PLATINUM/{tier}?page=1&api_key={self.api_key}" for tier in ['I', 'II', 'III', 'IV']]
+        gold_urls = [f"https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/GOLD/{tier}?page=1&api_key={self.api_key}" for tier in ['I', 'II', 'III', 'IV']]
+        silver_urls = [f"https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/SILVER/{tier}?page=1&api_key={self.api_key}" for tier in ['I', 'II', 'III', 'IV']]
+        bronze_urls = [f"https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/BRONZE/{tier}?page=1&api_key={self.api_key}" for tier in ['I', 'II', 'III', 'IV']]
+        iron_urls = [f"https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/IRON/{tier}?page=1&api_key={self.api_key}" for tier in ['I', 'II', 'III', 'IV']]
 
-        self.summonerId = self.summonerId1 + self.summonerId2 + self.summonerId3
+        url_list = [challenger_url, grandmaster_url, master_url] + diamond_urls + emerald_urls + platinum_urls + gold_urls + silver_urls + bronze_urls + iron_urls
+
+        for idx, url in enumerate(url_list):
+            r = requests.get(url)
+            if idx < 3:
+                self.summonerId += [entry['summonerName'] for entry in r.json()['entries'] if entry['summonerName'] != ''][:250]
+            elif idx == 6 or idx == 10 or idx == 14 or idx == 18 or idx == 22 or idx == 26 or idx == 30:   
+                self.summonerId += [entry['summonerName'] for entry in r.json() if entry.get('summonerName', '') != ''][:61]
+            else:
+                self.summonerId += [entry['summonerName'] for entry in r.json() if entry.get('summonerName', '') != ''][:63]
 
         self.summonerId = list(set(self.summonerId))
-
-        with open('backend/api_diamond1_info.json', 'w', encoding='utf-8') as json_file:
+        with open('backend/api_summoner_id.json', 'w', encoding='utf-8') as json_file:
             json.dump(self.summonerId, json_file, ensure_ascii=False, indent=4)
 
     def process_challenger_data(self, num_matches):
@@ -85,8 +94,8 @@ class LoadData():
         analysis_data.plot_results()
         print("끝")
 
-    def process_diamond1_data(self, num_matches):
-        self.get_diamond1_info()
+    def process_summoner_data(self, num_matches):
+        self.get_summoner_Id()
         analysis_data = AnalysisData()
 
         num = 0
@@ -114,8 +123,8 @@ class LoadData():
         analysis_data.plot_results()
         print("끝")
 
-    def get_diamond1_data_list(self, num_matches):
-        self.get_diamond1_info()
+    def get_summoner_data_list(self, num_matches):
+        self.get_summoner_Id()
         data_list = []
         win_lose_list = []
 

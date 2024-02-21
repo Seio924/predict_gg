@@ -26,7 +26,7 @@ def binary_crossentropy_loss(y_true, y_pred):
 load_instance = LoadData(api_key)
 
 # 데이터 가져오기
-train_data, win_lose_list = load_instance.get_diamond1_data_list(3)
+train_data, win_lose_list = load_instance.get_summoner_data_list(3)
 print(len(train_data[0]))
 print(len(train_data[1]))
 print(len(win_lose_list[0]))

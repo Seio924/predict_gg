@@ -11,7 +11,7 @@ load_instance = LoadData(api_key)
 # 데이터 가져오기
 #interval_list = test.get_condition_timeline(10000)
 #interval_list = test.get_event()
-interval_list, get_win_lose_list = load_instance.get_diamond1_data_list(1)
+interval_list, get_win_lose_list = load_instance.get_summoner_data_list(1)
 
 interval_list = np.array(interval_list[0], dtype=int)
 
