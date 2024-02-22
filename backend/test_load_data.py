@@ -15,6 +15,7 @@ interval_list = test.get_condition_timeline(10000)
 
 interval_list = np.array(interval_list, dtype=int)
 
+
 # 헤더 정의
 n = [
     "TIMESTAMP",
@@ -81,7 +82,14 @@ n = [
 
 
 # DataFrame 생성
-df = pd.DataFrame(data=interval_list, columns=n)
+# df = pd.DataFrame(data=interval_list, columns=n)
+
+# interval_list를 2차원 배열로 변환
+interval_list_2d = np.array(interval_list).reshape(-1, len(n))
+
+# DataFrame 생성
+df = pd.DataFrame(data=interval_list_2d, columns=n)
+
 
 #df = pd.DataFrame(data=interval_list)
 

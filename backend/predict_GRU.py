@@ -12,10 +12,12 @@ api_key = 'RGAPI-3ec05947-04f7-4650-a49a-0c4b0e5d1b1f'
 with open('backend/userInput.txt', 'r', encoding="utf-8") as f:
     time_num = f.read().strip()
 
+time_num = int(time_num)
+
 test = PreprocessData('./backend/api_match_info.json', './backend/api_timeline_info.json')
 
 # 데이터 가져오기
-train_data = test.get_condition_timeline(10000)
+train_data = test.get_condition_timeline(time_num*1000)
 playtime = len(train_data)
 train_data = np.array(train_data)
 print(train_data)
@@ -44,11 +46,13 @@ for i in range(playtime):
     predictions = loaded_model.predict(pred_x)
 
 
-    winning_rate.append([predictions[0][0], predictions[0][1]])
+    winning_rate.append([(i*time_num), round(predictions[0][0]*100), round(predictions[0][1]*100)])
 
-print(winning_rate)
+#print(winning_rate)
 
-with open("predict_data.txt", "w") as file:
+
+
+with open("src/predict_data.txt", "w") as file:
     for rate in winning_rate:
         file.write(f"{rate}\n")
 

@@ -128,12 +128,13 @@ class LoadData():
         print("끝")
 
     def get_summoner_data_list(self, num_matches):
-        self.get_summoner_Id()
+        with open('backend/api_summoner_id.json', 'r', encoding="utf-8") as f:
+            summonerId = json.load(f)
         data_list = []
         win_lose_list = []
 
         num = 0
-        for summoner_name in self.summonerId:
+        for summoner_name in summonerId:
             puuid = self.get_puuid(summoner_name)
             match_ids = self.get_matchid(puuid)
     
@@ -202,15 +203,15 @@ class LoadData():
 
         for summoner_name in summonerId:
 
-            puuid = self.get_puuid(summoner_name)
+            puuid = self.get_puuid("리그자")
             match_ids = self.get_matchid(puuid)
     
             for match_id in match_ids:
 
                 num += 1
                 
-                self.get_match_data(match_id)
-                self.get_timeline_data(match_id)
+                self.get_match_data("KR_6954892685")
+                self.get_timeline_data("KR_6954892685")
 
                 with open('backend/api_match_info.json', 'r', encoding="utf-8") as f:
                     match_info = json.load(f)
@@ -276,7 +277,7 @@ class LoadData():
                 break
 
 if __name__ == "__main__":
-    load_data_instance1 = LoadData(api_key='RGAPI-0a7e5bf3-79b3-4b29-93d4-b750f72924c1')
+    load_data_instance1 = LoadData(api_key='RGAPI-a9fc44d4-206b-40a3-9f8b-7adccc0c3b10')
     #load_data_instance2 = LoadData(api_key='RGAPI-9d4a2055-7363-43f5-a1d4-e3747acd9a7e')
     #load_data_instance3 = LoadData(api_key='재혁api')
     # load_data_instance4 = LoadData(api_key='현욱api')
@@ -285,7 +286,7 @@ if __name__ == "__main__":
 
     # load_data_instance1.get_summoner_Id() # 함수 안에서 하면 계속 리스트가 섞이거나 다른 닉네임으로 교체되는 경우가 있어서 여기서 필요하면 한 번만 실행 (건들이지 말 것)
 
-    load_data_instance1.get_summoner_invertal_list(summoner_start=0, num_matches=10000) #10000개 데이터 리스트 저장
+    load_data_instance1.get_summoner_invertal_list(summoner_start=0, num_matches=1) #10000개 데이터 리스트 저장
     #load_data_instance2.get_summoner_invertal_list(summoner_start=500, num_matches=10000)
     #load_data_instance3.get_summoner_invertal_list(summoner_start=1000, num_matches=10000)
     # load_data_instance4.get_summoner_invertal_list(summoner_start=1500, num_matches=10000)

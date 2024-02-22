@@ -32,7 +32,6 @@ function runOverlayScript() {
   });
 }
 
-// hello.py를 실행하는 함수
 function runTestScript() {
   testProcess = spawn("python", ["backend/predict_GRU.py"]);
 
@@ -46,8 +45,9 @@ function runTestScript() {
 
   testProcess.on("close", (code) => {
     console.log(`predict_GRU : child process exited with code ${code}`);
-
-    runOverlayScript();
+    if(code == 0) {
+      runOverlayScript();
+    }
   });
 }
 
