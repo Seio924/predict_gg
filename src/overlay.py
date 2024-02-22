@@ -3,12 +3,15 @@ import cv2
 import numpy as np
 import pytesseract
 import mss
-import win32gui
+import win32gui 
 import win32con
 import win32api
 import time
 import threading
 import json
+
+OVERLAY_WIDTH = 350
+OVERLAY_HEIGHT = 140
 
 def get_match_duration():
     # api_match_info.json 파일에서 매치 지속 시간 가져오기
@@ -95,8 +98,8 @@ def create_overlay():
         win32con.WS_POPUP | win32con.WS_VISIBLE,
         20,
         10,
-        200,
-        100,
+        OVERLAY_WIDTH,
+        OVERLAY_HEIGHT,
         0,
         0,
         win32api.GetModuleHandle(None),
@@ -108,7 +111,7 @@ def create_overlay():
                            win32con.SWP_NOMOVE | win32con.SWP_NOSIZE | win32con.SWP_NOACTIVATE)
 
     # 모서리를 둥글게 만들기
-    region = win32gui.CreateRoundRectRgn(0, 0, 200, 100, 20, 20)
+    region = win32gui.CreateRoundRectRgn(0, 0, OVERLAY_WIDTH, OVERLAY_HEIGHT, 20, 20)
     win32gui.SetWindowRgn(hwnd, region, True)
 
     return hwnd
@@ -117,28 +120,36 @@ def create_overlay():
 def draw_background(hwnd, hdc, text):
     global increasing, blue_percentage
 
-    rect = (0, 0, 200, 100)  # 전체 윈도우 크기
+    rect = (0, 0, OVERLAY_WIDTH, OVERLAY_HEIGHT)  # 전체 윈도우 크기
 
     if increasing:
         blue_percentage += 2
     else:
         blue_percentage -= 2
 
+    background_rect = (rect[0], rect[1], rect[2], rect[3])
+
+    bar_rect = (rect[0] + 20, rect[1] + OVERLAY_HEIGHT-45 , rect[2] - 20, rect[3] -40)
+    
+
     # 파랑색 영역 계산
     blue_width = blue_percentage
-    blue_rect = (rect[0], rect[1], blue_width, rect[3])
+    blue_rect = (bar_rect[0], bar_rect[1], bar_rect[0] + blue_width, bar_rect[3])
+
 
     # 빨강색 영역 계산
     red_width = rect[2] - blue_width  # 전체 가로 길이에서 파란색 영역의 너비를 뺀 값
-    red_rect = (blue_width, rect[1], red_width+blue_width, rect[3])
+    red_rect = (blue_rect[2], bar_rect[1], bar_rect[2], bar_rect[3])
+
+    win32gui.FillRect(hdc, background_rect, win32gui.CreateSolidBrush(win32api.RGB(50, 53, 57)))
 
     # 파랑색 영역 채우기
-    win32gui.FillRect(hdc, blue_rect, win32gui.CreateSolidBrush(win32api.RGB(0, 0, 255)))  # 파랑색 배경 채우기
+    win32gui.FillRect(hdc, blue_rect, win32gui.CreateSolidBrush(win32api.RGB(94, 130, 255)))  # 파랑색 배경 채우기
 
     # 빨강색 영역 채우기
-    win32gui.FillRect(hdc, red_rect, win32gui.CreateSolidBrush(win32api.RGB(255, 0, 0)))  # 빨강색 배경 채우기
+    win32gui.FillRect(hdc, red_rect, win32gui.CreateSolidBrush(win32api.RGB(214, 78, 91)))  # 빨강색 배경 채우기
 
-    if blue_percentage == 200:
+    if blue_percentage == OVERLAY_WIDTH:
         increasing = False
     elif blue_percentage == 0:
         increasing = True
@@ -154,14 +165,20 @@ def on_paint(hwnd, msg, wparam, lparam):
     draw_background(hwnd, hdc, text_tmp)
     
     # 텍스트 그리기
-    rect_text = (0, 0, 200, 100)  # 텍스트가 출력될 영역
+    rect_text = (20, 20, OVERLAY_WIDTH-20, OVERLAY_HEIGHT-20)  # 텍스트가 출력될 영역
     win32gui.SetTextColor(hdc, win32api.RGB(255, 255, 255))  # 텍스트 색상 설정 (흰색)
     win32gui.SetBkMode(hdc, win32con.TRANSPARENT)  # 배경 투명으로 설정
     win32gui.DrawText(hdc, text_tmp, -1, rect_text, win32con.DT_CENTER | win32con.DT_VCENTER | win32con.DT_SINGLELINE)  # 텍스트 출력 위치 및 스타일 설정
-
+    
+    # BLUE와 RED 텍스트 출력
+    blue_text = "BLUE"
+    red_text = "RED"
+    win32gui.DrawText(hdc, blue_text, -1, rect_text, win32con.DT_LEFT | win32con.DT_VCENTER | win32con.DT_SINGLELINE)  # 텍스트 출력 위치 및 스타일 설정
+    win32gui.DrawText(hdc, red_text, -1, rect_text, win32con.DT_RIGHT | win32con.DT_VCENTER | win32con.DT_SINGLELINE)  # 텍스트 출력 위치 및 스타일 설정
+    
     win32gui.EndPaint(hwnd, ps)
     
-    return 0  # 반환 값으로 0을 사용하여 정상적으로 처리되었음을 나타냄
+    return 0   # 반환 값으로 0을 사용하여 정상적으로 처리되었음을 나타냄
 
 # 캡처 및 텍스트 추출을 수행하는 함수
 def capture_and_extract(hwnd):

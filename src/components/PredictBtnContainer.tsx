@@ -120,6 +120,10 @@ function PredictBtnContainer({ resetMainBox, handleUpload }: PredictBtnProps) {
     closeModal();
   };
 
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserInput(e.target.value);
+  };
+
   return (
     <ButtonContainer>
       <Button
@@ -145,11 +149,11 @@ function PredictBtnContainer({ resetMainBox, handleUpload }: PredictBtnProps) {
       >
         <SelectNumberContainer>
           <SelectNumberText>숫자를 입력하세요</SelectNumberText>
-          <SelectBox>
-            <option value="option1">5초</option>
-            <option value="option1">10초</option>
-            <option value="option2">30초</option>
-            <option value="option3">60초</option>
+          <SelectBox onChange={handleSelectChange}>
+            <option value="5">5초</option>
+            <option value="10">10초</option>
+            <option value="30">30초</option>
+            <option value="60">60초</option>
           </SelectBox>
           <SelectBtnContainer>
             <Button
