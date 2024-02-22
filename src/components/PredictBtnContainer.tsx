@@ -108,14 +108,23 @@ function PredictBtnContainer({ resetMainBox, handleUpload }: PredictBtnProps) {
   const handleSubmit = () => {
     const ipcRenderer = window.require("electron").ipcRenderer;
     const fs = window.require("fs");
-    if (!isNaN(Number(userInput))) {
-      alert("입력한 숫자: " + userInput);
-      fs.writeFileSync("backend/userInput.txt", userInput);
+
+    if (userInput.trim() === "") {
+      alert("입력한 숫자: " + "10");
+      fs.writeFileSync("backend/userInput.txt", "10");
       ipcRenderer.send(SEND_PREDICT_GAME);
       setActive(false);
     } else {
-      alert("숫자를 입력하세요.");
+      if (!isNaN(Number(userInput))) {
+        alert("입력한 숫자: " + userInput);
+        fs.writeFileSync("backend/userInput.txt", userInput);
+        ipcRenderer.send(SEND_PREDICT_GAME);
+        setActive(false);
+      } else {
+        alert("숫자를 입력하세요.");
+      }
     }
+
     setUserInput("");
     closeModal();
   };
@@ -149,7 +158,7 @@ function PredictBtnContainer({ resetMainBox, handleUpload }: PredictBtnProps) {
       >
         <SelectNumberContainer>
           <SelectNumberText>숫자를 입력하세요</SelectNumberText>
-          <SelectBox onChange={handleSelectChange}>
+          <SelectBox onChange={handleSelectChange} defaultValue="10">
             <option value="5">5초</option>
             <option value="10">10초</option>
             <option value="30">30초</option>

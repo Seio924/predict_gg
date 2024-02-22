@@ -34,7 +34,7 @@ winning_rate2 = []
 with tf.keras.utils.custom_object_scope({'binary_cross_entropy_loss': binary_cross_entropy_loss}):
     loaded_model = tf.keras.models.load_model('C:/GitHub/predict_gg/backend/model_trained_GRU')
 
-for i in range(playtime):
+for i in range(3):
 
     predict_data = train_data[:i+1].copy()
 
@@ -47,7 +47,7 @@ for i in range(playtime):
     pred_x = np.expand_dims(padded_predict_data, axis=0)
     predictions = loaded_model.predict(pred_x)
 
-    winning_rate2.append([(i*time_num), round(predictions[0][0]*100), round(predictions[0][1]*100)])
+    winning_rate2.append([predictions[0][0], predictions[0][1]])
     winning_rate.append([(i*time_num), round(predictions[0][0]*100), round(predictions[0][1]*100)])
 
 #print(winning_rate)
@@ -55,7 +55,7 @@ for i in range(playtime):
 
 
 with open("src/predict_data.txt", "w") as file:
-    for rate in winning_rate2:
+    for rate in winning_rate:
         file.write(f"{rate}\n")
 
 
