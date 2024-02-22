@@ -7,7 +7,7 @@ from utils_2 import binary_cross_entropy_loss, mse_loss, rnn_sequential
 import matplotlib.pyplot as plt
 
 
-api_key = 'RGAPI-b5c0a11a-0ffb-48af-8aad-30a224a287ec'
+api_key = 'RGAPI-3ec05947-04f7-4650-a49a-0c4b0e5d1b1f'
 
 with open('backend/userInput.txt', 'r', encoding="utf-8") as f:
     time_num = f.read().strip()
@@ -30,14 +30,14 @@ winning_rate = []
 with tf.keras.utils.custom_object_scope({'binary_cross_entropy_loss': binary_cross_entropy_loss}):
     loaded_model = tf.keras.models.load_model('C:/GitHub/predict_gg/backend/model_trained_GRU')
 
-for i in range(1, playtime):
+for i in range(playtime):
 
-    predict_data = train_data[:i].copy()
+    predict_data = train_data[:i+1].copy()
 
     # 패딩을 적용한 배열 생성
     padded_predict_data = np.zeros((max_length_data, LIST_LEN))
-    for i, seq in enumerate(predict_data):
-        padded_predict_data[i, :] = seq
+    for h, seq in enumerate(predict_data):
+        padded_predict_data[h, :] = seq
 
 
     pred_x = np.expand_dims(padded_predict_data, axis=0)

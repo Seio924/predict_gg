@@ -409,7 +409,6 @@ class PreprocessData():
                             event_list[TEAM1_UTILITY_GOLD+team_interval] = minus_gold
                             event_list[TEAM1_UTILITY_ITEM_GOLD+team_interval] -= item_sold_cost[str(j['itemId'])]
                         
-                        event_list[TEAM1_GOLD+team_interval] = minus_gold
     
                     
                     elif j['type'] == 'ITEM_UNDO':
@@ -711,8 +710,6 @@ class PreprocessData():
             for i in initial_data:
                 
                 participant_frame_list = [0 for h in range(LIST_LEN)]
-                team1_gold = 0
-                team2_gold = 0
 
                 participant_frame_list[TIMESTAMP] = i['timestamp']
 
@@ -730,12 +727,7 @@ class PreprocessData():
                     elif line[j] == "UTILITY":
                         participant_frame_list[TEAM1_UTILITY_GOLD+team_interval] = i['participantFrames'][str(j)]['totalGold']
                     
-                for j in [TEAM1_TOP_GOLD, TEAM1_JUNGLE_GOLD, TEAM1_MIDDLE_GOLD, TEAM1_BOTTOM_GOLD, TEAM1_UTILITY_GOLD]:
-                    team1_gold += participant_frame_list[j]
-                    team2_gold += participant_frame_list[j+TEAM_INTERVAL]
-                    
-                participant_frame_list[TEAM1_GOLD] = team1_gold
-                participant_frame_list[TEAM1_GOLD+TEAM_INTERVAL] = team2_gold
+                
 
                 participant_frame_list[-1] = 2222
 
@@ -893,6 +885,17 @@ class PreprocessData():
                     i[p_4[h-5]+TEAM_INTERVAL] = perk_list[h][6]
                     i[s_1[h-5]+TEAM_INTERVAL] = perk_list[h][7]
                     i[s_2[h-5]+TEAM_INTERVAL] = perk_list[h][8]
+
+                
+                team1_gold = 0
+                team2_gold = 0
+
+                for j in [TEAM1_TOP_GOLD, TEAM1_JUNGLE_GOLD, TEAM1_MIDDLE_GOLD, TEAM1_BOTTOM_GOLD, TEAM1_UTILITY_GOLD]:
+                    team1_gold += i[j]
+                    team2_gold += i[j+TEAM_INTERVAL]
+                    
+                i[TEAM1_GOLD] = team1_gold
+                i[TEAM1_GOLD+TEAM_INTERVAL] = team2_gold
 
 
             
