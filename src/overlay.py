@@ -11,7 +11,7 @@ import threading
 import json
 
 OVERLAY_WIDTH = 350
-OVERLAY_HEIGHT = 140
+OVERLAY_HEIGHT = 125
 
 def get_match_duration():
     # api_match_info.json 파일에서 매치 지속 시간 가져오기
@@ -137,7 +137,7 @@ def draw_background(hwnd, hdc, text):
 
     background_rect = (rect[0], rect[1], rect[2], rect[3])
 
-    bar_rect = (rect[0] + 20, rect[1] + OVERLAY_HEIGHT-45 , rect[2] - 20, rect[3] -40)
+    bar_rect = (rect[0] + 20, rect[1] + OVERLAY_HEIGHT-50 , rect[2] - 20, rect[3] -45)
     
 
     # 파랑색 영역 계산
@@ -168,12 +168,27 @@ def on_paint(hwnd, msg, wparam, lparam):
     global text_tmp, predict_txt  # text_tmp를 전역 변수로 선언
     
     hdc, ps = win32gui.BeginPaint(hwnd)
-    
+
+    # 텍스트 출력에 사용할 폰트 크기 및 스타일 설정
+    font_size = 24
+    font_weight = win32con.FW_BOLD
+
+    # 폰트 생성
+    font = win32gui.CreateFont(font_size, 0, 0, 0, font_weight, False, False, False,
+                            win32con.DEFAULT_CHARSET, win32con.OUT_DEFAULT_PRECIS,
+                            win32con.CLIP_DEFAULT_PRECIS, win32con.DEFAULT_QUALITY,
+                            win32con.DEFAULT_PITCH | win32con.FF_SWISS, "Arial")
+
+
+    # 텍스트 출력에 사용할 HDC 생성
+    hdc = win32gui.GetDC(None)
+
     # 배경 그리기
     draw_background(hwnd, hdc, text_tmp)
     
     # 텍스트 그리기
     rect_text = (20, 20, OVERLAY_WIDTH-20, OVERLAY_HEIGHT-20)  # 텍스트가 출력될 영역
+
     win32gui.SetTextColor(hdc, win32api.RGB(255, 255, 255))  # 텍스트 색상 설정 (흰색)
     win32gui.SetBkMode(hdc, win32con.TRANSPARENT)  # 배경 투명으로 설정
     win32gui.DrawText(hdc, predict_txt, -1, rect_text, win32con.DT_CENTER | win32con.DT_VCENTER | win32con.DT_SINGLELINE)  # 텍스트 출력 위치 및 스타일 설정
@@ -181,6 +196,8 @@ def on_paint(hwnd, msg, wparam, lparam):
     # BLUE와 RED 텍스트 출력
     blue_text = "BLUE"
     red_text = "RED"
+
+    win32gui.SelectObject(hdc, font)
     win32gui.DrawText(hdc, blue_text, -1, rect_text, win32con.DT_LEFT | win32con.DT_VCENTER | win32con.DT_SINGLELINE)  # 텍스트 출력 위치 및 스타일 설정
     win32gui.DrawText(hdc, red_text, -1, rect_text, win32con.DT_RIGHT | win32con.DT_VCENTER | win32con.DT_SINGLELINE)  # 텍스트 출력 위치 및 스타일 설정
     

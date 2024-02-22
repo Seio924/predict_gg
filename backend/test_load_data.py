@@ -3,7 +3,7 @@ from utils import PreprocessData
 import numpy as np
 from load_data import LoadData
 
-api_key = 'RGAPI-a9fc44d4-206b-40a3-9f8b-7adccc0c3b10'
+api_key = 'RGAPI-3ec05947-04f7-4650-a49a-0c4b0e5d1b1f'
 
 test = PreprocessData('./backend/api_match_info.json', './backend/api_timeline_info.json')
 
@@ -11,7 +11,7 @@ load_instance = LoadData(api_key)
 # 데이터 가져오기
 interval_list = test.get_condition_timeline(10000)
 #interval_list = test.get_event()
-interval_list, get_win_lose_list = load_instance.get_summoner_data_list(1)
+#interval_list, get_win_lose_list = load_instance.get_summoner_data_list(1)
 
 interval_list = np.array(interval_list, dtype=int)
 
