@@ -25,7 +25,6 @@ def get_text_file():
         # 예측 승률 리스트로 변환
         lines = f.readlines()
         predict_data = [eval(line.strip()) for line in lines]
-        print(predict_data)
     return predict_data
 
 with open('backend/userInput.txt', 'r', encoding="utf-8") as f:
@@ -58,13 +57,13 @@ s = int((get_match_duration() % 60000) / 1000)
 print(m, s)
 sleep_num = 0.3
 cnt = 0
-predict_txt = ""
 
 increasing = True
 blue_percentage = 100
 
 predict_list = get_text_file()
 time_num = int(time_num)
+predict_txt = str(predict_list[0//time_num][1]) + "% :" + str(predict_list[0//time_num][2]) + "%"
 
 # 화면 캡처 함수 (관심 영역만 캡처)
 def capture_screen(roi):
@@ -183,7 +182,7 @@ def on_paint(hwnd, msg, wparam, lparam):
 
     win32gui.SetTextColor(hdc, win32api.RGB(255, 255, 255))  # 텍스트 색상 설정 (흰색)
     win32gui.SetBkMode(hdc, win32con.TRANSPARENT)  # 배경 투명으로 설정
-    win32gui.DrawText(hdc, text_tmp, -1, rect_text, win32con.DT_CENTER | win32con.DT_VCENTER | win32con.DT_SINGLELINE)  # 텍스트 출력 위치 및 스타일 설정
+    win32gui.DrawText(hdc, predict_txt, -1, rect_text, win32con.DT_CENTER | win32con.DT_VCENTER | win32con.DT_SINGLELINE)  # 텍스트 출력 위치 및 스타일 설정
     
     
     # BLUE와 RED 텍스트 출력
@@ -199,7 +198,7 @@ def on_paint(hwnd, msg, wparam, lparam):
 
 # 캡처 및 텍스트 추출을 수행하는 함수
 def capture_and_extract(hwnd):
-    global text_tmp, m, s, cnt, predict_list, predict_txt, time_num
+    global text_tmp, predict_txt, m, s, cnt
 
     while True:
         # 화면 캡처
@@ -241,7 +240,7 @@ def capture_and_extract(hwnd):
                 text = str_min + ":" + str_sec
                 text_tmp = text
 
-                predict_txt = str(predict_list[(min*60+sec)//time_num][1]) + "% :" + str(predict_list[(min*60+sec)//time_num][2]) + "%"
+                predict_txt = str(predict_list[(min*60+sec)//time_num][1]) + "% : " + str(predict_list[(min*60+sec)//time_num][2]) + "%"
 
                 print(min*60+sec)
 
@@ -249,7 +248,7 @@ def capture_and_extract(hwnd):
             
             else:
                 text_tmp = text
-                predict_txt = str(predict_list[(int(text_tmp[0:2])*60+int(text_tmp[3:]))//time_num][1]) + "% :" + str(predict_list[(int(text_tmp[0:2])*60+int(text_tmp[3:]))//time_num][2]) + "%"
+                predict_txt = str(predict_list[(int(text_tmp[0:2])*60+int(text_tmp[3:]))//time_num][1]) + "% : " + str(predict_list[(int(text_tmp[0:2])*60+int(text_tmp[3:]))//time_num][2]) + "%"
                 print(int(text_tmp[0:2])*60+int(text_tmp[3:]))
                 cnt = 0
         else:
@@ -263,7 +262,7 @@ def capture_and_extract(hwnd):
             if min == 0 and sec == 0:
                 text = text_tmp
                 text_tmp = text
-                predict_txt = str(predict_list[(min*60+sec)//time_num][1]) + "% :" + str(predict_list[(min*60+sec)//time_num][2]) + "%"
+                predict_txt = str(predict_list[(min*60+sec)//time_num][1]) + "% : " + str(predict_list[(min*60+sec)//time_num][2]) + "%"
                 print(min*60+sec)
                 continue
 
@@ -289,7 +288,7 @@ def capture_and_extract(hwnd):
 
             text = str_min + ":" + str_sec
             text_tmp = text
-            predict_txt = str(predict_list[(min*60+sec)//time_num][1]) + "% :" + str(predict_list[(min*60+sec)//time_num][2]) + "%"
+            predict_txt = str(predict_list[(min*60+sec)//time_num][1]) + "% : " + str(predict_list[(min*60+sec)//time_num][2]) + "%"
             print(min*60+sec)
 
         
