@@ -203,15 +203,15 @@ class LoadData():
 
         for summoner_name in summonerId:
 
-            puuid = self.get_puuid("리그자")
+            puuid = self.get_puuid(summoner_name)
             match_ids = self.get_matchid(puuid)
     
             for match_id in match_ids:
 
                 num += 1
                 
-                self.get_match_data("KR_6954892685")
-                self.get_timeline_data("KR_6954892685")
+                self.get_match_data(match_id)
+                self.get_timeline_data(match_id)
 
                 with open('backend/api_match_info.json', 'r', encoding="utf-8") as f:
                     match_info = json.load(f)
@@ -286,7 +286,7 @@ if __name__ == "__main__":
 
     # load_data_instance1.get_summoner_Id() # 함수 안에서 하면 계속 리스트가 섞이거나 다른 닉네임으로 교체되는 경우가 있어서 여기서 필요하면 한 번만 실행 (건들이지 말 것)
 
-    load_data_instance1.get_summoner_invertal_list(summoner_start=0, num_matches=1) #10000개 데이터 리스트 저장
+    load_data_instance1.get_summoner_invertal_list(summoner_start=0, num_matches=10000) #10000개 데이터 리스트 저장
     #load_data_instance2.get_summoner_invertal_list(summoner_start=500, num_matches=10000)
     #load_data_instance3.get_summoner_invertal_list(summoner_start=1000, num_matches=10000)
     # load_data_instance4.get_summoner_invertal_list(summoner_start=1500, num_matches=10000)
@@ -294,15 +294,15 @@ if __name__ == "__main__":
     # load_data_instance6.get_summoner_invertal_list(summoner_start=2500, num_matches=10000)
 
     # 텍스트 파일 열기 (읽기 모드로)
-    with open("backend/api_interval_list1.txt", "r") as file:
-        api_interval_list = []
-        # 파일의 내용 읽기
-        string_data = file.read()
-        # 줄 단위로 문자열을 분리
-        lines = string_data.strip().split("\n")
-        # 각 줄을 파이썬 리스트로 변환
-        for line in lines:
-            # 문자열을 파이썬 리스트로 변환하여 result 리스트에 추가
-            api_interval_list.append(ast.literal_eval(line))
+    # with open("backend/api_interval_list1.txt", "r") as file:
+    #     api_interval_list = []
+    #     # 파일의 내용 읽기
+    #     string_data = file.read()
+    #     # 줄 단위로 문자열을 분리
+    #     lines = string_data.strip().split("\n")
+    #     # 각 줄을 파이썬 리스트로 변환
+    #     for line in lines:
+    #         # 문자열을 파이썬 리스트로 변환하여 result 리스트에 추가
+    #         api_interval_list.append(ast.literal_eval(line))
 
-    print(len(api_interval_list))
+    # print(len(api_interval_list))

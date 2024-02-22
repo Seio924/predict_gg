@@ -47,7 +47,7 @@ for i in range(playtime):
     pred_x = np.expand_dims(padded_predict_data, axis=0)
     predictions = loaded_model.predict(pred_x)
 
-    winning_rate2.append([predictions[0][0], predictions[0][1]])
+    winning_rate2.append([(i*time_num), round(predictions[0][0]*100), round(predictions[0][1]*100)])
     winning_rate.append([(i*time_num), round(predictions[0][0]*100), round(predictions[0][1]*100)])
 
 #print(winning_rate)
