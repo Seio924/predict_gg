@@ -6,10 +6,10 @@ from models import GeneralRNN
 import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
-    api_key = 'RGAPI-b5c0a11a-0ffb-48af-8aad-30a224a287ec'
+    api_key = 'RGAPI-a9fc44d4-206b-40a3-9f8b-7adccc0c3b10'
     load_instance = LoadData(api_key)
 
-    train_data, win_lose_list = load_instance.get_summoner_data_list(50)
+    train_data, win_lose_list = load_instance.get_summoner_data_list(5)
     d = len(train_data[0])
     print(train_data)
 
@@ -40,7 +40,7 @@ if __name__ == "__main__":
     # Train the model
     trained_model = rnn_model.fit(padded_data, win_lose_list)
 
-    trained_model.save('C:/GitHub/predict_gg/backend/model_trained_GRU')
+    trained_model.save('C:/Users/ksb02/Documents/GitHub/predict_gg/backend/model_trained_GRU')
 
     # Plot loss
     plt.plot(trained_model.history.history['loss'])

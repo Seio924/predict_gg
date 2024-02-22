@@ -21,10 +21,15 @@ def get_match_duration():
     return duration
 
 def get_text_file():
-    with open('backend/predict_data.txt', 'r', encoding="utf-8") as f:
+    with open('src/predict_data.txt', 'r', encoding="utf-8") as f:
         # 예측 승률 리스트로 변환
         lines = f.readlines()
-        predict_data = [int(line.strip()) for line in lines]
+        predict_data = [eval(line.strip()) for line in lines]
+        print(predict_data)
+    return predict_data
+
+with open('backend/userInput.txt', 'r', encoding="utf-8") as f:
+    time_num = f.read().strip()
 
 # Tesseract OCR 엔진의 경로를 설정합니다. 본인의 컴퓨터에 맞게 수정하세요.
 pytesseract.pytesseract.tesseract_cmd = r'C:/Program Files/Tesseract-OCR/tesseract.exe'
@@ -53,9 +58,13 @@ s = int((get_match_duration() % 60000) / 1000)
 print(m, s)
 sleep_num = 0.3
 cnt = 0
+predict_txt = ""
 
 increasing = True
 blue_percentage = 100
+
+predict_list = get_text_file()
+time_num = int(time_num)
 
 # 화면 캡처 함수 (관심 영역만 캡처)
 def capture_screen(roi):
@@ -157,7 +166,7 @@ def draw_background(hwnd, hdc, text):
 
 # 오버레이에 텍스트를 그리는 함수
 def on_paint(hwnd, msg, wparam, lparam):
-    global text_tmp  # text_tmp를 전역 변수로 선언
+    global text_tmp, predict_txt  # text_tmp를 전역 변수로 선언
     
     hdc, ps = win32gui.BeginPaint(hwnd)
     
@@ -182,7 +191,8 @@ def on_paint(hwnd, msg, wparam, lparam):
 
 # 캡처 및 텍스트 추출을 수행하는 함수
 def capture_and_extract(hwnd):
-    global text_tmp, m, s, cnt
+    global text_tmp, m, s, cnt, predict_list, predict_txt, time_num
+
     while True:
         # 화면 캡처
         screen = capture_screen(ROI)
@@ -212,6 +222,7 @@ def capture_and_extract(hwnd):
                     min = m; sec = s
 
                 str_min = str(min); str_sec = str(sec)
+                
 
                 if len(str_min) < 2:
                     str_min = "0" + str_min
@@ -221,10 +232,17 @@ def capture_and_extract(hwnd):
 
                 text = str_min + ":" + str_sec
                 text_tmp = text
+
+                predict_txt = str(predict_list[(min*60+sec)//time_num][1]) + "% :" + str(predict_list[(min*60+sec)//time_num][2]) + "%"
+
+                print(min*60+sec)
+
                 
             
             else:
                 text_tmp = text
+                predict_txt = str(predict_list[(int(text_tmp[0:2])*60+int(text_tmp[3:]))//time_num][1]) + "% :" + str(predict_list[(int(text_tmp[0:2])*60+int(text_tmp[3:]))//time_num][2]) + "%"
+                print(int(text_tmp[0:2])*60+int(text_tmp[3:]))
                 cnt = 0
         else:
             cnt += 1
@@ -237,6 +255,8 @@ def capture_and_extract(hwnd):
             if min == 0 and sec == 0:
                 text = text_tmp
                 text_tmp = text
+                predict_txt = str(predict_list[(min*60+sec)//time_num][1]) + "% :" + str(predict_list[(min*60+sec)//time_num][2]) + "%"
+                print(min*60+sec)
                 continue
 
             #sleep_num 만큼 더한다.
@@ -261,6 +281,10 @@ def capture_and_extract(hwnd):
 
             text = str_min + ":" + str_sec
             text_tmp = text
+            predict_txt = str(predict_list[(min*60+sec)//time_num][1]) + "% :" + str(predict_list[(min*60+sec)//time_num][2]) + "%"
+            print(min*60+sec)
+
+        
 
         # 텍스트를 오버레이에 출력
         win32gui.InvalidateRect(hwnd, None, True)

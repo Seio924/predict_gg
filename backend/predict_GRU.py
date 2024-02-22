@@ -7,15 +7,17 @@ from utils_2 import binary_cross_entropy_loss, mse_loss, rnn_sequential
 import matplotlib.pyplot as plt
 
 
-api_key = 'RGAPI-b5c0a11a-0ffb-48af-8aad-30a224a287ec'
+api_key = 'RGAPI-a9fc44d4-206b-40a3-9f8b-7adccc0c3b10'
 
 with open('backend/userInput.txt', 'r', encoding="utf-8") as f:
     time_num = f.read().strip()
 
+time_num = int(time_num)
+
 test = PreprocessData('./backend/api_match_info.json', './backend/api_timeline_info.json')
 
 # 데이터 가져오기
-train_data = test.get_condition_timeline(10000)
+train_data = test.get_condition_timeline(time_num*1000)
 playtime = len(train_data)
 train_data = np.array(train_data)
 print(train_data)
@@ -44,11 +46,13 @@ for i in range(1, playtime):
     predictions = loaded_model.predict(pred_x)
 
 
-    winning_rate.append([predictions[0][0], predictions[0][1]])
+    winning_rate.append([(i*time_num), round(predictions[0][0]*100), round(predictions[0][1]*100)])
 
-print(winning_rate)
+#print(winning_rate)
 
-with open("predict_data.txt", "w") as file:
+
+
+with open("src/predict_data.txt", "w") as file:
     for rate in winning_rate:
         file.write(f"{rate}\n")
 

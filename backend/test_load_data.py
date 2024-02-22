@@ -3,7 +3,7 @@ from utils import PreprocessData
 import numpy as np
 from load_data import LoadData
 
-api_key = 'RGAPI-f2bf170c-5745-42a5-a8f7-a591e780d2fa'
+api_key = 'RGAPI-a9fc44d4-206b-40a3-9f8b-7adccc0c3b10'
 
 test = PreprocessData('./backend/api_match_info.json', './backend/api_timeline_info.json')
 
@@ -14,6 +14,7 @@ interval_list = test.get_condition_timeline(10000)
 interval_list, get_win_lose_list = load_instance.get_summoner_data_list(1)
 
 interval_list = np.array(interval_list, dtype=int)
+
 
 # 헤더 정의
 n = [
@@ -81,7 +82,14 @@ n = [
 
 
 # DataFrame 생성
-df = pd.DataFrame(data=interval_list, columns=n)
+# df = pd.DataFrame(data=interval_list, columns=n)
+
+# interval_list를 2차원 배열로 변환
+interval_list_2d = np.array(interval_list).reshape(-1, len(n))
+
+# DataFrame 생성
+df = pd.DataFrame(data=interval_list_2d, columns=n)
+
 
 #df = pd.DataFrame(data=interval_list)
 
