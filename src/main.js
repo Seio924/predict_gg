@@ -55,7 +55,7 @@ async function createWindow() {
   win = new BrowserWindow({
     width: 1072,
     height: 659,
-    //frame: false,
+    frame: false,
     resizable: true,
     webPreferences: {
       nodeIntegration: true,

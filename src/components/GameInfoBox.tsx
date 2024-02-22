@@ -5,7 +5,8 @@ const WholeArea = styled.div`
   height: 290px;
   width: 540px;
   background-color: #1e2023;
-  border-radius: 5px;
+  border-radius: 6px;
+  border: 3px dashed #1e2023;
 `;
 
 const Container = styled.div`

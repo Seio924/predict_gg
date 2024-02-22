@@ -4,6 +4,7 @@ import UploadingIcon from "../img/uploading_icon.png";
 import { SEND_MAIN_PING } from "../constants";
 import { SEND_MATCH_INFO } from "../constants";
 import GameInfoBox from "./GameInfoBox";
+import Loading from "./Loading";
 
 const BoxContainer = styled.div`
   display: flex;
@@ -12,7 +13,7 @@ const BoxContainer = styled.div`
   height: 330px;
   width: 580px;
   background-color: rgba(30, 32, 35, 0.7);
-  border-radius: 7px;
+  border-radius: 6px;
 `;
 
 const UploadArea = styled.label<{ isActive: boolean }>`
@@ -23,7 +24,7 @@ const UploadArea = styled.label<{ isActive: boolean }>`
   height: 290px;
   width: 540px;
   background-color: #1e2023;
-  border-radius: 7px;
+  border-radius: 6px;
   border: 3px dashed #1e2023;
   cursor: pointer;
 
@@ -60,6 +61,7 @@ const FileUploadText = styled.p`
 function MainBox({ resetMainBox }: { resetMainBox: () => void }) {
   const [isActive, setActive] = useState(false);
   const [fileName, setFileName] = useState("");
+  const [loading, setLoading] = useState(false);
   const [championName, setChampionName] = useState<string[]>([]);
   const [summonerName, setSummonerName] = useState<string[]>([]);
   const [teamId, setTeamId] = useState<number[]>([]);
@@ -78,6 +80,7 @@ function MainBox({ resetMainBox }: { resetMainBox: () => void }) {
       if (fileExtension === "rofl") {
         setFileName(uploadedFileName);
         ipcRenderer.send(SEND_MAIN_PING, { fileName: uploadedFileName });
+        setLoading(true);
         setActive(false);
       } else {
         alert("파일 확장자는 .rofl이어야 합니다.");
@@ -97,6 +100,7 @@ function MainBox({ resetMainBox }: { resetMainBox: () => void }) {
       if (fileExtension === "rofl") {
         setFileName(droppedFileName);
         ipcRenderer.send(SEND_MAIN_PING, { fileName: droppedFileName });
+        setLoading(true);
         setActive(false);
       } else {
         alert("파일 확장자는 .rofl이어야 합니다.");
@@ -112,12 +116,15 @@ function MainBox({ resetMainBox }: { resetMainBox: () => void }) {
     setAssists(arg.assistsList);
     setDeaths(arg.deathsList);
     setKills(arg.killsList);
+    setLoading(false);
   });
 
   return (
     <>
       <BoxContainer>
-        {championName.length === 0 ? (
+        {loading ? (
+          <Loading />
+        ) : championName.length === 0 ? (
           <UploadArea
             isActive={isActive}
             onDragOver={(e) => {
@@ -130,7 +137,9 @@ function MainBox({ resetMainBox }: { resetMainBox: () => void }) {
           >
             <FileUploadBtn type="file" onChange={(e) => handleFileChange(e)} />
             <UploadIcon />
-            <FileUploadText>{fileName ? fileName : "Upload HERE"}</FileUploadText>
+            <FileUploadText>
+              {fileName ? fileName : "Upload HERE"}
+            </FileUploadText>
           </UploadArea>
         ) : (
           <GameInfoBox
