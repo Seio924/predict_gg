@@ -28,6 +28,8 @@ LIST_LEN = 177
 max_length_data = 301
 
 winning_rate = []
+winning_rate2 = []
+
 
 with tf.keras.utils.custom_object_scope({'binary_cross_entropy_loss': binary_cross_entropy_loss}):
     loaded_model = tf.keras.models.load_model('C:/GitHub/predict_gg/backend/model_trained_GRU')
@@ -45,7 +47,7 @@ for i in range(playtime):
     pred_x = np.expand_dims(padded_predict_data, axis=0)
     predictions = loaded_model.predict(pred_x)
 
-
+    winning_rate2.append([predictions[0][0], predictions[0][1]])
     winning_rate.append([(i*time_num), round(predictions[0][0]*100), round(predictions[0][1]*100)])
 
 #print(winning_rate)
@@ -53,14 +55,14 @@ for i in range(playtime):
 
 
 with open("src/predict_data.txt", "w") as file:
-    for rate in winning_rate:
+    for rate in winning_rate2:
         file.write(f"{rate}\n")
 
 
 # 그래프 그리기
-x_values = range(0, len(winning_rate) * 10, 10)
-team1_winning_rates = [item[0] for item in winning_rate]
-team2_winning_rates = [item[1] for item in winning_rate]
+x_values = range(0, len(winning_rate2) * 10, 10)
+team1_winning_rates = [item[0] for item in winning_rate2]
+team2_winning_rates = [item[1] for item in winning_rate2]
 
 plt.plot(x_values, team1_winning_rates, label='Team 1 Winning Rate')
 #plt.plot(x_values, team2_winning_rates, label='Team 2 Winning Rate')

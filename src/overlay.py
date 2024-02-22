@@ -170,16 +170,7 @@ def on_paint(hwnd, msg, wparam, lparam):
     
     hdc, ps = win32gui.BeginPaint(hwnd)
 
-    # 텍스트 출력에 사용할 폰트 크기 및 스타일 설정
-    font_size = 24
-    font_weight = win32con.FW_BOLD
-
-    # 폰트 생성
-    font = win32gui.CreateFont(font_size, 0, 0, 0, font_weight, False, False, False,
-                            win32con.DEFAULT_CHARSET, win32con.OUT_DEFAULT_PRECIS,
-                            win32con.CLIP_DEFAULT_PRECIS, win32con.DEFAULT_QUALITY,
-                            win32con.DEFAULT_PITCH | win32con.FF_SWISS, "Arial")
-
+    
 
     # 텍스트 출력에 사용할 HDC 생성
     hdc = win32gui.GetDC(None)
@@ -194,11 +185,11 @@ def on_paint(hwnd, msg, wparam, lparam):
     win32gui.SetBkMode(hdc, win32con.TRANSPARENT)  # 배경 투명으로 설정
     win32gui.DrawText(hdc, text_tmp, -1, rect_text, win32con.DT_CENTER | win32con.DT_VCENTER | win32con.DT_SINGLELINE)  # 텍스트 출력 위치 및 스타일 설정
     
+    
     # BLUE와 RED 텍스트 출력
     blue_text = "BLUE"
     red_text = "RED"
 
-    win32gui.SelectObject(hdc, font)
     win32gui.DrawText(hdc, blue_text, -1, rect_text, win32con.DT_LEFT | win32con.DT_VCENTER | win32con.DT_SINGLELINE)  # 텍스트 출력 위치 및 스타일 설정
     win32gui.DrawText(hdc, red_text, -1, rect_text, win32con.DT_RIGHT | win32con.DT_VCENTER | win32con.DT_SINGLELINE)  # 텍스트 출력 위치 및 스타일 설정
     
