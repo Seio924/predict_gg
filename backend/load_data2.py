@@ -127,6 +127,6 @@ class LoadData():
                 break
 
 if __name__ == "__main__":
-    load_data_instance = LoadData(api_key='원빈api') #원빈api
+    load_data_instance = LoadData(api_key='RGAPI-86a08b61-4e3b-452a-b18f-ffb660c04f60') #원빈api
     load_data_instance.get_summoner_invertal_list(summoner_start=250, num_matches=5000) #10000개 데이터 리스트 저장
     # load_data_instance.get_summoner_invertal_list(summoner_start=1750, num_matches=5000) #10000개 데이터 리스트 저장
