@@ -124,6 +124,11 @@ class LoadData():
                     # 리스트의 각 요소를 파일에 쓰기
                     for item in data_list:
                         file.write(str(item) + "\n")
+
+                with open("backend/api_win_lose_list3.txt", "w") as file:
+                    # 리스트의 각 요소를 파일에 쓰기
+                    for item in win_lose_list:
+                        file.write(str(item) + "\n")       
                 break
 
 if __name__ == "__main__":
