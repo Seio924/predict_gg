@@ -694,7 +694,8 @@ class PreprocessData():
                         
                         event_list[-1] = 1111
                         event_list_result.append(event_list)
-        except:
+        except KeyError as e:
+            print(f"KeyError 발생: {e}")
             event_list_result = []
 
         return event_list_result
@@ -737,7 +738,8 @@ class PreprocessData():
 
                     participant_frame_list_result.append(participant_frame_list)
 
-        except:
+        except KeyError as e:
+            print(f"KeyError 발생: {e}")
             participant_frame_list_result = []
 
         return participant_frame_list_result
