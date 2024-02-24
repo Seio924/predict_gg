@@ -54,7 +54,7 @@ class LoadData():
                 self.summonerId += [entry['summonerName'] for entry in r.json()['entries'] if entry['summonerName'] != ''][:300]
             elif idx == 1:
                 print(len(self.summonerId))
-                self.summonerId += [entry['summonerName'] for entry in r.json()['entries'] if entry['summonerName'] != ''][:314]
+                self.summonerId += [entry['summonerName'] for entry in r.json()['entries'] if entry['summonerName'] != ''][:316]
             else:
                 print(len(self.summonerId))
                 self.summonerId += [entry['summonerName'] for entry in r.json() if entry.get('summonerName', '') != ''][:75]
@@ -72,7 +72,7 @@ class LoadData():
         win_lose_list = []
         num = 0
         summoner_num = summoner_start
-        summonerId = summonerId[summoner_num:summoner_num + 500]
+        summonerId = summonerId[summoner_num:summoner_num + 250]
 
         for summoner_name in summonerId:
 
@@ -127,5 +127,6 @@ class LoadData():
                 break
 
 if __name__ == "__main__":
-    load_data_instance = LoadData(api_key='수빈api')
-    load_data_instance.get_summoner_invertal_list(summoner_start=0, num_matches=10000) #10000개 데이터 리스트 저장
+    load_data_instance = LoadData(api_key='RGAPI-b9b1e087-8919-47eb-b72c-0962e8fe9a6c') #수빈api
+    load_data_instance.get_summoner_invertal_list(summoner_start=0, num_matches=5000) #10000개 데이터 리스트 저장
+    #load_data_instance.get_summoner_invertal_list(summoner_start=1500, num_matches=5000) #10000개 데이터 리스트 저장

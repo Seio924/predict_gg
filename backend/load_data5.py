@@ -72,10 +72,9 @@ class LoadData():
         win_lose_list = []
         num = 0
         summoner_num = summoner_start
-        summonerId = summonerId[summoner_num:summoner_num + 500]
+        summonerId = summonerId[summoner_num:summoner_num + 250]
 
         for summoner_name in summonerId:
-            print(summoner_name)
 
             puuid = self.get_puuid(summoner_name)
             match_ids = self.get_matchid(puuid)
@@ -128,5 +127,6 @@ class LoadData():
                 break
 
 if __name__ == "__main__":
-    load_data_instance = LoadData(api_key='현욱2api')
-    load_data_instance.get_summoner_invertal_list(summoner_start=2000, num_matches=10000) #10000개 데이터 리스트 저장
+    load_data_instance = LoadData(api_key='RGAPI-fa656af5-d040-455b-95be-20600bba0da4') #현욱2api
+    load_data_instance.get_summoner_invertal_list(summoner_start=1000, num_matches=5000) #10000개 데이터 리스트 저장
+    # load_data_instance.get_summoner_invertal_list(summoner_start=2500, num_matches=5000) #10000개 데이터 리스트 저장
