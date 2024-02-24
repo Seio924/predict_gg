@@ -24,22 +24,14 @@ class LoadData():
     def get_match_data(self, matchid):
         match_url = "https://asia.api.riotgames.com/lol/match/v5/matches/" + matchid + '?api_key=' + self.api_key
         r4 = requests.get(match_url)
-        with open('backend/api_match_info.json', 'w', encoding='utf-8') as json_file:
+        with open('backend/api_match_info4.json', 'w', encoding='utf-8') as json_file:
             json.dump(r4.json(), json_file, ensure_ascii=False, indent=4)
 
     def get_timeline_data(self, matchid):
         match_timeline_url = "https://asia.api.riotgames.com/lol/match/v5/matches/" + matchid + "/timeline" + '?api_key=' + self.api_key
         r5 = requests.get(match_timeline_url)
-        with open('backend/api_timeline_info.json', 'w', encoding='utf-8') as json_file:
+        with open('backend/api_timeline_info4.json', 'w', encoding='utf-8') as json_file:
             json.dump(r5.json(), json_file, ensure_ascii=False, indent=4)
-
-    def get_challenger_info(self):
-        challenger_url = "https://kr.api.riotgames.com/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5?api_key=" + self.api_key
-        r6 = requests.get(challenger_url)
-        self.summonerId = [entry['summonerName'] for entry in r6.json()['entries'] if entry['summonerName'] != '']
-        self.summonerId.sort()
-        with open('backend/api_challenger_info.json', 'w', encoding='utf-8') as json_file:
-            json.dump(self.summonerId, json_file, ensure_ascii=False, indent=4)
 
     def get_summoner_Id(self):
         challenger_url = "https://kr.api.riotgames.com/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5?api_key=" + self.api_key
@@ -69,126 +61,7 @@ class LoadData():
 
         self.summonerId = list(set(self.summonerId))
         with open('backend/api_summoner_id.json', 'w', encoding='utf-8') as json_file:
-            json.dump(self.summonerId, json_file, ensure_ascii=False, indent=4)
-
-    def process_challenger_data(self, num_matches):
-        self.get_challenger_info()
-        analysis_data = AnalysisData()
-
-        num = 0
-        for summoner_name in self.summonerId:
-            puuid = self.get_puuid(summoner_name)
-            match_ids = self.get_matchid(puuid)
-    
-            for match_id in match_ids:
-                self.get_match_data(match_id)
-                self.get_timeline_data(match_id)
-                num += 1
-                analysis_data.analyze_data()
-                
-                print("분석 완료 : " + str(num))
-                time.sleep(4)
-
-                if num == num_matches:
-                    break
-                
-            
-            if num == num_matches:
-                break
-        analysis_data.plot_results()
-        print("끝")
-
-    def process_summoner_data(self, num_matches):
-        self.get_summoner_Id()
-        analysis_data = AnalysisData()
-
-        num = 0
-        for summoner_name in self.summonerId:
-            puuid = self.get_puuid(summoner_name)
-            match_ids = self.get_matchid(puuid)
-    
-            for match_id in match_ids:
-                
-                self.get_match_data(match_id)
-                self.get_timeline_data(match_id)
-                num += 1
-                analysis_data.analyze_data()
-                
-                print("분석 완료 : " + str(num))
-
-                time.sleep(4)
-
-                if num == num_matches:
-                    break
-                
-            
-            if num == num_matches:
-                break
-        analysis_data.plot_results()
-        print("끝")
-
-    def get_summoner_data_list(self, num_matches):
-        with open('backend/api_summoner_id.json', 'r', encoding="utf-8") as f:
-            summonerId = json.load(f)
-        data_list = []
-        win_lose_list = []
-
-        num = 0
-        for summoner_name in summonerId:
-            puuid = self.get_puuid(summoner_name)
-            match_ids = self.get_matchid(puuid)
-    
-            for match_id in match_ids:
-                
-                self.get_match_data(match_id)
-                self.get_timeline_data(match_id)
-                num += 1
-
-                with open('backend/api_match_info.json', 'r', encoding="utf-8") as f:
-                    match_info = json.load(f)
-
-                with open('backend/api_timeline_info.json', 'r', encoding="utf-8") as f:
-                    timeline_info = json.load(f)
-
-                if "status" in match_info:
-                    num -= 1
-                    print("데이터 가져오기 실패: " + str(num))
-                    continue
-
-                elif "status" in timeline_info:
-                    num -= 1
-                    print("데이터 가져오기 실패: " + str(num))
-                    continue
-                
-                test = PreprocessData('./backend/api_match_info.json', './backend/api_timeline_info.json')
-
-                
-
-                interval_list = test.get_condition_timeline(10000)
-                win_lose = test.get_match_data()[1]
-                
-                if not interval_list:
-                    num -= 1
-                    print("데이터 가져오기 실패: " + str(num))
-                    pass
-                else:
-                    #win_lose = [[win_lose[0], win_lose[1]] for i in range(len(interval_list))]
-                    
-                    data_list.append(interval_list)
-                    win_lose_list.append(win_lose)
-                    print("데이터 가져오기 : " + str(num))
-
-                time.sleep(3)
-
-                if num == num_matches:
-                    break
-                
-            
-            if num == num_matches:
-                break
-            
-        return (data_list, win_lose_list)
-    
+            json.dump(self.summonerId, json_file, ensure_ascii=False, indent=4) 
     
     def get_summoner_invertal_list(self, summoner_start, num_matches):
 
@@ -202,6 +75,7 @@ class LoadData():
         summonerId = summonerId[summoner_num:summoner_num + 500]
 
         for summoner_name in summonerId:
+            print(summoner_name)
 
             puuid = self.get_puuid(summoner_name)
             match_ids = self.get_matchid(puuid)
@@ -213,10 +87,10 @@ class LoadData():
                 self.get_match_data(match_id)
                 self.get_timeline_data(match_id)
 
-                with open('backend/api_match_info.json', 'r', encoding="utf-8") as f:
+                with open('backend/api_match_info4.json', 'r', encoding="utf-8") as f:
                     match_info = json.load(f)
 
-                with open('backend/api_timeline_info.json', 'r', encoding="utf-8") as f:
+                with open('backend/api_timeline_info4.json', 'r', encoding="utf-8") as f:
                     timeline_info = json.load(f)
 
                 if "status" in match_info:
@@ -227,7 +101,7 @@ class LoadData():
                     print("데이터 가져오기 실패: " + str(num))
                     continue
                 
-                test = PreprocessData('./backend/api_match_info.json', './backend/api_timeline_info.json')
+                test = PreprocessData('./backend/api_match_info4.json', './backend/api_timeline_info4.json')
 
                 interval_list = test.get_condition_timeline(10000)
                 win_lose = test.get_match_data()[1]
@@ -243,12 +117,16 @@ class LoadData():
 
                 time.sleep(3)
 
-
                 if num == num_matches:
                     break
-                
-            
+
             if num == num_matches:
+                with open("backend/api_interval_list4.txt", "w") as file:
+                    # 리스트의 각 요소를 파일에 쓰기
+                    for item in data_list:
+                        file.write(str(item) + "\n")
                 break
-            
-        return (data_list, win_lose_list)
+
+if __name__ == "__main__":
+    load_data_instance = LoadData(api_key='현욱1api')
+    load_data_instance.get_summoner_invertal_list(summoner_start=1500, num_matches=10000) #10000개 데이터 리스트 저장
