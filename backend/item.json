@@ -1,6 +1,6 @@
 {
   "type": "item",
-  "version": "14.3.1",
+  "version": "14.4.1",
   "basic": {
     "name": "",
     "rune": {
@@ -356,6 +356,7 @@
       "into": [
         "3742",
         "1011",
+        "3071",
         "6662",
         "2021",
         "3012",
@@ -576,7 +577,6 @@
       "into": [
         "2015",
         "1053",
-        "3071",
         "3094",
         "2019",
         "2021",
@@ -793,7 +793,6 @@
         "3131",
         "3006",
         "3051",
-        "3302",
         "6631",
         "6670",
         "6677"
@@ -3170,7 +3169,7 @@
     },
     "223003": {
       "name": "대천사의 지팡이",
-      "description": "<mainText><stats>주문력 <nerfedStat>60</nerfedStat><br>마나 <attention>600</attention><br>스킬 가속 <attention>20</attention></stats><br><br><br><li><passive>경탄:</passive> 추가 마나만큼 주문력을 얻습니다.<li><passive>마나 충전:</passive> <buffedStat>2번의 전투 라운드 후</buffedStat> 이 아이템은 <rarityLegendary>대천사의 포옹</rarityLegendary>으로 변합니다.</mainText>",
+      "description": "<mainText><stats>주문력 <nerfedStat>60</nerfedStat><br>마나 <attention>600</attention><br>스킬 가속 <attention>25</attention></stats><br><br><br><li><passive>경탄:</passive> 추가 마나만큼 주문력을 얻습니다.<li><passive>마나 충전:</passive> <buffedStat>2번의 전투 라운드 후</buffedStat> 이 아이템은 <rarityLegendary>대천사의 포옹</rarityLegendary>으로 변합니다.</mainText>",
       "colloq": "",
       "plaintext": "",
       "image": {
@@ -3579,7 +3578,7 @@
     },
     "223040": {
       "name": "대천사의 포옹",
-      "description": "<mainText><stats>주문력 <attention>80</attention><br>마나 <attention>1000</attention><br>스킬 가속 <attention>20</attention></stats><br><br><br><li><passive>경탄:</passive> 마나에 따라 주문력을 얻습니다.<li><passive>생명선:</passive> 체력이 30% 밑으로 떨어질 만큼 피해를 입으면 현재 마나에 비례해 보호막을 얻습니다.</mainText>",
+      "description": "<mainText><stats>주문력 <attention>80</attention><br>마나 <attention>1000</attention><br>스킬 가속 <attention>25</attention></stats><br><br><br><li><passive>경탄:</passive> 마나에 따라 주문력을 얻습니다.<li><passive>생명선:</passive> 체력이 30% 밑으로 떨어질 만큼 피해를 입으면 현재 마나에 비례해 보호막을 얻습니다.</mainText>",
       "colloq": "",
       "plaintext": "",
       "specialRecipe": 223003,
@@ -3753,7 +3752,7 @@
     },
     "223050": {
       "name": "지크의 융합",
-      "description": "<mainText><stats>체력 <buffedStat>400</buffedStat><br>마나 <attention>250</attention><br>방어력 <buffedStat>40</buffedStat><br>스킬 가속 <attention>20</attention></stats><br><br><br><li><passive>융합:</passive> 적을 <status>이동 불가</status> 상태로 만들면 8초 동안 <attention>동료</attention>의 기본 공격(<OnHit>적중 시</OnHit> )과 스킬이 해당 적에게 <buffedStat>0의 마법 피해</buffedStat>를 추가로 입힙니다.<br><br><rules>지크의 융합 결속은 한 번에 하나만 가능합니다.</rules></mainText>",
+      "description": "<mainText><stats>체력 <buffedStat>400</buffedStat><br>마나 <attention>250</attention><br>방어력 <buffedStat>40</buffedStat><br>스킬 가속 <attention>20</attention></stats><br><br><passive>서리불꽃 폭풍</passive> <br>궁극기 사용 시 주변에 폭풍을 소환합니다. 폭풍은 적 챔피언에게 마법 피해를 입히고 <keyword>둔화</keyword>시킵니다.</mainText>",
       "colloq": "",
       "plaintext": "",
       "image": {
@@ -3839,7 +3838,7 @@
         "total": 900,
         "sell": 630
       },
-      "tags": ["OnHit"],
+      "tags": ["OnHit", "AbilityHaste"],
       "maps": {
         "11": false,
         "12": false,
@@ -3997,10 +3996,10 @@
       },
       "effect": {
         "Effect1Amount": "-0.2",
-        "Effect2Amount": "0.04",
+        "Effect2Amount": "0.05",
         "Effect3Amount": "6",
-        "Effect4Amount": "6",
-        "Effect5Amount": "0.24",
+        "Effect4Amount": "5",
+        "Effect5Amount": "0.25",
         "Effect6Amount": "0",
         "Effect7Amount": "0",
         "Effect8Amount": "0",
@@ -4044,7 +4043,7 @@
     },
     "223074": {
       "name": "굶주린 히드라",
-      "description": "<mainText><stats>공격력 <attention>70</attention><br>스킬 가속 <attention>20</attention><br>생명력 흡수 <buffedStat>15%</buffedStat></stats><br><br><br><li><passive>쪼개기:</passive> 기본 공격과 스킬 사용 시 주변 적들에게 물리 피해를 입힙니다.<br><br><br><active>활성화</active> (0초)<br><active>굶주린 초승달</active><br>주변 적에게 물리 피해를 입힙니다.</mainText>",
+      "description": "<mainText><stats>공격력 <attention>70</attention><br>스킬 가속 <attention>20</attention><br>생명력 흡수 <buffedStat>15%</buffedStat></stats><br><br><br><li><passive>쪼개기:</passive> 기본 공격과 스킬 사용 시 주변 적들에게 물리 피해를 입힙니다.<br><br><br><active>활성화</active> (0초)<br><active>굶주린 초승달</active><br>주변 적에게 생명력을 흡수하는 물리 피해를 입힙니다.</mainText>",
       "colloq": "",
       "plaintext": "",
       "image": {
@@ -4968,7 +4967,7 @@
     },
     "223142": {
       "name": "요우무의 유령검",
-      "description": "<mainText><stats>공격력 <attention>60</attention><br>물리 관통력 <buffedStat>22</buffedStat><br>스킬 가속 <attention>15</attention></stats><br><br><br><li><passive>출몰:</passive> 이동하는 동안 유령 파편을 최대 100개까지 획득합니다. 전투 중이 아닐 때 유령 파편의 개수에 비례해 최대 <speed>이동 속도가 40</speed>까지 증가합니다. 파편을 최대로 보유하고 있으면 <scaleAD>물리 관통력이 {{ Item_Melee_Ranged_Split_B }}</scaleAD> 증가합니다. 적 챔피언에게 피해를 입히고 3초 후 파편이 초기화됩니다.<br><br>{{ Item_Mythic_Passive }} 공격력 <attention>7</attention> <br><br><rules>{{ Item_Ghosting }}</rules><br><br><flavorText>사랑하는 이들이 한자리에 모였지만 조만간 그보다 훨씬 더 애도하게 될 것입니다.</flavorText><br><br>{{ Item_Active_Named }} <active>망령의 발걸음:</active> 이동 속도가 상승하고 유체화 효과를 얻습니다.</mainText>",
+      "description": "<mainText><stats>공격력 <attention>60</attention><br>물리 관통력 <buffedStat>22</buffedStat><br>스킬 가속 <attention>15</attention></stats><br><br><passive>출몰</passive> <br>전투에서 벗어나 있을 때 <speed>이동 속도</speed>가 상승합니다.<br><br><br><active>사용 시 -</active> <active>망령의 발걸음:</active> 이동 속도가 상승하고 유체화 효과를 얻습니다.</mainText>",
       "colloq": "",
       "plaintext": "",
       "into": ["227029"],
@@ -6466,7 +6465,7 @@
     },
     "226631": {
       "name": "발걸음 분쇄기",
-      "description": "<mainText><stats>공격력 <nerfedStat>60</nerfedStat><br>공격 속도 <attention>20%</attention><br>체력 <attention>375</attention></stats><br><br><br><li><passive>비장한 걸음:</passive> 물리 피해를 가하면 3초 동안 <speed>이동 속도가 20</speed> 상승합니다.<br><br><rarityMythic>신화급 기본 지속 효과:</rarityMythic> 다른 모든 <rarityLegendary>전설급</rarityLegendary> 아이템에 이동 속도 <attention>2%</attention><br><br><active>활성화</active> (0초)<br><active>파괴의 충격파</active><br><physicalDamage>0의 물리 피해</physicalDamage>를 입히고 주변 적들을 40% <status>둔화</status>시키며 적중당한 챔피언 하나당 <speed>40%의 추가 이동 속도</speed>를 얻습니다. 추가 이동 속도는 3초에 걸쳐 점차 감소합니다. 스킬을 시전하는 동안 이동할 수 있습니다.</mainText>",
+      "description": "<mainText><stats>공격력 <nerfedStat>60</nerfedStat><br>공격 속도 <attention>20%</attention><br>체력 <attention>375</attention></stats><br><br><passive>쪼개기</passive><br>기본 공격 시 주변 적들에게 물리 피해를 입힙니다.<br><br><passive>담금질</passive><br><physicalDamage>물리 피해</physicalDamage>를 입히면 이동 속도가 상승합니다.<br><br><active>활성화</active><br><active>파괴의 충격파</active><br>물리 피해를 입히며 주변 적을 <status>둔화</status>시키고 챔피언 하나당 이동 속도를 얻습니다. 스킬을 시전하는 동안 이동할 수 있습니다.</mainText>",
       "colloq": "",
       "plaintext": "",
       "into": ["227016"],
@@ -6485,14 +6484,7 @@
         "total": 3000,
         "sell": 2100
       },
-      "tags": [
-        "Health",
-        "Damage",
-        "AttackSpeed",
-        "CooldownReduction",
-        "Slow",
-        "NonbootsMovement"
-      ],
+      "tags": ["Health", "Damage", "AttackSpeed", "Slow", "NonbootsMovement"],
       "maps": {
         "11": false,
         "12": false,
@@ -7663,7 +7655,7 @@
     },
     "227016": {
       "name": "몽상파쇄자",
-      "description": "<mainText><stats>공격력 <nerfedStat>60</nerfedStat><br>공격 속도 <ornnBonus>30%</ornnBonus><br>체력 <ornnBonus>400</ornnBonus></stats><br><br><br><li><passive>비장한 걸음:</passive> 물리 피해를 가하면 3초 동안 <speed>이동 속도가 20</speed> 상승합니다.<br><br><rarityMythic>신화급 기본 지속 효과:</rarityMythic> 다른 모든 <rarityLegendary>전설급</rarityLegendary> 아이템에 이동 속도 <attention>2%</attention><br><br><active>활성화</active> (0초)<br><active>파괴의 충격파</active><br><physicalDamage>0의 물리 피해</physicalDamage>를 입히고 주변 적들을 40% <status>둔화</status>시키며 적중당한 챔피언 하나당 <speed>40%의 추가 이동 속도</speed>를 얻습니다. 추가 이동 속도는 3초에 걸쳐 점차 감소합니다. 스킬을 시전하는 동안 이동할 수 있습니다.</mainText>",
+      "description": "<mainText><stats>공격력 <nerfedStat>60</nerfedStat><br>공격 속도 <ornnBonus>30%</ornnBonus><br>체력 <ornnBonus>400</ornnBonus></stats><br><br><passive>쪼개기</passive><br>기본 공격 시 주변 적들에게 물리 피해를 입힙니다.<br><br><passive>담금질</passive><br><physicalDamage>물리 피해</physicalDamage>를 입히면 이동 속도가 상승합니다.<br><br><active>활성화</active><br><active>파괴의 충격파</active><br>물리 피해를 입히며 주변 적을 <status>둔화</status>시키고 챔피언 하나당 이동 속도를 얻습니다. 스킬을 시전하는 동안 이동할 수 있습니다.</mainText>",
       "colloq": "",
       "plaintext": "",
       "from": ["226631"],
@@ -7683,14 +7675,7 @@
         "total": 3000,
         "sell": 2100
       },
-      "tags": [
-        "Health",
-        "Damage",
-        "AttackSpeed",
-        "CooldownReduction",
-        "Slow",
-        "NonbootsMovement"
-      ],
+      "tags": ["Health", "Damage", "AttackSpeed", "Slow", "NonbootsMovement"],
       "maps": {
         "11": false,
         "12": false,
@@ -8167,7 +8152,7 @@
     },
     "227029": {
       "name": "요우무의 각성",
-      "description": "<mainText><stats>공격력 <ornnBonus>75</ornnBonus><br>물리 관통력 <ornnBonus>26</ornnBonus></stats><br><br><passive>출몰</passive> <br>전투에서 벗어나 있을 때 <speed>이동 속도가 {{Item_Melee_Ranged_Split_Dynamic}}</speed> 상승합니다.<br>{{ Item_OnActivation }} {{ Item_Cooldown }}<br><active>망령의 발걸음</active><br><speed>이동 속도</speed>가 상승하고 <keyword>유체화</keyword> 상태가 됩니다.</mainText>",
+      "description": "<mainText><stats>공격력 <ornnBonus>75</ornnBonus><br>물리 관통력 <ornnBonus>26</ornnBonus></stats><br><br><passive>출몰</passive> <br>전투에서 벗어나 있을 때 <speed>이동 속도</speed>가 상승합니다.<br><br><br><active>활성화</active> (0초)<br><active>망령의 발걸음</active><br><speed>이동 속도</speed>가 상승하고 <keyword>유체화</keyword> 상태가 됩니다.</mainText>",
       "colloq": "",
       "plaintext": "",
       "from": ["223142"],
@@ -8392,7 +8377,7 @@
     },
     "228001": {
       "name": "증오의 사슬",
-      "description": "<mainText><stats>체력 <attention>650</attention><br>스킬 가속 <attention>20</attention></stats><br><br><br><li><passive>피의 복수:</passive> 숙적으로부터 받는 피해가 감소합니다. 근처에 있는 숙적의 강인함이 감소합니다.<br><br><rules>전장 전체에 사용할 수 있습니다.</rules><br><br><flavorText>''그녀는 그자를 파멸시키는 데 자신의 삶을 바치겠다고 맹세했다...''</flavorText><br><br><active>사용 시 -</active> <active>맹세:</active> 숙적을 선택합니다. (90(0초))</mainText>",
+      "description": "<mainText><stats>체력 <attention>650</attention><br>스킬 가속 <attention>20</attention></stats><br><br><br><li><passive>피의 복수:</passive> 숙적으로부터 받는 피해가 감소합니다. 근처에 있는 숙적의 강인함이 감소합니다.<br><br><rules>전장 전체에 사용할 수 있습니다.</rules><br><br><flavorText>''그녀는 그자를 파멸시키는 데 자신의 삶을 바치겠다고 맹세했다...''</flavorText><br><br><active>사용 시 -</active><active>맹세</active><br>피의 복수를 할 숙적을 선택합니다.</mainText>",
       "colloq": "",
       "plaintext": "",
       "image": {
@@ -8575,7 +8560,7 @@
         "Effect1Amount": "-0.2",
         "Effect2Amount": "0.07",
         "Effect3Amount": "6",
-        "Effect4Amount": "6",
+        "Effect4Amount": "5",
         "Effect5Amount": "0.42",
         "Effect6Amount": "0",
         "Effect7Amount": "0",
@@ -8586,7 +8571,7 @@
     },
     "228006": {
       "name": "핏빛 칼날",
-      "description": "<mainText><stats>공격력 <ornnBonus>130</ornnBonus><br>공격 속도 <ornnBonus>40%</ornnBonus><br>스킬 가속 <ornnBonus>20</ornnBonus><br>생명력 흡수 <ornnBonus>30%</ornnBonus></stats><br><br><br><li><passive>쪼개기:</passive> 기본 공격과 스킬 적중 시 대상 주변에 있는 600 범위 내의 다른 적들에게 <physicalDamage>{{ Item_Melee_Ranged_Split }}의 물리 피해</physicalDamage>를 입히고 적중 시 효과를 발동합니다.<br><li><passive>안개의 검:</passive> 기본 공격 시 <nerfedStat>적 현재 체력에 따라 {{ Item_Melee_Ranged_Split_B }}의 물리 피해</nerfedStat>({{ Item_Keyword_OnHit }})를 입힙니다.<li><passive>흡수:</passive> 챔피언에게 3회 기본 공격을 가하면 <magicDamage>0의 마법 피해</magicDamage>를 입히고 2초 동안 <speed>이동 속도를 25%</speed> 훔칩니다. (30{{ Item_Cooldown }})<br><rules><passive>안개의 검</passive>은 미니언 및 정글 몬스터에게 최대 60의 피해를 입힙니다.<br>{{ Item_Melee_Ranged_Rules }}</rules>{{ Item_OnActivation }} {{ Item_Cooldown }}<br><active>굶주린 초승달</active><br>주변 적에게 물리 피해를 입힙니다.</mainText>",
+      "description": "<mainText><stats>공격력 <ornnBonus>130</ornnBonus><br>공격 속도 <ornnBonus>40%</ornnBonus><br>스킬 가속 <ornnBonus>20</ornnBonus><br>생명력 흡수 <ornnBonus>30%</ornnBonus></stats><br><br><br><li><passive>쪼개기:</passive> 기본 공격과 스킬 적중 시 대상 주변에 있는 600 범위 내의 다른 적들에게 <physicalDamage>{{ Item_Melee_Ranged_Split }}의 물리 피해</physicalDamage>를 입히고 적중 시 효과를 발동합니다.<br><li><passive>안개의 검:</passive> 기본 공격 시 <nerfedStat>적 현재 체력에 따라 {{ Item_Melee_Ranged_Split_B }}의 물리 피해</nerfedStat>({{ Item_Keyword_OnHit }})를 입힙니다.<li><passive>흡수:</passive> 챔피언에게 3회 기본 공격을 가하면 <magicDamage>0의 마법 피해</magicDamage>를 입히고 2초 동안 <speed>이동 속도를 25%</speed> 훔칩니다. (30{{ Item_Cooldown }})<br><rules><passive>안개의 검</passive>은 미니언 및 정글 몬스터에게 최대 60의 피해를 입힙니다.<br>{{ Item_Melee_Ranged_Rules }}</rules>{{ Item_OnActivation }} {{ Item_Cooldown }}<br><active>굶주린 초승달</active><br>주변 적에게 생명력을 흡수하는 물리 피해를 입힙니다.</mainText>",
       "colloq": "",
       "plaintext": "",
       "inStore": false,
@@ -9089,7 +9074,7 @@
     },
     "3003": {
       "name": "대천사의 지팡이",
-      "description": "<mainText><stats>주문력 <attention>80</attention><br>마나 <attention>600</attention><br>스킬 가속 <attention>20</attention></stats><br><br><passive>경탄</passive><br>추가 마나만큼 주문력을 얻습니다.<br><br><passive>마나순환</passive><br>대상에게 스킬을 적중시키면 중첩을 하나 소모해 추가 마나를 얻습니다. 추가 마나가 최대치인 360에 도달하면 <rarityLegendary>대천사의 포옹</rarityLegendary>으로 변합니다.<br><br></mainText>",
+      "description": "<mainText><stats>주문력 <attention>80</attention><br>마나 <attention>600</attention><br>스킬 가속 <attention>25</attention></stats><br><br><passive>경탄</passive><br>추가 마나만큼 주문력을 얻습니다.<br><br><passive>마나순환</passive><br>대상에게 스킬을 적중시키면 중첩을 하나 소모해 추가 마나를 얻습니다. 추가 마나가 최대치인 360에 도달하면 <rarityLegendary>대천사의 포옹</rarityLegendary>으로 변합니다.<br><br></mainText>",
       "colloq": "",
       "plaintext": "최대 마나량에 따라 주문력이 대폭 상승합니다.",
       "from": ["3070", "3802", "3108"],
@@ -9666,7 +9651,7 @@
     },
     "3040": {
       "name": "대천사의 포옹",
-      "description": "<mainText><stats>주문력 <attention>80</attention><br>마나 <attention>1000</attention><br>스킬 가속 <attention>20</attention></stats><br><br><passive>경탄</passive> <scaleMana>추가 마나의 2%</scaleMana>만큼 주문력을 얻습니다.<br><passive>생명선</passive> (90(0초))<br>체력이 30% 밑으로 떨어질 만큼 피해를 입으면 3초 동안 <shield>250+현재 마나 보호막의 20%에 해당하는 피해를 흡수하는 보호막</shield>을 얻습니다.</mainText>",
+      "description": "<mainText><stats>주문력 <attention>80</attention><br>마나 <attention>1000</attention><br>스킬 가속 <attention>25</attention></stats><br><br><passive>경탄</passive> <scaleMana>추가 마나의 2%</scaleMana>만큼 주문력을 얻습니다.<br><passive>생명선</passive> (90(0초))<br>체력이 30% 밑으로 떨어질 만큼 피해를 입으면 3초 동안 <shield>250+현재 마나 보호막의 20%에 해당하는 피해를 흡수하는 보호막</shield>을 얻습니다.</mainText>",
       "colloq": "",
       "plaintext": "",
       "specialRecipe": 3003,
@@ -9924,7 +9909,7 @@
     },
     "3050": {
       "name": "지크의 융합",
-      "description": "<mainText><stats>체력 <attention>200</attention><br>마나 <attention>250</attention><br>방어력 <attention>30</attention><br>스킬 가속 <attention>20</attention></stats><br><br><passive>서리불꽃 폭풍</passive> (0초)<br>궁극기 사용 시 주변에 5초 동안 폭풍을 소환합니다. 폭풍은 적 챔피언에게 매초 <magicDamage>50의 마법 피해</magicDamage>를 입히고 30% <keyword>둔화</keyword>시킵니다.</mainText>",
+      "description": "<mainText><stats>체력 <attention>200</attention><br>마나 <attention>250</attention><br>방어력 <attention>30</attention><br>스킬 가속 <attention>20</attention></stats><br><br><passive>서리불꽃 폭풍</passive> <br>궁극기 사용 시 주변에 폭풍을 소환합니다. 폭풍은 적 챔피언에게 마법 피해를 입히고 <keyword>둔화</keyword>시킵니다.</mainText>",
       "colloq": ";haroldandkumar",
       "plaintext": "궁극기 사용 시 아군 한 명과 함께 추가 효과를 받습니다.",
       "from": ["3067", "3024"],
@@ -10050,7 +10035,7 @@
         "total": 900,
         "sell": 630
       },
-      "tags": ["OnHit"],
+      "tags": ["OnHit", "AbilityHaste"],
       "maps": {
         "11": true,
         "12": true,
@@ -10145,7 +10130,6 @@
       "plaintext": "체력과 재사용 대기시간 감소량이 증가합니다.",
       "from": ["1028", "2022"],
       "into": [
-        "3071",
         "8020",
         "6620",
         "3050",
@@ -10268,7 +10252,7 @@
       "description": "<mainText><stats>공격력 <attention>55</attention><br>체력 <attention>400</attention><br>스킬 가속 <attention>20</attention></stats><br><br><passive>깎아내기</passive><br>챔피언에게 물리 피해를 입히면 방어력을 감소시키는 중첩을 1회 적용합니다.<br><br><passive>열정</passive><br>물리 피해를 입히면 이동 속도가 상승합니다.</mainText>",
       "colloq": ";블클;bc;black;cleaver",
       "plaintext": "적 챔피언에게 물리 피해를 입히면 적의 방어력이 감소합니다.",
-      "from": ["3044", "3067", "1036"],
+      "from": ["3044", "3133", "1028"],
       "into": ["7037"],
       "image": {
         "full": "3071.png",
@@ -10280,7 +10264,7 @@
         "h": 48
       },
       "gold": {
-        "base": 750,
+        "base": 400,
         "purchasable": true,
         "total": 3000,
         "sell": 2100
@@ -10307,10 +10291,10 @@
       },
       "effect": {
         "Effect1Amount": "-0.2",
-        "Effect2Amount": "0.04",
+        "Effect2Amount": "0.05",
         "Effect3Amount": "6",
-        "Effect4Amount": "6",
-        "Effect5Amount": "0.24",
+        "Effect4Amount": "5",
+        "Effect5Amount": "0.25",
         "Effect6Amount": "0",
         "Effect7Amount": "0",
         "Effect8Amount": "0",
@@ -10401,7 +10385,7 @@
     },
     "3074": {
       "name": "굶주린 히드라",
-      "description": "<mainText><stats>공격력 <attention>70</attention><br>스킬 가속 <attention>20</attention><br>생명력 흡수 <attention>12%</attention></stats><br><br><passive>쪼개기</passive><br>기본 공격 시 주변 적들에게 물리 피해를 입힙니다.<br><br><active>활성화</active> (0초)<br><active>굶주린 초승달</active><br>주변 적에게 물리 피해를 입힙니다.</mainText>",
+      "description": "<mainText><stats>공격력 <attention>70</attention><br>스킬 가속 <attention>20</attention><br>생명력 흡수 <attention>12%</attention></stats><br><br><passive>쪼개기</passive><br>기본 공격 시 주변 적들에게 물리 피해를 입힙니다.<br><br><active>활성화</active> (0초)<br><active>굶주린 초승달</active><br>주변 적에게 생명력을 흡수하는 물리 피해를 입힙니다.</mainText>",
       "colloq": ";ravenous;hydra",
       "plaintext": "근접 공격으로 주변의 적에게 피해를 주면 체력이 회복됩니다. ",
       "from": ["3077", "1053", "3133"],
@@ -10965,7 +10949,7 @@
     },
     "3100": {
       "name": "리치베인",
-      "description": "<mainText><stats>주문력 <attention>100</attention><br>이동 속도 <attention>8%</attention><br>스킬 가속 <attention>15</attention></stats><br><br><passive>주문 검</passive> (0초)<br>스킬을 사용하고 나면 다음 기본 공격 시 <magicDamage>0의 마법 피해</magicDamage>(<OnHit>적중 시</OnHit> )를 추가로 입힙니다.</mainText>",
+      "description": "<mainText><stats>주문력 <attention>100</attention><br>이동 속도 <attention>8%</attention><br>스킬 가속 <attention>15</attention></stats><br><br><passive>주문 검</passive><br>스킬을 사용하고 나면 다음 기본 공격 시 추가 마법 피해(<OnHit>적중 시</OnHit> )를 입힙니다.</mainText>",
       "colloq": ";lich;bane",
       "plaintext": "스킬 공격 다음 공격에 추가 피해가 적용됩니다.",
       "from": ["3057", "3113", "3145"],
@@ -11079,7 +11063,7 @@
     },
     "3107": {
       "name": "구원",
-      "description": "<mainText><stats>체력 <attention>200</attention><br>스킬 가속 <attention>15</attention><br>기본 마나 재생 <attention>100%</attention><br>체력 회복 및 보호막 <attention>15%</attention></stats><br><br><active>활성화</active> (0초)<br><active>중재</active><br>위치를 지정하여 대상 범위 안에 있는 아군 챔피언의 체력을 회복시키고 적 챔피언에게는 고정 피해를 입힙니다.</mainText>",
+      "description": "<mainText><stats>체력 <attention>200</attention><br>스킬 가속 <attention>15</attention><br>기본 마나 재생 <attention>100%</attention><br>체력 회복 및 보호막 <attention>15%</attention></stats><br><br><active>활성화</active><br><active>중재</active><br>위치를 지정하여 대상 범위 안에 있는 아군 챔피언의 체력을 회복시키고 적 챔피언에게는 고정 피해를 입힙니다.</mainText>",
       "colloq": ";구원;redemption;rndnjs",
       "plaintext": "활성화하면 주변 지역의 아군을 회복시키고 적에게는 피해를 입힙니다.",
       "from": ["3067", "3114"],
@@ -11382,7 +11366,7 @@
     },
     "3115": {
       "name": "내셔의 이빨",
-      "description": "<mainText><stats>주문력 <attention>90</attention><br>공격 속도 <attention>50%</attention><br>스킬 가속 <attention>15</attention></stats><br><br><passive>이케시아의 이빨</passive><br>기본 공격 시 <magicDamage>0의 마법 피해</magicDamage>(<OnHit>적중 시</OnHit> )를 입힙니다.</mainText>",
+      "description": "<mainText><stats>주문력 <attention>90</attention><br>공격 속도 <attention>50%</attention><br>스킬 가속 <attention>15</attention></stats><br><br><passive>이케시아의 이빨</passive><br>기본 공격 시 <magicDamage>마법 피해</magicDamage>(<OnHit>적중 시</OnHit> )를 입힙니다.</mainText>",
       "colloq": ";nashor;tooth",
       "plaintext": "공격 속도, 주문력, 재사용 대기시간 감소율이 증가합니다.",
       "from": ["1043", "1026", "3108"],
@@ -11505,7 +11489,7 @@
     },
     "3118": {
       "name": "악의",
-      "description": "<mainText><stats>주문력 <attention>80</attention><br>마나 <attention>600</attention><br>스킬 가속 <attention>20</attention></stats><br><br><passive>경멸</passive><br>궁극기의 스킬 가속이 증가합니다.<br><br><passive>증오안개</passive><br>궁극기로 챔피언에게 피해를 입히면 대상 발밑의 지면을 불태워 피해를 입히고 마법 저항력을 감소시킵니다. <br></mainText>",
+      "description": "<mainText><stats>주문력 <attention>80</attention><br>마나 <attention>600</attention><br>스킬 가속 <attention>25</attention></stats><br><br><passive>경멸</passive><br>궁극기의 스킬 가속이 증가합니다.<br><br><passive>증오안개</passive><br>궁극기로 챔피언에게 피해를 입히면 대상 발밑의 지면을 불태워 피해를 입히고 마법 저항력을 감소시킵니다. <br></mainText>",
       "colloq": ";",
       "plaintext": "동료를 지정해 서로를 보호합니다.",
       "from": ["3802", "3108"],
@@ -11783,6 +11767,7 @@
       "stacks": 0,
       "from": ["1036", "2022", "1036"],
       "into": [
+        "3071",
         "6333",
         "6696",
         "6693",
@@ -12032,7 +12017,7 @@
     },
     "3142": {
       "name": "요우무의 유령검",
-      "description": "<mainText><stats>공격력 <attention>60</attention><br>물리 관통력 <attention>18</attention></stats><br><br><passive>출몰</passive> <br>전투에서 벗어나 있을 때 <speed>이동 속도가 {{Item_Melee_Ranged_Split_Dynamic}}</speed> 상승합니다.<br>{{ Item_OnActivation }} {{ Item_Cooldown }}<br><active>망령의 발걸음</active><br><speed>이동 속도</speed>가 상승하고 <keyword>유체화</keyword> 상태가 됩니다.</mainText>",
+      "description": "<mainText><stats>공격력 <attention>60</attention><br>물리 관통력 <attention>18</attention></stats><br><br><passive>출몰</passive> <br>전투에서 벗어나 있을 때 <speed>이동 속도</speed>가 상승합니다.<br><br><br><active>활성화</active> (0초)<br><active>망령의 발걸음</active><br><speed>이동 속도</speed>가 상승하고 <keyword>유체화</keyword> 상태가 됩니다.</mainText>",
       "colloq": ";물리관통력",
       "plaintext": "사용하면 이동 속도가 대폭 상승합니다.",
       "from": ["3134", "6690"],
@@ -12216,7 +12201,7 @@
     },
     "3152": {
       "name": "마법공학 로켓 벨트",
-      "description": "<mainText><stats>주문력 <attention>60</attention><br>체력 <attention>300</attention><br>스킬 가속 <attention>15</attention></stats><br><br><active>활성화</active> (0초)<br><active>초음속</active><br>지정 방향으로 돌진하며 부채꼴 모양으로 마법 피해를 입히는 마법 탄환을 발사합니다.</mainText>",
+      "description": "<mainText><stats>주문력 <attention>60</attention><br>체력 <attention>300</attention><br>스킬 가속 <attention>15</attention></stats><br><br><active>활성화</active><br><active>초음속</active><br>지정 방향으로 돌진하며 부채꼴 모양으로 마법 피해를 입히는 마법 탄환을 발사합니다.</mainText>",
       "colloq": "rocket belt;",
       "plaintext": "사용시 앞으로 돌진하며 강력한 폭발을 일으키는 탄환을 발사합니다.",
       "from": ["3145", "3067"],
@@ -12870,10 +12855,10 @@
     },
     "3302": {
       "name": "경계",
-      "description": "<mainText><stats>공격력 <attention>40</attention><br>공격 속도 <attention>30%</attention></stats><br><br><passive>그림자</passive><br>기본 공격 시 <magicDamage>30의 마법 피해</magicDamage>(<OnHit>적중 시</OnHit> )를 입힙니다.<br><br><passive>빛과 어둠</passive><br>챔피언에게 기본 공격 시 <keywordMajor>빛</keywordMajor>과 <keywordMajor>어둠</keywordMajor> 적중 효과를 번갈아 가며 적용합니다. <li><keywordMajor>빛</keywordMajor> 기본 공격 시 5초 동안 <scaleArmor>방어력</scaleArmor>과 <scaleMR>마법 저항력</scaleMR>이 0 증가합니다. (최대 0) <li><keywordMajor>어둠</keywordMajor> 기본 공격 시 5초 동안 6%의 <scaleArmor>방어구 관통력</scaleArmor>과 <scaleMR>마법 관통력</scaleMR>을 얻습니다. (최대 30%) </mainText>",
+      "description": "<mainText><stats>공격력 <attention>40</attention><br>공격 속도 <attention>30%</attention></stats><br><br><passive>그림자</passive><br>기본 공격 시 마법 피해(<OnHit>적중 시</OnHit> )를 입힙니다.<br><br><passive>빛과 어둠</passive><br>챔피언에게 기본 공격 시 <keywordMajor>빛</keywordMajor>과 <keywordMajor>어둠</keywordMajor> 적중 효과를 번갈아 가며 적용합니다. <li><keywordMajor>빛</keywordMajor> 기본 공격 시 <scaleArmor>방어력</scaleArmor>과 <scaleMR>마법 저항력</scaleMR>을 얻습니다.<li><keywordMajor>어둠</keywordMajor> 기본 공격 시 <scaleArmor>방어구 관통력</scaleArmor>과 <scaleMR>마법 관통력</scaleMR>을 얻습니다.</mainText>",
       "colloq": ";relic;shield",
       "plaintext": "주기적으로 미니언을 처치하여 근처 아군을 치유하고 골드를 부여합니다.",
-      "from": ["1043", "1038", "1042"],
+      "from": ["1043", "1038", "1043"],
       "image": {
         "full": "3302.png",
         "sprite": "item3.png",
@@ -12884,7 +12869,7 @@
         "h": 48
       },
       "gold": {
-        "base": 700,
+        "base": 300,
         "purchasable": true,
         "total": 3000,
         "sell": 2100
@@ -14159,7 +14144,7 @@
     },
     "3866": {
       "name": "룬 나침반",
-      "description": "<mainText><stats>10초당 골드 <attention>5</attention><br>기본 체력 재생 <attention>50%</attention><br>기본 마나 재생 <attention>50%</attention><br>체력 <attention>100</attention></stats><br><br><br><br><active>활성화</active><br><active>와드</active> <br>시야를 밝히는 <keywordStealth>투명</keywordStealth> 와드를 설치합니다. 투명 와드는 0개 보유할 수 있으며 상점 방문 시 다시 채워집니다. <br><br><br><br><passive>퀘스트</passive> <br>이 아이템으로 1000골드를 획득하면 <rarityGeneric>룬 나침반</rarityGeneric>으로 변합니다. <passive>18</passive>초마다 중첩을 하나씩 얻고 최대 <passive>3</passive>회까지 중첩됩니다. 주변에 아군 챔피언이 있을 때 중첩을 하나 소모하고 골드를 획득합니다.<br><li>스킬 및 기본 공격으로 챔피언 및 건물에 피해를 입히면 근접 챔피언의 경우 <keywordMajor>34</keywordMajor>골드, 원거리 챔피언의 경우 <keywordMajor>32</keywordMajor>골드를 획득합니다.<li>어떤 방법으로든 미니언 처치 시 <keywordMajor>28</keywordMajor>골드를 획득하며 가장 가까운 아군 챔피언에게도 처치 골드가 주어집니다.<br><br><active>활성화</active><br><active>와드</active> <br>시야를 밝히는 <keywordStealth>투명</keywordStealth> 와드를 설치합니다. 투명 와드는 0개 보유할 수 있으며 상점 방문 시 다시 채워집니다. </mainText>",
+      "description": "<mainText><stats>10초당 골드 <attention>5</attention><br>기본 체력 재생 <attention>50%</attention><br>기본 마나 재생 <attention>50%</attention><br>체력 <attention>100</attention></stats><br><br><br><br><active>활성화</active><br><active>와드</active> <br>시야를 밝히는 <keywordStealth>투명</keywordStealth> 와드를 설치합니다. 투명 와드는 0개 보유할 수 있으며 상점 방문 시 다시 채워집니다. <br><br><br><br><passive>퀘스트</passive> <br>이 아이템으로 1000골드를 획득하면 <rarityGeneric>룬 나침반</rarityGeneric>으로 변합니다. <passive>20</passive>초마다 중첩을 하나씩 얻고 최대 <passive>3</passive>회까지 중첩됩니다. 주변에 아군 챔피언이 있을 때 중첩을 하나 소모하고 골드를 획득합니다.<br><li>스킬 및 기본 공격으로 챔피언 및 건물에 피해를 입히면 근접 챔피언의 경우 <keywordMajor>34</keywordMajor>골드, 원거리 챔피언의 경우 <keywordMajor>32</keywordMajor>골드를 획득합니다.<li>어떤 방법으로든 미니언 처치 시 <keywordMajor>28</keywordMajor>골드를 획득하며 가장 가까운 아군 챔피언에게도 처치 골드가 주어집니다.<br><br><active>활성화</active><br><active>와드</active> <br>시야를 밝히는 <keywordStealth>투명</keywordStealth> 와드를 설치합니다. 투명 와드는 0개 보유할 수 있으며 상점 방문 시 다시 채워집니다. </mainText>",
       "colloq": "",
       "plaintext": "",
       "specialRecipe": 3865,
@@ -14196,7 +14181,7 @@
     },
     "3867": {
       "name": "세계의 결실",
-      "description": "<mainText><stats>10초당 골드 <attention>5</attention><br>기본 체력 재생 <attention>50%</attention><br>기본 마나 재생 <attention>50%</attention><br>체력 <attention>100</attention></stats><br><br><br><li><passive>업그레이드</passive> <br>이 아이템은 비용 소모 없이 <rarityLegendary>피의 노래</rarityLegendary>, <rarityLegendary>천상의 이의</rarityLegendary>, <rarityLegendary>꿈 생성기</rarityLegendary>, <rarityLegendary>자자크의 세계가시</rarityLegendary> 또는 <rarityLegendary>태양의 썰매</rarityLegendary>로 업그레이드할 수 있습니다.<br><br><active>활성화</active><br><active>와드</active> <br>시야를 밝히는 <keywordStealth>투명</keywordStealth> 와드를 설치합니다. 투명 와드는 0개 보유할 수 있으며 상점 방문 시 다시 채워집니다. <br><br></mainText>",
+      "description": "<mainText><stats>10초당 골드 <attention>5</attention><br>기본 체력 재생 <attention>75%</attention><br>기본 마나 재생 <attention>75%</attention><br>체력 <attention>200</attention></stats><br><br><br><li><passive>업그레이드</passive> <br>이 아이템은 비용 소모 없이 <rarityLegendary>피의 노래</rarityLegendary>, <rarityLegendary>천상의 이의</rarityLegendary>, <rarityLegendary>꿈 생성기</rarityLegendary>, <rarityLegendary>자자크의 세계가시</rarityLegendary> 또는 <rarityLegendary>태양의 썰매</rarityLegendary>로 업그레이드할 수 있습니다.<br><br><active>활성화</active><br><active>와드</active> <br>시야를 밝히는 <keywordStealth>투명</keywordStealth> 와드를 설치합니다. 투명 와드는 0개 보유할 수 있으며 상점 방문 시 다시 채워집니다. <br><br></mainText>",
       "colloq": "",
       "plaintext": "",
       "specialRecipe": 3866,
@@ -14226,7 +14211,7 @@
         "30": false
       },
       "stats": {
-        "FlatHPPoolMod": 100
+        "FlatHPPoolMod": 200
       },
       "effect": {
         "Effect1Amount": "5"
@@ -16034,7 +16019,7 @@
     },
     "6631": {
       "name": "발걸음 분쇄기",
-      "description": "<mainText><stats>공격력 <attention>50</attention><br>공격 속도 <attention>30%</attention><br>체력 <attention>450</attention></stats><br><br><passive>쪼개기</passive><br>기본 공격 적중 시 주변 적들에게 <physicalDamage>{{ Item_Melee_Ranged_Split_Dynamic }}의 물리 피해</physicalDamage>를 입힙니다.<br><br><passive>담금질</passive><br><physicalDamage>물리 피해</physicalDamage>를 입히면 2초 동안 <speed>20의 이동 속도</speed>를 얻습니다.{{ Item_OnActivation }} {{ Item_Cooldown }}<br><active>파괴의 충격파</active><br><physicalDamage>0의 물리 피해</physicalDamage>를 입히고 주변 적들을 35% <status>둔화</status>시키며 적중당한 챔피언 하나당 <speed>35%의 추가 이동 속도</speed>를 얻습니다. 추가 이동 속도는 3초에 걸쳐 점차 감소합니다. 스킬을 시전하는 동안 이동할 수 있습니다.</mainText>",
+      "description": "<mainText><stats>공격력 <attention>50</attention><br>공격 속도 <attention>30%</attention><br>체력 <attention>450</attention></stats><br><br><passive>쪼개기</passive><br>기본 공격 시 주변 적들에게 물리 피해를 입힙니다.<br><br><passive>담금질</passive><br><physicalDamage>물리 피해</physicalDamage>를 입히면 이동 속도가 상승합니다.<br><br><active>활성화</active><br><active>파괴의 충격파</active><br>물리 피해를 입히며 주변 적을 <status>둔화</status>시키고 챔피언 하나당 이동 속도를 얻습니다. 스킬을 시전하는 동안 이동할 수 있습니다.</mainText>",
       "colloq": "",
       "plaintext": "",
       "from": ["3077", "3044", "1042"],
@@ -16054,14 +16039,7 @@
         "total": 3300,
         "sell": 2310
       },
-      "tags": [
-        "Health",
-        "Damage",
-        "AttackSpeed",
-        "CooldownReduction",
-        "Slow",
-        "NonbootsMovement"
-      ],
+      "tags": ["Health", "Damage", "AttackSpeed", "Slow", "NonbootsMovement"],
       "maps": {
         "11": true,
         "12": true,
@@ -16159,7 +16137,7 @@
     },
     "6655": {
       "name": "루덴의 동반자",
-      "description": "<mainText><stats>주문력 <attention>95</attention><br>마나 <attention>600</attention><br>스킬 가속 <attention>20</attention></stats><br><br><passive>장전</passive><br>몇 초마다 사격 충전 중첩을 얻습니다.<br><br><passive>발사</passive><br>스킬로 적에게 피해를 입히면 모든 사격 충전 중첩을 소모하여, 소모한 충전 하나당 대상과 주변 다른 대상 한 명에게 추가 마법 피해를 입힙니다. 사거리 안에 다른 대상이 없을 경우 첫 번째 대상에게 남은 사격 충전 중첩만큼 피해를 반복해서 입힙니다.</mainText>",
+      "description": "<mainText><stats>주문력 <attention>95</attention><br>마나 <attention>600</attention><br>스킬 가속 <attention>25</attention></stats><br><br><passive>장전</passive><br>몇 초마다 사격 충전 중첩을 얻습니다.<br><br><passive>발사</passive><br>스킬로 적에게 피해를 입히면 모든 사격 충전 중첩을 소모하여, 소모한 충전 하나당 대상과 주변 다른 대상 한 명에게 추가 마법 피해를 입힙니다. 사거리 안에 다른 대상이 없을 경우 첫 번째 대상에게 남은 사격 충전 중첩만큼 피해를 반복해서 입힙니다.</mainText>",
       "colloq": "",
       "plaintext": "폭발적인 피해를 입힙니다. 유지력이 약한 적에게 효과적입니다.",
       "from": ["3802", "3145"],
@@ -16313,7 +16291,7 @@
     },
     "6662": {
       "name": "얼어붙은 건틀릿",
-      "description": "<mainText><stats>체력 <attention>300</attention><br>방어력 <attention>50</attention><br>스킬 가속 <attention>15</attention></stats><br><br><passive>주문 검</passive> (0초)<br>스킬을 사용하고 나면 다음 기본 공격 시 추가 피해를 입히고 2초 동안 서리 영역을 생성합니다. 서리 영역을 지나는 적들은 <status>둔화</status>됩니다.</mainText>",
+      "description": "<mainText><stats>체력 <attention>300</attention><br>방어력 <attention>50</attention><br>스킬 가속 <attention>15</attention></stats><br><br><passive>주문 검</passive><br>스킬을 사용하고 나면 다음 기본 공격 시 추가 피해를 입히고 2초 동안 서리 영역을 생성합니다. 서리 영역을 지나는 적들은 <status>둔화</status>됩니다.</mainText>",
       "colloq": "",
       "plaintext": "마법 저항력이 크게 증가하며, 기본 지속 효과로 주변 적들을 둔화시킵니다. 주변에서 스킬이 사용되면 에너지 파동을 발산해 적들에게 피해를 입히고 둔화시킵니다.",
       "from": ["3057", "1028", "1031"],
@@ -16356,7 +16334,7 @@
     },
     "6664": {
       "name": "공허한 광휘",
-      "description": "<mainText><stats>체력 <attention>600</attention><br>마법 저항력 <attention>40</attention><br>기본 체력 재생 <attention>100%</attention></stats><br><br><passive>불사르기</passive><br>피해를 받거나 입히면 주변 적들에게 3초 동안 초당 <magicDamage>0의 마법 피해</magicDamage>를 입힙니다. (미니언 대상 25% 증가)<br><br><passive>황폐</passive><br>적을 처치하면 주변에 <magicDamage>0의 마법 피해</magicDamage>를 입힙니다.<br><br></mainText>",
+      "description": "<mainText><stats>체력 <attention>600</attention><br>마법 저항력 <attention>40</attention><br>기본 체력 재생 <attention>100%</attention></stats><br><br><passive>불사르기</passive><br>피해를 받거나 입히면 주변 적들에게 마법 피해를 입힙니다.<br><br><passive>황폐</passive><br>적을 처치하면 주변에 마법 피해를 입힙니다.<br><br></mainText>",
       "colloq": "",
       "plaintext": "적을 이동 불가 상태로 만들면 보호막을 얻습니다. 사용 시 적에게 접근할 때 이동 속도가 상승합니다.",
       "from": ["6660", "3211"],
@@ -16591,7 +16569,7 @@
     },
     "6673": {
       "name": "불멸의 철갑궁",
-      "description": "<mainText><stats>공격력 <attention>50</attention><br>치명타 확률 <attention>20%</attention><br>생명력 흡수 <attention>12%</attention></stats><br><br><passive>생명선</passive> (0초)<br>체력이 30% 밑으로 떨어질 만큼 피해를 입으면 3초 동안 <shield>0의 피해를 흡수하는 보호막</shield>을 얻습니다.</mainText>",
+      "description": "<mainText><stats>공격력 <attention>50</attention><br>치명타 확률 <attention>20%</attention><br>생명력 흡수 <attention>12%</attention></stats><br><br><passive>생명선</passive><br>피해를 받아 체력이 일정량 아래가 될 경우 피해를 흡수하는 보호막을 얻습니다.</mainText>",
       "colloq": "",
       "plaintext": "",
       "from": ["1037", "1018", "1053"],
@@ -16859,7 +16837,7 @@
     },
     "6693": {
       "name": "자객의 발톱",
-      "description": "<mainText><stats>공격력 <attention>55</attention><br>물리 관통력 <attention>22</attention><br>스킬 가속 <attention>15</attention></stats><br><br><passive>준비</passive><br>전투 중이 아닐 때 물리 관통력을 얻습니다. <br><br><passive>탈출</passive><br>챔피언을 처치하면 이동 속도가 증가합니다.</mainText>",
+      "description": "<mainText><stats>공격력 <attention>55</attention><br>물리 관통력 <attention>22</attention><br>스킬 가속 <attention>15</attention></stats><br><br><passive>명성</passive><br>자신이 피해를 입힌 챔피언이 죽으면 공격력을 얻습니다.<br><br><passive>자존심</passive><br>챔피언 처치 시 자신을 본뜬 조각상을 생성합니다. 이미 조각상이 있으면 조각상을 업그레이드합니다.</mainText>",
       "colloq": "",
       "plaintext": "",
       "from": ["3134", "3133"],
@@ -17007,7 +16985,7 @@
     },
     "6697": {
       "name": "오만",
-      "description": "<mainText><stats>공격력 <attention>60</attention><br>물리 관통력 <attention>18</attention><br>스킬 가속 <attention>15</attention></stats><br><br><passive>명성</passive><br>처치 시 챔피언 처치에 비례해 일시 공격력을 얻습니다.<br><br><passive>자존심</passive><br>처치 시 자신을 본뜬 조각상을 업그레이드합니다.</mainText>",
+      "description": "<mainText><stats>공격력 <attention>60</attention><br>물리 관통력 <attention>18</attention><br>스킬 가속 <attention>15</attention></stats><br><br><passive>명성</passive><br>처치 시 챔피언 처치에 비례해 일시 공격력을 얻습니다.</mainText>",
       "colloq": "",
       "plaintext": "",
       "from": ["3134", "3133"],
@@ -17173,7 +17151,7 @@
     },
     "6701": {
       "name": "기회",
-      "description": "<mainText><stats>공격력 <attention>55</attention><br>물리 관통력 <attention>18</attention><br>이동 속도 <attention>5%</attention></stats><br><br><passive>준비</passive><br>전투 중이 아닐 때 물리 관통력을 얻습니다. <br><br><passive>탈출</passive><br>챔피언을 처치하면 이동 속도가 증가합니다.</mainText>",
+      "description": "<mainText><stats>공격력 <attention>55</attention><br>물리 관통력 <attention>18</attention><br>이동 속도 <attention>5%</attention></stats><br><br><passive>명성</passive><br>자신이 피해를 입힌 챔피언이 죽으면 공격력을 얻습니다.<br><br><passive>자존심</passive><br>챔피언 처치 시 자신을 본뜬 조각상을 생성합니다. 이미 조각상이 있으면 조각상을 업그레이드합니다.</mainText>",
       "colloq": "",
       "plaintext": "",
       "from": ["3134", "6690"],
@@ -17209,7 +17187,7 @@
     },
     "7000": {
       "name": "암살자의 발톱",
-      "description": "<mainText><stats>공격력 <ornnBonus>75</ornnBonus><br>물리 관통력 <ornnBonus>26</ornnBonus><br>스킬 가속 <ornnBonus>25</ornnBonus></stats><br><br><passive>준비</passive><br>전투 중이 아닐 때 물리 관통력을 얻습니다. <br><br><passive>탈출</passive><br>챔피언을 처치하면 이동 속도가 증가합니다.</mainText>",
+      "description": "<mainText><stats>공격력 <ornnBonus>75</ornnBonus><br>물리 관통력 <ornnBonus>26</ornnBonus><br>스킬 가속 <ornnBonus>25</ornnBonus></stats><br><br><passive>명성</passive><br>자신이 피해를 입힌 챔피언이 죽으면 공격력을 얻습니다.<br><br><passive>자존심</passive><br>챔피언 처치 시 자신을 본뜬 조각상을 생성합니다. 이미 조각상이 있으면 조각상을 업그레이드합니다.</mainText>",
       "colloq": "",
       "plaintext": "",
       "from": ["6693"],
@@ -17364,7 +17342,7 @@
     },
     "7004": {
       "name": "다수의 원한",
-      "description": "<mainText><stats>주문력 <ornnBonus>110</ornnBonus><br>마나 <ornnBonus>800</ornnBonus><br>스킬 가속 <ornnBonus>30</ornnBonus></stats><br><br><passive>경멸</passive><br>궁극기의 스킬 가속이 증가합니다.<br><br><passive>증오안개</passive><br>궁극기로 챔피언에게 피해를 입히면 대상 발밑의 지면을 불태워 피해를 입히고 마법 저항력을 감소시킵니다. <br></mainText>",
+      "description": "<mainText><stats>주문력 <ornnBonus>110</ornnBonus><br>마나 <ornnBonus>800</ornnBonus><br>스킬 가속 <ornnBonus>35</ornnBonus></stats><br><br><passive>경멸</passive><br>궁극기의 스킬 가속이 증가합니다.<br><br><passive>증오안개</passive><br>궁극기로 챔피언에게 피해를 입히면 대상 발밑의 지면을 불태워 피해를 입히고 마법 저항력을 감소시킵니다. <br></mainText>",
       "colloq": "",
       "plaintext": "",
       "from": ["3118"],
@@ -17400,7 +17378,7 @@
     },
     "7005": {
       "name": "얼어붙은 주먹",
-      "description": "<mainText><stats>체력 <ornnBonus>400</ornnBonus><br>방어력 <ornnBonus>60</ornnBonus><br>스킬 가속 <ornnBonus>25</ornnBonus></stats><br><br><passive>주문 검</passive> (0초)<br>스킬을 사용하고 나면 다음 기본 공격 시 추가 피해를 입히고 2초 동안 서리 영역을 생성합니다. 서리 영역을 지나는 적들은 <status>둔화</status>됩니다.</mainText>",
+      "description": "<mainText><stats>체력 <ornnBonus>400</ornnBonus><br>방어력 <ornnBonus>60</ornnBonus><br>스킬 가속 <ornnBonus>25</ornnBonus></stats><br><br><passive>주문 검</passive><br>스킬을 사용하고 나면 다음 기본 공격 시 추가 피해를 입히고 2초 동안 서리 영역을 생성합니다. 서리 영역을 지나는 적들은 <status>둔화</status>됩니다.</mainText>",
       "colloq": "",
       "plaintext": "",
       "from": ["6662"],
@@ -17529,7 +17507,7 @@
     },
     "7008": {
       "name": "영혼의 평정",
-      "description": "<mainText><stats>공격력 <ornnBonus>75</ornnBonus><br>물리 관통력 <ornnBonus>27</ornnBonus><br>스킬 가속 <ornnBonus>20</ornnBonus></stats><br><br><passive>준비</passive><br>전투 중이 아닐 때 물리 관통력을 얻습니다. <br><br><passive>탈출</passive><br>챔피언을 처치하면 이동 속도가 증가합니다.</mainText>",
+      "description": "<mainText><stats>공격력 <ornnBonus>75</ornnBonus><br>물리 관통력 <ornnBonus>27</ornnBonus><br>스킬 가속 <ornnBonus>20</ornnBonus></stats><br><br><passive>명성</passive><br>자신이 피해를 입힌 챔피언이 죽으면 공격력을 얻습니다.<br><br><passive>자존심</passive><br>챔피언 처치 시 자신을 본뜬 조각상을 생성합니다. 이미 조각상이 있으면 조각상을 업그레이드합니다.</mainText>",
       "colloq": "",
       "plaintext": "",
       "from": ["6697"],
@@ -17649,7 +17627,7 @@
     },
     "7011": {
       "name": "업그레이드 비행팩",
-      "description": "<mainText><stats>주문력 <ornnBonus>85</ornnBonus><br>체력 <ornnBonus>450</ornnBonus><br>스킬 가속 <ornnBonus>20</ornnBonus></stats><br><br><active>활성화</active> (0초)<br><active>초음속</active><br>지정 방향으로 돌진하며 부채꼴 모양으로 마법 피해를 입히는 마법 탄환을 발사합니다.</mainText>",
+      "description": "<mainText><stats>주문력 <ornnBonus>85</ornnBonus><br>체력 <ornnBonus>450</ornnBonus><br>스킬 가속 <ornnBonus>20</ornnBonus></stats><br><br><active>활성화</active><br><active>초음속</active><br>지정 방향으로 돌진하며 부채꼴 모양으로 마법 피해를 입히는 마법 탄환을 발사합니다.</mainText>",
       "colloq": "",
       "plaintext": "",
       "from": ["3152"],
@@ -17728,7 +17706,7 @@
     },
     "7013": {
       "name": "무기의 위력",
-      "description": "<mainText><stats>주문력 <ornnBonus>120</ornnBonus><br>마나 <ornnBonus>950</ornnBonus><br>스킬 가속 <ornnBonus>30</ornnBonus></stats><br><br><passive>장전</passive><br>몇 초마다 사격 충전 중첩을 얻습니다.<br><br><passive>발사</passive><br>스킬로 적에게 피해를 입히면 모든 사격 충전 중첩을 소모하여, 소모한 충전 하나당 대상과 주변 다른 대상 한 명에게 추가 마법 피해를 입힙니다. 사거리 안에 다른 대상이 없을 경우 첫 번째 대상에게 남은 사격 충전 중첩만큼 피해를 반복해서 입힙니다.</mainText>",
+      "description": "<mainText><stats>주문력 <ornnBonus>120</ornnBonus><br>마나 <ornnBonus>950</ornnBonus><br>스킬 가속 <ornnBonus>35</ornnBonus></stats><br><br><passive>장전</passive><br>몇 초마다 사격 충전 중첩을 얻습니다.<br><br><passive>발사</passive><br>스킬로 적에게 피해를 입히면 모든 사격 충전 중첩을 소모하여, 소모한 충전 하나당 대상과 주변 다른 대상 한 명에게 추가 마법 피해를 입힙니다. 사거리 안에 다른 대상이 없을 경우 첫 번째 대상에게 남은 사격 충전 중첩만큼 피해를 반복해서 입힙니다.</mainText>",
       "colloq": "",
       "plaintext": "",
       "from": ["6655"],
@@ -17855,7 +17833,7 @@
     },
     "7016": {
       "name": "몽상파쇄자",
-      "description": "<mainText><stats>공격력 <ornnBonus>60</ornnBonus><br>공격 속도 <ornnBonus>40%</ornnBonus><br>체력 <ornnBonus>600</ornnBonus></stats><br><br><passive>쪼개기</passive><br>기본 공격 적중 시 주변 적들에게 <physicalDamage>{{ Item_Melee_Ranged_Split_Dynamic }}의 물리 피해</physicalDamage>를 입힙니다.<br><br><passive>담금질</passive><br><physicalDamage>물리 피해</physicalDamage>를 입히면 2초 동안 <speed>20의 이동 속도</speed>를 얻습니다.{{ Item_OnActivation }} {{ Item_Cooldown }}<br><active>파괴의 충격파</active><br><physicalDamage>0의 물리 피해</physicalDamage>를 입히고 주변 적들을 35% <status>둔화</status>시키며 적중당한 챔피언 하나당 <speed>35%의 추가 이동 속도</speed>를 얻습니다. 추가 이동 속도는 3초에 걸쳐 점차 감소합니다. 스킬을 시전하는 동안 이동할 수 있습니다.</mainText>",
+      "description": "<mainText><stats>공격력 <ornnBonus>60</ornnBonus><br>공격 속도 <ornnBonus>40%</ornnBonus><br>체력 <ornnBonus>600</ornnBonus></stats><br><br><passive>쪼개기</passive><br>기본 공격 시 주변 적들에게 물리 피해를 입힙니다.<br><br><passive>담금질</passive><br><physicalDamage>물리 피해</physicalDamage>를 입히면 이동 속도가 상승합니다.<br><br><active>활성화</active><br><active>파괴의 충격파</active><br>물리 피해를 입히며 주변 적을 <status>둔화</status>시키고 챔피언 하나당 이동 속도를 얻습니다. 스킬을 시전하는 동안 이동할 수 있습니다.</mainText>",
       "colloq": "",
       "plaintext": "",
       "from": ["6631"],
@@ -17875,14 +17853,7 @@
         "total": 3300,
         "sell": 2310
       },
-      "tags": [
-        "Health",
-        "Damage",
-        "AttackSpeed",
-        "CooldownReduction",
-        "Slow",
-        "NonbootsMovement"
-      ],
+      "tags": ["Health", "Damage", "AttackSpeed", "Slow", "NonbootsMovement"],
       "maps": {
         "11": true,
         "12": true,
@@ -18125,7 +18096,7 @@
     },
     "7022": {
       "name": "확실성",
-      "description": "<mainText><stats>공격력 <ornnBonus>70</ornnBonus><br>물리 관통력 <ornnBonus>27</ornnBonus><br>이동 속도 <ornnBonus>8%</ornnBonus></stats><br><br><passive>준비</passive><br>전투 중이 아닐 때 물리 관통력을 얻습니다. <br><br><passive>탈출</passive><br>챔피언을 처치하면 이동 속도가 증가합니다.</mainText>",
+      "description": "<mainText><stats>공격력 <ornnBonus>70</ornnBonus><br>물리 관통력 <ornnBonus>27</ornnBonus><br>이동 속도 <ornnBonus>8%</ornnBonus></stats><br><br><passive>명성</passive><br>자신이 피해를 입힌 챔피언이 죽으면 공격력을 얻습니다.<br><br><passive>자존심</passive><br>챔피언 처치 시 자신을 본뜬 조각상을 생성합니다. 이미 조각상이 있으면 조각상을 업그레이드합니다.</mainText>",
       "colloq": "",
       "plaintext": "",
       "from": ["6701"],
@@ -18401,7 +18372,7 @@
     },
     "7029": {
       "name": "요우무의 각성",
-      "description": "<mainText><stats>공격력 <ornnBonus>75</ornnBonus><br>물리 관통력 <ornnBonus>26</ornnBonus></stats><br><br><passive>출몰</passive> <br>전투에서 벗어나 있을 때 <speed>이동 속도가 {{Item_Melee_Ranged_Split_Dynamic}}</speed> 상승합니다.<br>{{ Item_OnActivation }} {{ Item_Cooldown }}<br><active>망령의 발걸음</active><br><speed>이동 속도</speed>가 상승하고 <keyword>유체화</keyword> 상태가 됩니다.</mainText>",
+      "description": "<mainText><stats>공격력 <ornnBonus>75</ornnBonus><br>물리 관통력 <ornnBonus>26</ornnBonus></stats><br><br><passive>출몰</passive> <br>전투에서 벗어나 있을 때 <speed>이동 속도</speed>가 상승합니다.<br><br><br><active>활성화</active> (0초)<br><active>망령의 발걸음</active><br><speed>이동 속도</speed>가 상승하고 <keyword>유체화</keyword> 상태가 됩니다.</mainText>",
       "colloq": "",
       "plaintext": "",
       "from": ["3142"],
@@ -18780,10 +18751,10 @@
       },
       "effect": {
         "Effect1Amount": "-0.2",
-        "Effect2Amount": "0.04",
+        "Effect2Amount": "0.05",
         "Effect3Amount": "6",
-        "Effect4Amount": "6",
-        "Effect5Amount": "0.24",
+        "Effect4Amount": "5",
+        "Effect5Amount": "0.25",
         "Effect6Amount": "0",
         "Effect7Amount": "0",
         "Effect8Amount": "0",
@@ -18940,7 +18911,7 @@
     },
     "7042": {
       "name": "남작의 선물",
-      "description": "<mainText><stats>주문력 <ornnBonus>120</ornnBonus><br>공격 속도 <ornnBonus>60%</ornnBonus><br>스킬 가속 <ornnBonus>20</ornnBonus></stats><br><br><passive>이케시아의 이빨</passive><br>기본 공격 시 <magicDamage>0의 마법 피해</magicDamage>(<OnHit>적중 시</OnHit> )를 입힙니다.</mainText>",
+      "description": "<mainText><stats>주문력 <ornnBonus>120</ornnBonus><br>공격 속도 <ornnBonus>60%</ornnBonus><br>스킬 가속 <ornnBonus>20</ornnBonus></stats><br><br><passive>이케시아의 이빨</passive><br>기본 공격 시 <magicDamage>마법 피해</magicDamage>(<OnHit>적중 시</OnHit> )를 입힙니다.</mainText>",
       "colloq": "",
       "plaintext": "",
       "from": ["3115"],
@@ -19012,7 +18983,7 @@
     },
     "8001": {
       "name": "증오의 사슬",
-      "description": "<mainText><stats>체력 <attention>650</attention><br>스킬 가속 <attention>20</attention></stats><br><br><passive>피의 복수</passive><br>시간이 지남에 따라 피의 복수 중첩을 얻으며, 피의 복수 중첩당 숙적으로부터 받는 피해량이 1% 감소합니다.<br><br><passive>복수</passive><br>최대 중첩 시 근처에 있는 숙적의 강인함이 감소합니다.<br><br><active>활성화</active> (0초)<br><active>맹세</active><br><passive>숙적</passive>을 선택하세요.</mainText>",
+      "description": "<mainText><stats>체력 <attention>650</attention><br>스킬 가속 <attention>20</attention></stats><br><br><passive>피의 복수</passive><br>시간이 지남에 따라 피의 복수 중첩을 얻으며, 피의 복수 중첩당 숙적으로부터 받는 피해량이 1% 감소합니다.<br><br><passive>복수</passive><br>최대 중첩 시 근처에 있는 숙적의 강인함이 감소합니다.<br><br><active>사용 시 -</active><active>맹세</active><br>피의 복수를 할 숙적을 선택합니다.</mainText>",
       "colloq": "",
       "plaintext": "",
       "from": ["3067", "1011"],
