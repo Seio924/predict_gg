@@ -94,15 +94,18 @@ BOOTS_ITEM = 82
 WARD_ITEM = 83
 
 WARD_COUNT = 84
-OBJECT_COUNT = 85
+HORDE_COUNT = 85
+DRAGON_COUNT = 86
+RIFTHERALD_COUNT = 87
+BARON_NASHOR_COUNT = 88
 
-TOWER_TOP_COUNT = 86
-TOWER_MIDDLE_COUNT = 87
-TOWER_BOTTOM_COUNT = 88
+TOWER_TOP_COUNT = 89
+TOWER_MIDDLE_COUNT = 90
+TOWER_BOTTOM_COUNT = 91
 
-TEAM_INTERVAL = 88
+TEAM_INTERVAL = 91
 
-LIST_LEN = 178
+LIST_LEN = 184
 
 class PreprocessData():
     def __init__(self, match_file_dir, timeline_file_dir):
@@ -231,7 +234,7 @@ class PreprocessData():
                     for j in i['events']:
                         event_list = [0 for h in range(LIST_LEN)]
                         event_list[TIMESTAMP] = j['timestamp']
-
+                        
                         if j['type'] == 'ITEM_PURCHASED':
                             team_interval = team[j['participantId']]
                             if item_base_cost[str(j['itemId'])] == item_total_cost[str(j['itemId'])]:
@@ -568,10 +571,17 @@ class PreprocessData():
 
                         elif j['type'] == 'ELITE_MONSTER_KILL':
                             if j['killerId'] != 0:
-
                                 team_interval = team[j['killerId']]
 
-                                event_list[OBJECT_COUNT+team_interval] += 1
+                                if j['monsterType'] == 'HORDE':
+                                    event_list[HORDE_COUNT+team_interval] += 1
+                                elif j['monsterType'] == "DRAGON":
+                                    event_list[DRAGON_COUNT+team_interval] += 1
+                                elif j['monsterType'] == "RIFTHERALD":
+                                    event_list[RIFTHERALD_COUNT+team_interval] += 1
+                                elif j['monsterType'] == "BARON_NASHOR":
+                                    event_list[BARON_NASHOR_COUNT+team_interval] += 1
+
 
                         elif j['type'] == 'CHAMPION_KILL':
                             #어시스트 골드 계산 더 찾아보기
