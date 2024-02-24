@@ -11,7 +11,7 @@ import threading
 import json
 
 OVERLAY_WIDTH = 350
-OVERLAY_HEIGHT = 125
+OVERLAY_HEIGHT = 110
 
 def get_match_duration():
     # api_match_info.json 파일에서 매치 지속 시간 가져오기
@@ -137,7 +137,7 @@ def draw_background(hwnd, hdc, text):
 
     background_rect = (rect[0], rect[1], rect[2], rect[3])
 
-    bar_rect = (rect[0] + 20, rect[1] + OVERLAY_HEIGHT-50 , rect[2] - 20, rect[3] -45)
+    bar_rect = (rect[0] + 20, rect[1] + OVERLAY_HEIGHT-35 , rect[2] - 20, rect[3] -30)
     
 
     # 파랑색 영역 계산
@@ -162,6 +162,10 @@ def draw_background(hwnd, hdc, text):
     elif blue_percentage == 0:
         increasing = True
 
+    win32gui.SetWindowLong(hwnd, win32con.GWL_EXSTYLE,
+                           win32gui.GetWindowLong(hwnd, win32con.GWL_EXSTYLE) | win32con.WS_EX_LAYERED)
+    win32gui.SetLayeredWindowAttributes(hwnd, 0, int(255 * 0.8), win32con.LWA_ALPHA)  # 투명도를 50%로 설정
+
 
 # 오버레이에 텍스트를 그리는 함수
 def on_paint(hwnd, msg, wparam, lparam):
@@ -171,14 +175,11 @@ def on_paint(hwnd, msg, wparam, lparam):
 
     
 
-    # 텍스트 출력에 사용할 HDC 생성
-    hdc = win32gui.GetDC(None)
-
     # 배경 그리기
     draw_background(hwnd, hdc, text_tmp)
     
     # 텍스트 그리기
-    rect_text = (20, 20, OVERLAY_WIDTH-20, OVERLAY_HEIGHT-20)  # 텍스트가 출력될 영역
+    rect_text = (20, 20, OVERLAY_WIDTH-20, OVERLAY_HEIGHT-38)  # 텍스트가 출력될 영역
 
     win32gui.SetTextColor(hdc, win32api.RGB(255, 255, 255))  # 텍스트 색상 설정 (흰색)
     win32gui.SetBkMode(hdc, win32con.TRANSPARENT)  # 배경 투명으로 설정
