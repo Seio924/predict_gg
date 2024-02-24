@@ -81,7 +81,6 @@ class LoadData():
     
             for match_id in match_ids:
 
-                num += 1
                 
                 self.get_match_data(match_id)
                 self.get_timeline_data(match_id)
@@ -106,9 +105,12 @@ class LoadData():
                 win_lose = test.get_match_data()[1]
                 
                 if not interval_list:
+
                     print("데이터 가져오기 실패: " + str(num))
                     pass
                 else:
+                    num += 1
+
                     interval_list = [interval.tolist() if isinstance(interval, np.ndarray) else interval for interval in interval_list]
                     data_list.append(interval_list)
                     win_lose_list.append(win_lose)
