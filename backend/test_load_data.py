@@ -5,7 +5,7 @@ from load_data import LoadData
 
 api_key = 'RGAPI-3ec05947-04f7-4650-a49a-0c4b0e5d1b1f'
 
-test = PreprocessData('./backend/api_match_info.json', './backend/api_timeline_info.json')
+test = PreprocessData('./api_data/api_match_info.json', './api_data/api_timeline_info.json')
 
 load_instance = LoadData(api_key)
 # 데이터 가져오기

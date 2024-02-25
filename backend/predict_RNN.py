@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 api_key = 'RGAPI-80ba1ae9-cccc-4e83-a491-b5db20a7614b'
 
-test = PreprocessData('./backend/api_match_info.json', './backend/api_timeline_info.json')
+test = PreprocessData('./api_data/api_match_info.json', './api_data/api_timeline_info.json')
 
 # 데이터 가져오기
 train_data = test.get_condition_timeline(10000)

@@ -18981,6 +18981,53 @@
       },
       "stats": {}
     },
+    "3191":{
+      "name":"추적자의 팔목 보호대",
+      "description":"<mainText><stats>주문력 <attention>30</attention><br>방어력 <attention>15</attention></stats><br><li><passive>마법사의 길:</passive> 유닛을 처치하면 <scaleArmor>방어력이 0.5</scaleArmor> (최대 <scaleArmor>15</scaleArmor>) 증가합니다.</mainText><br>",
+      "colloq":";seeker;armguard",
+      "plaintext":"방어력과 주문력이 증가합니다.",
+      "from":[
+         "1052",
+         "1029"
+      ],
+      "into":[
+         "3157"
+      ],
+      "image":{
+         "full":"3191.png",
+         "sprite":"item1.png",
+         "group":"item",
+         "x":432,
+         "y":240,
+         "w":48,
+         "h":48
+      },
+      "gold":{
+         "base":265,
+         "purchasable":true,
+         "total":1000,
+         "sell":700
+      },
+      "tags":[
+         "Armor",
+         "SpellDamage"
+      ],
+      "maps":{
+         "11":true,
+         "12":true,
+         "21":true,
+         "22":false
+      },
+      "stats":{
+         "FlatMagicDamageMod":30,
+         "FlatArmorMod":15
+      },
+      "effect":{
+         "Effect1Amount":"0.5",
+         "Effect2Amount":"15"
+      },
+      "depth":2
+    },
     "8001": {
       "name": "증오의 사슬",
       "description": "<mainText><stats>체력 <attention>650</attention><br>스킬 가속 <attention>20</attention></stats><br><br><passive>피의 복수</passive><br>시간이 지남에 따라 피의 복수 중첩을 얻으며, 피의 복수 중첩당 숙적으로부터 받는 피해량이 1% 감소합니다.<br><br><passive>복수</passive><br>최대 중첩 시 근처에 있는 숙적의 강인함이 감소합니다.<br><br><active>사용 시 -</active><active>맹세</active><br>피의 복수를 할 숙적을 선택합니다.</mainText>",

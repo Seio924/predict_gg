@@ -118,7 +118,7 @@ class AnalysisData:
         self.time = [i for i in range(0, 10000000, 10000)]
 
     def analyze_data(self):
-        test = PreprocessData('./backend/api_match_info.json', './backend/api_timeline_info.json')
+        test = PreprocessData('./api_data/api_match_info.json', './api_data/api_timeline_info.json')
 
         interval_list = test.get_condition_timeline(10000)
         if interval_list == 0:
