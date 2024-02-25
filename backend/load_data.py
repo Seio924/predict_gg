@@ -24,13 +24,13 @@ class LoadData():
     def get_match_data(self, matchid):
         match_url = "https://asia.api.riotgames.com/lol/match/v5/matches/" + matchid + '?api_key=' + self.api_key
         r4 = requests.get(match_url)
-        with open('backend/api_match_info.json', 'w', encoding='utf-8') as json_file:
+        with open('api_data/api_match_info.json', 'w', encoding='utf-8') as json_file:
             json.dump(r4.json(), json_file, ensure_ascii=False, indent=4)
 
     def get_timeline_data(self, matchid):
         match_timeline_url = "https://asia.api.riotgames.com/lol/match/v5/matches/" + matchid + "/timeline" + '?api_key=' + self.api_key
         r5 = requests.get(match_timeline_url)
-        with open('backend/api_timeline_info.json', 'w', encoding='utf-8') as json_file:
+        with open('api_data/api_timeline_info.json', 'w', encoding='utf-8') as json_file:
             json.dump(r5.json(), json_file, ensure_ascii=False, indent=4)
 
     def get_challenger_info(self):
@@ -38,7 +38,7 @@ class LoadData():
         r6 = requests.get(challenger_url)
         self.summonerId = [entry['summonerName'] for entry in r6.json()['entries'] if entry['summonerName'] != '']
         self.summonerId.sort()
-        with open('backend/api_challenger_info.json', 'w', encoding='utf-8') as json_file:
+        with open('api_data/api_challenger_info.json', 'w', encoding='utf-8') as json_file:
             json.dump(self.summonerId, json_file, ensure_ascii=False, indent=4)
 
     def get_summoner_Id(self):
@@ -68,7 +68,7 @@ class LoadData():
                 self.summonerId += [entry['summonerName'] for entry in r.json() if entry.get('summonerName', '') != ''][:75]
 
         self.summonerId = list(set(self.summonerId))
-        with open('backend/api_summoner_id.json', 'w', encoding='utf-8') as json_file:
+        with open('api_data/api_summoner_id.json', 'w', encoding='utf-8') as json_file:
             json.dump(self.summonerId, json_file, ensure_ascii=False, indent=4)
 
     def process_challenger_data(self, num_matches):
@@ -128,7 +128,7 @@ class LoadData():
         print("끝")
 
     def get_summoner_data_list(self, num_matches):
-        with open('backend/api_summoner_id.json', 'r', encoding="utf-8") as f:
+        with open('api_data/api_summoner_id.json', 'r', encoding="utf-8") as f:
             summonerId = json.load(f)
         data_list = []
         win_lose_list = []
@@ -144,10 +144,10 @@ class LoadData():
                 self.get_timeline_data(match_id)
                 num += 1
 
-                with open('backend/api_match_info.json', 'r', encoding="utf-8") as f:
+                with open('api_data/api_match_info.json', 'r', encoding="utf-8") as f:
                     match_info = json.load(f)
 
-                with open('backend/api_timeline_info.json', 'r', encoding="utf-8") as f:
+                with open('api_data/api_timeline_info.json', 'r', encoding="utf-8") as f:
                     timeline_info = json.load(f)
 
                 if "status" in match_info:
@@ -160,7 +160,7 @@ class LoadData():
                     print("데이터 가져오기 실패: " + str(num))
                     continue
                 
-                test = PreprocessData('./backend/api_match_info.json', './backend/api_timeline_info.json')
+                test = PreprocessData('./api_data/api_match_info.json', './api_data/api_timeline_info.json')
 
                 
 
@@ -192,7 +192,7 @@ class LoadData():
     
     def get_summoner_invertal_list(self, summoner_start, num_matches):
 
-        with open('backend/api_summoner_id.json', 'r', encoding="utf-8") as f:
+        with open('api_data/api_summoner_id.json', 'r', encoding="utf-8") as f:
             summonerId = json.load(f)
 
         data_list = []
@@ -213,10 +213,10 @@ class LoadData():
                 self.get_match_data(match_id)
                 self.get_timeline_data(match_id)
 
-                with open('backend/api_match_info.json', 'r', encoding="utf-8") as f:
+                with open('api_data/api_match_info.json', 'r', encoding="utf-8") as f:
                     match_info = json.load(f)
 
-                with open('backend/api_timeline_info.json', 'r', encoding="utf-8") as f:
+                with open('api_data/api_timeline_info.json', 'r', encoding="utf-8") as f:
                     timeline_info = json.load(f)
 
                 if "status" in match_info:
@@ -227,7 +227,7 @@ class LoadData():
                     print("데이터 가져오기 실패: " + str(num))
                     continue
                 
-                test = PreprocessData('./backend/api_match_info.json', './backend/api_timeline_info.json')
+                test = PreprocessData('./api_data/api_match_info.json', './api_data/api_timeline_info.json')
 
                 interval_list = test.get_condition_timeline(10000)
                 win_lose = test.get_match_data()[1]

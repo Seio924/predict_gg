@@ -14,7 +14,7 @@ with open('backend/userInput.txt', 'r', encoding="utf-8") as f:
 
 time_num = int(time_num)
 
-test = PreprocessData('./backend/api_match_info.json', './backend/api_timeline_info.json')
+test = PreprocessData('./api_data/api_match_info.json', './api_data/api_timeline_info.json')
 
 # 데이터 가져오기
 train_data = test.get_condition_timeline(time_num*1000)

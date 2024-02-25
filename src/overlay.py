@@ -15,7 +15,7 @@ OVERLAY_HEIGHT = 110
 
 def get_match_duration():
     # api_match_info.json 파일에서 매치 지속 시간 가져오기
-    with open('backend/api_match_info.json', 'r', encoding="utf-8") as f:
+    with open('api_data/api_match_info.json', 'r', encoding="utf-8") as f:
         match_info = json.load(f)
         duration = match_info['info']['gameEndTimestamp'] - match_info['info']['gameStartTimestamp']
     return duration

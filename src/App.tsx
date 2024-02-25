@@ -4,15 +4,16 @@ import MainBox from "./components/MainBox";
 import MainBackground from "./img/main_background.png";
 import TitleBar from "./components/TitleBar";
 import PredictBtnContainer from "./components/PredictBtnContainer";
+import MainPage from "./pages/MainPage";
 
-const MainPage = styled.div`
+const Container = styled.div`
   width: 100%;
   height: 100%;
   overflow: hidden;
   position: relative;
 `;
 
-const Container = styled.div`
+const BackGroundContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -37,16 +38,16 @@ function App() {
 
   return (
     <>
-      <MainPage>
+      <Container>
         <TitleBar />
-        <Container>
-          <MainBox key={key} resetMainBox={resetMainBox} />
-          <PredictBtnContainer
+        <BackGroundContainer>
+          <MainPage
             resetMainBox={resetMainBox}
             handleUpload={handleUpload}
+            key={key}
           />
-        </Container>
-      </MainPage>
+        </BackGroundContainer>
+      </Container>
     </>
   );
 }

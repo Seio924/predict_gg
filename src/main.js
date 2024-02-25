@@ -80,14 +80,14 @@ async function createWindow() {
 
             // 데이터를 파일에 비동기적으로 저장
             await Promise.all([
-                fs.writeFile(`backend/api_match_info.json`, JSON.stringify(matchResponse.data, null, 2)), // 들여쓰기와 줄 바꿈 추가
-                fs.writeFile(`backend/api_timeline_info.json`, JSON.stringify(timelineResponse.data, null, 2)) // 들여쓰기와 줄 바꿈 추가
+                fs.writeFile(`api_data/api_match_info.json`, JSON.stringify(matchResponse.data, null, 2)), // 들여쓰기와 줄 바꿈 추가
+                fs.writeFile(`api_data/api_timeline_info.json`, JSON.stringify(timelineResponse.data, null, 2)) // 들여쓰기와 줄 바꿈 추가
             ]);
 
             console.log("Data saved to files successfully.");
 
             // 파일 쓰기가 완료되면 파일을 읽고 데이터 처리
-            const data = await fs.readFile("backend/api_match_info.json", "utf8");
+            const data = await fs.readFile("api_data/api_match_info.json", "utf8");
             const jsonData = JSON.parse(data);
             const realTimestamp = jsonData.info.gameEndTimestamp - jsonData.info.gameStartTimestamp;
 
