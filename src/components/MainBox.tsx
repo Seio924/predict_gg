@@ -3,6 +3,15 @@ import styled from "styled-components";
 import UploadingIcon from "../img/uploading_icon.png";
 import { SEND_MAIN_PING } from "../constants";
 import { SEND_MATCH_INFO } from "../constants";
+import { useRecoilState } from "recoil";
+import {
+  championNameState,
+  summonerNameState,
+  teamIdState,
+  assistsState,
+  deathsState,
+  killsState,
+} from "../atom";
 import GameInfoBox from "./GameInfoBox";
 import Loading from "./Loading";
 
@@ -58,16 +67,25 @@ const FileUploadText = styled.p`
   color: #eeeeef;
 `;
 
+const GameInfoContainer = styled.div`
+  display: flex;
+  height: 290px;
+  width: 540px;
+  background-color: #1e2023;
+  border-radius: 6px;
+  border: 3px dashed #1e2023;
+`;
+
 function MainBox({ resetMainBox }: { resetMainBox: () => void }) {
   const [isActive, setActive] = useState(false);
   const [fileName, setFileName] = useState("");
   const [loading, setLoading] = useState(false);
-  const [championName, setChampionName] = useState<string[]>([]);
-  const [summonerName, setSummonerName] = useState<string[]>([]);
-  const [teamId, setTeamId] = useState<number[]>([]);
-  const [assists, setAssists] = useState<number[]>([]);
-  const [deaths, setDeaths] = useState<number[]>([]);
-  const [kills, setKills] = useState<number[]>([]);
+  const [championName, setChampionName] = useRecoilState(championNameState);
+  const [summonerName, setSummonerName] = useRecoilState(summonerNameState);
+  const [teamId, setTeamId] = useRecoilState(teamIdState);
+  const [assists, setAssists] = useRecoilState(assistsState);
+  const [deaths, setDeaths] = useRecoilState(deathsState);
+  const [kills, setKills] = useRecoilState(killsState);
 
   const { ipcRenderer } = window.require("electron");
 
@@ -142,14 +160,9 @@ function MainBox({ resetMainBox }: { resetMainBox: () => void }) {
             </FileUploadText>
           </UploadArea>
         ) : (
-          <GameInfoBox
-            championName={championName}
-            summonerName={summonerName}
-            teamId={teamId}
-            assists={assists}
-            deaths={deaths}
-            kills={kills}
-          />
+          <GameInfoContainer>
+            <GameInfoBox />
+          </GameInfoContainer>
         )}
       </BoxContainer>
     </>

@@ -1,13 +1,13 @@
 import styled from "styled-components";
-
-const WholeArea = styled.div`
-  display: flex;
-  height: 290px;
-  width: 540px;
-  background-color: #1e2023;
-  border-radius: 6px;
-  border: 3px dashed #1e2023;
-`;
+import { useRecoilValue } from "recoil";
+import {
+  championNameState,
+  summonerNameState,
+  teamIdState,
+  assistsState,
+  deathsState,
+  killsState,
+} from "../atom";
 
 const Container = styled.div`
   display: flex;
@@ -71,14 +71,13 @@ interface IProps {
   kills?: number[];
 }
 
-function GameInfoBox({
-  championName,
-  summonerName,
-  teamId,
-  assists,
-  deaths,
-  kills,
-}: IProps) {
+function GameInfoBox() {
+  const championName = useRecoilValue(championNameState);
+  const summonerName = useRecoilValue(summonerNameState);
+  const teamId = useRecoilValue(teamIdState);
+  const assists = useRecoilValue(assistsState);
+  const deaths = useRecoilValue(deathsState);
+  const kills = useRecoilValue(killsState);
   const team1 = [0, 1, 2, 3, 4];
   const team2 = [5, 6, 7, 8, 9];
 
@@ -86,56 +85,54 @@ function GameInfoBox({
 
   return (
     <>
-      <WholeArea>
-        <Container>
-          <TeamContainer>
-            {team1.map((index) => (
-              <InfoContainer>
-                <ChampionImg
-                  imageUrl={`https://ddragon.leagueoflegends.com/cdn/14.3.1/img/champion/${
-                    championName && championName[index]
-                  }.png`}
-                />
-                <ChampionInfos>
-                  <SummonerName>
-                    {summonerName && summonerName[index]}
-                  </SummonerName>
-                  <KDA>
-                    {kills && kills[index]} / {deaths && deaths[index]} /{" "}
-                    {assists && assists[index]}
-                  </KDA>
-                </ChampionInfos>
-              </InfoContainer>
-            ))}
-          </TeamContainer>
+      <Container>
+        <TeamContainer>
+          {team1.map((index) => (
+            <InfoContainer>
+              <ChampionImg
+                imageUrl={`https://ddragon.leagueoflegends.com/cdn/14.3.1/img/champion/${
+                  championName && championName[index]
+                }.png`}
+              />
+              <ChampionInfos>
+                <SummonerName>
+                  {summonerName && summonerName[index]}
+                </SummonerName>
+                <KDA>
+                  {kills && kills[index]} / {deaths && deaths[index]} /{" "}
+                  {assists && assists[index]}
+                </KDA>
+              </ChampionInfos>
+            </InfoContainer>
+          ))}
+        </TeamContainer>
 
-          <VSContainer>
-            <SummonerName>VS</SummonerName>
-          </VSContainer>
+        <VSContainer>
+          <SummonerName>VS</SummonerName>
+        </VSContainer>
 
-          <TeamContainer>
-            {team2.map((index) => (
-              <InfoContainer>
-                <ChampionImg
-                  imageUrl={`https://ddragon.leagueoflegends.com/cdn/14.3.1/img/champion/${
-                    championName && championName[index]
-                  }.png`}
-                />
+        <TeamContainer>
+          {team2.map((index) => (
+            <InfoContainer>
+              <ChampionImg
+                imageUrl={`https://ddragon.leagueoflegends.com/cdn/14.3.1/img/champion/${
+                  championName && championName[index]
+                }.png`}
+              />
 
-                <ChampionInfos>
-                  <SummonerName>
-                    {summonerName && summonerName[index]}
-                  </SummonerName>
-                  <KDA>
-                    {kills && kills[index]} / {deaths && deaths[index]} /{" "}
-                    {assists && assists[index]}
-                  </KDA>
-                </ChampionInfos>
-              </InfoContainer>
-            ))}
-          </TeamContainer>
-        </Container>
-      </WholeArea>
+              <ChampionInfos>
+                <SummonerName>
+                  {summonerName && summonerName[index]}
+                </SummonerName>
+                <KDA>
+                  {kills && kills[index]} / {deaths && deaths[index]} /{" "}
+                  {assists && assists[index]}
+                </KDA>
+              </ChampionInfos>
+            </InfoContainer>
+          ))}
+        </TeamContainer>
+      </Container>
     </>
   );
 }
