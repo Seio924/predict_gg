@@ -17,7 +17,7 @@ playtime = len(train_data)
 train_data = np.array(train_data)
 print(train_data)
 
-LIST_LEN = 183
+LIST_LEN = 169
 
 # 시계열 데이터의 최대 길이 계산
 max_length_data = 301

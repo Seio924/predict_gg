@@ -121,30 +121,30 @@ class LoadData():
                     break
 
             if num == num_matches:
-                with open("api_data/api_interval_list6-4.txt", "w") as file:
+                with open("api_data/api_interval_list6-1.txt", "w") as file:
                     # 리스트의 각 요소를 파일에 쓰기
                     for item in data_list:
                         file.write(str(item) + "\n")
 
-                with open("api_data/api_win_lose_list6-4.txt", "w") as file:
+                with open("api_data/api_win_lose_list6-1.txt", "w") as file:
                     # 리스트의 각 요소를 파일에 쓰기
                     for item in win_lose_list:
                         file.write(str(item) + "\n")       
                 break
 
-        with open("api_data/api_interval_list6-4.txt", "w") as file:
+        with open("api_data/api_interval_list6-1.txt", "w") as file:
             # 리스트의 각 요소를 파일에 쓰기
             for item in data_list:
                 file.write(str(item) + "\n")
 
-        with open("api_data/api_win_lose_list6-4.txt", "w") as file:
+        with open("api_data/api_win_lose_list6-1.txt", "w") as file:
             # 리스트의 각 요소를 파일에 쓰기
             for item in win_lose_list:
                 file.write(str(item) + "\n")    
 
 if __name__ == "__main__":
     load_data_instance = LoadData(api_key='RGAPI-be132afb-8d90-4c88-b556-ac02136716c5') #재원api
-    # load_data_instance.get_summoner_invertal_list(summoner_start=625, num_matches=2500) 
+    load_data_instance.get_summoner_invertal_list(summoner_start=625, num_matches=2500) 
     # load_data_instance.get_summoner_invertal_list(summoner_start=1375, num_matches=2500) 
     # load_data_instance.get_summoner_invertal_list(summoner_start=2125, num_matches=2500) 
-    load_data_instance.get_summoner_invertal_list(summoner_start=2875, num_matches=2500) 
+    # load_data_instance.get_summoner_invertal_list(summoner_start=2875, num_matches=2500) 
