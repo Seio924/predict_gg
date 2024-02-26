@@ -2310,6 +2310,52 @@
       },
       "stats": {}
     },
+    "2424":{
+      "name":"망가진 초시계",
+      "description":"<mainText><stats></stats><br><li><passive>조각난 시간:</passive> 초시계가 망가졌지만, 업그레이드는 가능합니다.<br><br><rules>초시계를 하나 망가뜨린 후에는 상점에서 <rarityGeneric>망가진 초시계</rarityGeneric>만 살 수 있습니다.</rules></mainText><br>",
+      "colloq":"",
+      "plaintext":"",
+      "inStore":false,
+      "hideFromAll":true,
+      "into":[
+         "3157",
+         "3026"
+      ],
+      "image":{
+         "full":"2424.png",
+         "sprite":"item0.png",
+         "group":"item",
+         "x":96,
+         "y":336,
+         "w":48,
+         "h":48
+      },
+      "gold":{
+         "base":750,
+         "purchasable":false,
+         "total":750,
+         "sell":300
+      },
+      "tags":[
+         
+      ],
+      "maps":{
+         "11":true,
+         "12":true,
+         "21":true,
+         "22":false
+      },
+      "stats":{
+         
+      },
+      "effect":{
+         "Effect1Amount":"0",
+         "Effect2Amount":"0",
+         "Effect3Amount":"0",
+         "Effect4Amount":"0",
+         "Effect5Amount":"300"
+      }
+    },
     "2033": {
       "name": "부패 물약",
       "description": "<mainText><stats></stats><br><br><active>사용 시 - 소모:</active> 충전량을 1회 소모해 12초 동안 <healing>100의 체력</healing>과 <scaleMana>75의 마나</scaleMana>를 회복합니다. 회복되는 동안 적 챔피언에게 기본 공격 및 스킬 사용 시 적을 불태워 3초 동안 <magicDamage>15(마나를 회복할 수 없을 때에는 20)의 마법 피해</magicDamage>를 입힙니다. 충전량은 최대 3회이며 상점 방문 시 다시 채워집니다.<br><br><rules>광역 또는 지속 피해로 발동된 부패 피해는 피해량이 50%로 감소됩니다.</rules></mainText>",
