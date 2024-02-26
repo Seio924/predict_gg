@@ -144,7 +144,7 @@ class LoadData():
 
 if __name__ == "__main__":
     load_data_instance = LoadData(api_key='RGAPI-624e9cb0-0044-4b54-8ab7-02215ae82d0f') #현욱1 api
-    # load_data_instance.get_summoner_invertal_list(summoner_start=375, num_matches=2500)
+    load_data_instance.get_summoner_invertal_list(summoner_start=375, num_matches=2500)
     # load_data_instance.get_summoner_invertal_list(summoner_start=1125, num_matches=2500)
     # load_data_instance.get_summoner_invertal_list(summoner_start=1875, num_matches=2500) 
-    load_data_instance.get_summoner_invertal_list(summoner_start=2625, num_matches=2500) 
+    # load_data_instance.get_summoner_invertal_list(summoner_start=2625, num_matches=2500) 
