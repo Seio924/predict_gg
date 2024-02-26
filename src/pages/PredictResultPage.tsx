@@ -23,8 +23,9 @@ function PredictResultPage() {
     <>
       <BoxContainer>
         <SubContainer>
-          <GameInfoBox />
           <Chart />
+
+          <GameInfoBox />
         </SubContainer>
       </BoxContainer>
     </>
