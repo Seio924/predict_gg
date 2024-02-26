@@ -3,6 +3,16 @@ import styled from "styled-components";
 import { SEND_MATCH_INFO, SEND_PREDICT_GAME } from "../constants";
 import Modal from "react-modal";
 import Button from "./Button";
+import { useSetRecoilState, useRecoilState } from "recoil";
+import {
+  showMainPageState,
+  championNameState,
+  summonerNameState,
+  teamIdState,
+  assistsState,
+  deathsState,
+  killsState,
+} from "../atom";
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -68,6 +78,13 @@ function PredictBtnContainer({ resetMainBox, handleUpload }: PredictBtnProps) {
   const [isActive, setActive] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [userInput, setUserInput] = useState("");
+  const setShowMainPage = useSetRecoilState(showMainPageState);
+  const [championName, setChampionName] = useRecoilState(championNameState);
+  const [summonerName, setSummonerName] = useRecoilState(summonerNameState);
+  const [teamId, setTeamId] = useRecoilState(teamIdState);
+  const [assists, setAssists] = useRecoilState(assistsState);
+  const [deaths, setDeaths] = useRecoilState(deathsState);
+  const [kills, setKills] = useRecoilState(killsState);
 
   useEffect(() => {
     const ipcRenderer = window.require("electron").ipcRenderer;
@@ -92,6 +109,12 @@ function PredictBtnContainer({ resetMainBox, handleUpload }: PredictBtnProps) {
     resetMainBox && resetMainBox();
     handleUpload && handleUpload();
     setActive(false);
+    setChampionName([]);
+    setSummonerName([]);
+    setTeamId([]);
+    setAssists([]);
+    setDeaths([]);
+    setKills([]);
 
     const ipcRenderer = window.require("electron").ipcRenderer;
     ipcRenderer.send("stopOverlayProcess");
@@ -111,12 +134,14 @@ function PredictBtnContainer({ resetMainBox, handleUpload }: PredictBtnProps) {
 
     if (userInput.trim() === "") {
       alert("입력한 숫자: " + "10");
+      setShowMainPage(false);
       fs.writeFileSync("backend/userInput.txt", "10");
       ipcRenderer.send(SEND_PREDICT_GAME);
       setActive(false);
     } else {
       if (!isNaN(Number(userInput))) {
         alert("입력한 숫자: " + userInput);
+        setShowMainPage(false);
         fs.writeFileSync("backend/userInput.txt", userInput);
         ipcRenderer.send(SEND_PREDICT_GAME);
         setActive(false);

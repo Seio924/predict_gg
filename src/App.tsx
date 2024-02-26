@@ -5,6 +5,9 @@ import MainBackground from "./img/main_background.png";
 import TitleBar from "./components/TitleBar";
 import PredictBtnContainer from "./components/PredictBtnContainer";
 import MainPage from "./pages/MainPage";
+import { useRecoilValue } from "recoil";
+import { showMainPageState } from "./atom";
+import PredictResultPage from "./pages/PredictResultPage";
 
 const Container = styled.div`
   width: 100%;
@@ -26,6 +29,7 @@ const BackGroundContainer = styled.div`
 
 function App() {
   const [key, setKey] = useState(0); // 키 값을 변경하여 MainBox를 초기화
+  const showMainPage = useRecoilValue(showMainPageState);
 
   const resetMainBox = () => {
     setKey((prevKey) => prevKey + 1); // 키 값을 변경하여 MainBox를 초기화
@@ -41,11 +45,15 @@ function App() {
       <Container>
         <TitleBar />
         <BackGroundContainer>
-          <MainPage
-            resetMainBox={resetMainBox}
-            handleUpload={handleUpload}
-            key={key}
-          />
+          {showMainPage ? (
+            <MainPage
+              resetMainBox={resetMainBox}
+              handleUpload={handleUpload}
+              key={key}
+            />
+          ) : (
+            <PredictResultPage />
+          )}
         </BackGroundContainer>
       </Container>
     </>
