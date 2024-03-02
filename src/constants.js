@@ -6,5 +6,6 @@ module.exports = {
   DEFAULT_WINDOW: "defaultWindow",
   MAX_WINDOW: "maxWindow",
   SEND_MATCH_INFO: "sendMatchInfo",
-  SEND_PREDICT_GAME: "sendPredictGame"
+  SEND_PREDICT_GAME: "sendPredictGame",
+  PREDICT_OVER: "predictOver",
 };

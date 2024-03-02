@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import UploadingIcon from "../img/uploading_icon.png";
-import { SEND_MAIN_PING } from "../constants";
-import { SEND_MATCH_INFO } from "../constants";
+import { SEND_MAIN_PING, SEND_MATCH_INFO } from "../constants";
 import { useRecoilState } from "recoil";
 import {
   championNameState,
@@ -54,16 +53,16 @@ const FileUploadBtn = styled.input`
 `;
 
 const UploadIcon = styled.div`
-  width: 50px;
-  height: 60px;
+  width: 37px;
+  height: 44.4px;
   margin-bottom: 20px;
   background-image: url(${UploadingIcon});
   background-size: cover;
 `;
 
 const FileUploadText = styled.p`
-  font-size: 23px;
-  font-weight: 900;
+  font-size: 24px;
+  font-family: PretendardBold;
   color: #eeeeef;
 `;
 
@@ -80,6 +79,7 @@ function MainBox({ resetMainBox }: { resetMainBox: () => void }) {
   const [isActive, setActive] = useState(false);
   const [fileName, setFileName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [uploadActive, setUploadActive] = useState(true);
   const [championName, setChampionName] = useRecoilState(championNameState);
   const [summonerName, setSummonerName] = useRecoilState(summonerNameState);
   const [teamId, setTeamId] = useRecoilState(teamIdState);
@@ -135,6 +135,7 @@ function MainBox({ resetMainBox }: { resetMainBox: () => void }) {
     setDeaths(arg.deathsList);
     setKills(arg.killsList);
     setLoading(false);
+    setUploadActive(false);
   });
 
   return (
@@ -142,7 +143,7 @@ function MainBox({ resetMainBox }: { resetMainBox: () => void }) {
       <BoxContainer>
         {loading ? (
           <Loading />
-        ) : championName.length === 0 ? (
+        ) : uploadActive ? (
           <UploadArea
             isActive={isActive}
             onDragOver={(e) => {
@@ -161,7 +162,7 @@ function MainBox({ resetMainBox }: { resetMainBox: () => void }) {
           </UploadArea>
         ) : (
           <GameInfoContainer>
-            <GameInfoBox />
+            <GameInfoBox vsSize="20px" vsWeight="900" />
           </GameInfoContainer>
         )}
       </BoxContainer>

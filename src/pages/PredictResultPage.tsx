@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import GameInfoBox from "../components/GameInfoBox";
 import Chart from "../components/Chart";
+import PredictTagBox from "../components/PredictTagBox";
 
 const BoxContainer = styled.div`
   display: flex;
@@ -15,6 +16,7 @@ const SubContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
   margin: 20px;
 `;
 
@@ -24,8 +26,10 @@ function PredictResultPage() {
       <BoxContainer>
         <SubContainer>
           <Chart />
-
-          <GameInfoBox />
+          <GameInfoBox vsSize="15px" vsWeight="600" />
+        </SubContainer>
+        <SubContainer>
+          <PredictTagBox />
         </SubContainer>
       </BoxContainer>
     </>

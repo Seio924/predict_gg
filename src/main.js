@@ -6,12 +6,13 @@ const {
   SEND_WINDOW_CLOSE,
   SEND_MATCH_INFO,
   SEND_PREDICT_GAME,
+  PREDICT_OVER,
 } = require("./constants");
 const fs = require("fs").promises; // 비동기 파일 쓰기를 위해 fs.promises 사용
 const request = require("request");
 const { spawn } = require("child_process");
 
-const apiKey = "RGAPI-0bb288d2-0eb1-484a-b95b-ccedf284757c";
+const apiKey = "RGAPI-7d87935a-58f9-4c20-a697-2c9bc3125085";
 
 let win;
 let overlayProcess; // overlay.py 프로세스 변수
@@ -33,7 +34,7 @@ function runOverlayScript() {
   });
 }
 
-function runTestScript() {
+async function runTestScript() {
   testProcess = spawn("python", ["backend/predict_GRU.py"]);
 
   testProcess.stdout.on("data", (data) => {
@@ -44,9 +45,25 @@ function runTestScript() {
     console.error(`predict_GRU stderr: ${data}`);
   });
 
-  testProcess.on("close", (code) => {
+  testProcess.on("close", async (code) => {
     console.log(`predict_GRU : child process exited with code ${code}`);
     if (code === 0) {
+      const data = await fs.readFile(
+        "C:/GitHub/predict_gg/src/predict_data.txt",
+        "utf8"
+      );
+      const lines = data.split("\r\n");
+      const predict_data = lines.map((line) => {
+        const numbers = line
+          .slice(1, line.length - 1)
+          .split(",")
+          .map((num) => parseInt(num.trim()));
+        //console.log("numbers");
+        //console.log(numbers);
+        return numbers;
+      });
+
+      win.webContents.send(PREDICT_OVER, { predict_data });
       runOverlayScript();
     }
   });

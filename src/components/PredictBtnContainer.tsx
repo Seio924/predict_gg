@@ -32,11 +32,18 @@ const SelectBox = styled.select`
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 5px;
-  font-size: 16px;
   border: none;
   outline: none;
   color: #eeeeef;
   background-color: #1e2023;
+
+  option {
+    font-size: 15px;
+    font-family: PretendardLight, sans-serif;
+    border: none;
+    color: #eeeeef;
+    background-color: #1e2023;
+  }
 `;
 
 const SelectBtnContainer = styled.div`
@@ -47,7 +54,7 @@ const SelectBtnContainer = styled.div`
 
 const SelectNumberText = styled.p`
   font-size: 18px;
-  font-weight: 600;
+  font-family: PretendardSemiBold, sans-serif;
   color: #eeeeef;
   margin-bottom: 23px;
 `;
@@ -85,6 +92,13 @@ function PredictBtnContainer({ resetMainBox, handleUpload }: PredictBtnProps) {
   const [assists, setAssists] = useRecoilState(assistsState);
   const [deaths, setDeaths] = useRecoilState(deathsState);
   const [kills, setKills] = useRecoilState(killsState);
+
+  const options = [
+    { value: "5", label: "5초" },
+    { value: "10", label: "10초" },
+    { value: "30", label: "30초" },
+    { value: "60", label: "60초" },
+  ];
 
   useEffect(() => {
     const ipcRenderer = window.require("electron").ipcRenderer;
@@ -164,7 +178,7 @@ function PredictBtnContainer({ resetMainBox, handleUpload }: PredictBtnProps) {
         btnColor={false}
         onClick={onUploadClick}
         textSize="20px"
-        textWeight="600"
+        textFont="PretendardBold, sans-serif"
       >
         다른 파일 업로드
       </Button>
@@ -172,7 +186,7 @@ function PredictBtnContainer({ resetMainBox, handleUpload }: PredictBtnProps) {
         btnColor={isActive}
         onClick={onClick}
         textSize="20px"
-        textWeight="600"
+        textFont="PretendardBold, sans-serif"
       >
         Predict Now
       </Button>
@@ -184,16 +198,17 @@ function PredictBtnContainer({ resetMainBox, handleUpload }: PredictBtnProps) {
         <SelectNumberContainer>
           <SelectNumberText>숫자를 입력하세요</SelectNumberText>
           <SelectBox onChange={handleSelectChange} defaultValue="10">
-            <option value="5">5초</option>
-            <option value="10">10초</option>
-            <option value="30">30초</option>
-            <option value="60">60초</option>
+            {options.map((option) => (
+              <option key={option.value} value={option.value} defaultValue="10">
+                {option.label}
+              </option>
+            ))}
           </SelectBox>
           <SelectBtnContainer>
             <Button
               height="35px"
               textSize="14px"
-              textWeight="400"
+              textFont="PretendardMedium, sans-serif"
               onClick={closeModal}
             >
               Cancel
@@ -203,7 +218,7 @@ function PredictBtnContainer({ resetMainBox, handleUpload }: PredictBtnProps) {
               btnColor={true}
               onClick={handleSubmit}
               textSize="14px"
-              textWeight="400"
+              textFont="PretendardMedium, sans-serif"
             >
               Submit
             </Button>

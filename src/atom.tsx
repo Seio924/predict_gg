@@ -34,3 +34,8 @@ export const killsState = atom<number[]>({
   key: "killsState",
   default: [],
 });
+
+export const winningRateState = atom<number[][]>({
+  key: "winningRateState",
+  default: [],
+});

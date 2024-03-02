@@ -1,13 +1,17 @@
 import React from "react";
 import ApexCharts from "react-apexcharts";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
+import { winningRateState } from "../atom";
 
 const ChartContainer = styled.div`
-  width: 100%;
+  width: 360px;
   height: 200px;
 `;
 
 function Chart() {
+  const winningRate = useRecoilValue(winningRateState);
+
   return (
     <>
       <ChartContainer>
@@ -170,9 +174,6 @@ function Chart() {
                   show: false,
                   offsetX: -30,
                 },
-              },
-              padding: {
-                left: 20,
               },
             },
           }}

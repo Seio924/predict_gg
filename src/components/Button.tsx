@@ -29,6 +29,8 @@ const Btn = styled.div<{ btnColor?: boolean; height?: string }>`
   width: 100%;
   border-radius: 7px;
   margin-top: 15px;
+  font-size: "20px";
+  font-family: "PretendardBold, sans-serif";
   cursor: pointer;
   ${(props) =>
     props.btnColor === true
@@ -42,8 +44,8 @@ const Btn = styled.div<{ btnColor?: boolean; height?: string }>`
 `;
 
 const BtnText = styled.p<IProps>`
-  font-size: ${(props) => props.textSize || "14px"};
-  font-weight: ${(props) => props.textWeight || "400"};
+  font-size: ${(props) => props.textSize || "20px"};
+  font-family: ${(props) => props.textFont || "PretendardBold, sans-serif"};
   color: #eeeeef;
 `;
 
@@ -52,7 +54,7 @@ interface IProps {
   onClick?: () => void;
   height?: string;
   textSize?: string;
-  textWeight?: string;
+  textFont?: string;
   children?: React.ReactNode;
 }
 
@@ -61,13 +63,13 @@ function Button({
   onClick,
   height,
   textSize,
-  textWeight,
+  textFont,
   children,
 }: IProps) {
   return (
     <>
       <Btn height={height} btnColor={btnColor} onClick={onClick}>
-        <BtnText textSize={textSize} textWeight={textWeight}>
+        <BtnText textSize={textSize} textFont={textFont}>
           {children}
         </BtnText>
       </Btn>

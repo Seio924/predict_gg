@@ -5,9 +5,11 @@ import MainBackground from "./img/main_background.png";
 import TitleBar from "./components/TitleBar";
 import PredictBtnContainer from "./components/PredictBtnContainer";
 import MainPage from "./pages/MainPage";
-import { useRecoilValue } from "recoil";
-import { showMainPageState } from "./atom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { showMainPageState, winningRateState } from "./atom";
 import PredictResultPage from "./pages/PredictResultPage";
+import Loading from "./components/Loading";
+import { PREDICT_OVER } from "./constants";
 
 const Container = styled.div`
   width: 100%;
@@ -30,6 +32,14 @@ const BackGroundContainer = styled.div`
 function App() {
   const [key, setKey] = useState(0); // 키 값을 변경하여 MainBox를 초기화
   const showMainPage = useRecoilValue(showMainPageState);
+  const setWinningRate = useSetRecoilState(winningRateState);
+  const [resultPageActive, setResultPageActive] = useState(false);
+  const { ipcRenderer } = window.require("electron");
+
+  ipcRenderer.on(PREDICT_OVER, (event, arg) => {
+    setResultPageActive(true);
+    setWinningRate(arg.predict_data);
+  });
 
   const resetMainBox = () => {
     setKey((prevKey) => prevKey + 1); // 키 값을 변경하여 MainBox를 초기화
@@ -51,8 +61,10 @@ function App() {
               handleUpload={handleUpload}
               key={key}
             />
-          ) : (
+          ) : resultPageActive ? (
             <PredictResultPage />
+          ) : (
+            <Loading />
           )}
         </BackGroundContainer>
       </Container>

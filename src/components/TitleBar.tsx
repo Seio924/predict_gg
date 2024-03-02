@@ -22,7 +22,7 @@ const TitleBarContainer = styled.div`
 
 const Title = styled.p`
   font-size: 18px;
-  font-weight: 800;
+  font-family: PretendardBold;
   color: white;
 `;
 

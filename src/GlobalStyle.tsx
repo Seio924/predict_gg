@@ -1,6 +1,34 @@
 import { createGlobalStyle } from "styled-components";
+import PretendardBlack from "./fonts/Pretendard-Black.woff2";
+import PretendardBold from "./fonts/Pretendard-Bold.woff2";
+import PretendardExtraBold from "./fonts/Pretendard-ExtraBold.woff2";
+import PretendardExtraLight from "./fonts/Pretendard-ExtraLight.woff2";
+import PretendardLight from "./fonts/Pretendard-Light.woff2";
+import PretendardMedium from "./fonts/Pretendard-Medium.woff2";
+import PretendardRegular from "./fonts/Pretendard-Regular.woff2";
+import PretendardSemiBold from "./fonts/Pretendard-SemiBold.woff2";
 
 const GlobalStyle = createGlobalStyle`
+@font-face {
+        font-family: 'PretendardBlack';
+        font-style: normal;
+        src: url(${PretendardBlack}) format('woff2');
+  }
+  @font-face {
+        font-family: 'PretendardBold';
+        font-style: normal;
+        src: url(${PretendardBold}) format('woff2');
+  }
+  @font-face {
+        font-family: 'PretendardMedium';
+        font-style: normal;
+        src: url(${PretendardMedium}) format('woff2');
+  }
+  @font-face {
+        font-family: 'PretendardSemiBold';
+        font-style: normal;
+        src: url(${PretendardSemiBold}) format('woff2');
+  }
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,

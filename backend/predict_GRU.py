@@ -7,7 +7,7 @@ from utils_2 import binary_cross_entropy_loss, mse_loss, rnn_sequential
 import matplotlib.pyplot as plt
 
 
-api_key = 'RGAPI-b9b1e087-8919-47eb-b72c-0962e8fe9a6c'
+api_key = 'RGAPI-0a3a44de-d1aa-4789-b49a-96db4790807c'
 
 with open('backend/userInput.txt', 'r', encoding="utf-8") as f:
     time_num = f.read().strip()
@@ -34,7 +34,7 @@ winning_rate2 = []
 with tf.keras.utils.custom_object_scope({'binary_cross_entropy_loss': binary_cross_entropy_loss}):
     loaded_model = tf.keras.models.load_model('C:/GitHub/predict_gg/backend/model_trained_GRU')
 
-for i in range(playtime):
+for i in range(3):
 
     predict_data = train_data[:i+1].copy()
 

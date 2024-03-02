@@ -16,43 +16,53 @@ const Container = styled.div`
   margin: 20px;
 `;
 
-const TeamContainer = styled.div`
+const TeamContainer = styled.div<IProps>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 100%;
+  align-items: ${(props) => props.alignDirection || "flex-start"};
+
   height: 100%;
 `;
+
 const VSContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  flex-grow: 1;
 `;
 
 const InfoContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-left: 20px;
 `;
 
-const ChampionImg = styled.div<{ imageUrl?: string }>`
+const ChampionImg = styled.div<IProps>`
   width: 32px;
   height: 32px;
   background-image: url(${(props) => props.imageUrl});
   background-size: cover;
-  margin-right: 10px;
+  margin: 0px 12px 0px 12px;
 `;
 
-const ChampionInfos = styled.div`
+const ChampionInfos = styled.div<IProps>`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: ${(props) => props.alignDirection || "flex-start"};
 `;
 
 const SummonerName = styled.p`
   font-size: 15px;
-  font-weight: 900;
+  font-family: PretendardSemiBold;
+  color: white;
+`;
+
+const VS = styled.p<IProps>`
+  font-size: ${(props) => props.vsSize};
+  font-family: sans-serif;
+  font-weight: ${(props) => props.vsWeight};
   color: white;
 `;
 
@@ -63,15 +73,13 @@ const KDA = styled.p`
 `;
 
 interface IProps {
-  championName?: string[];
-  summonerName?: string[];
-  teamId?: number[];
-  assists?: number[];
-  deaths?: number[];
-  kills?: number[];
+  imageUrl?: string;
+  alignDirection?: string;
+  vsSize?: string;
+  vsWeight?: string;
 }
 
-function GameInfoBox() {
+function GameInfoBox({ vsSize, vsWeight }: IProps) {
   const championName = useRecoilValue(championNameState);
   const summonerName = useRecoilValue(summonerNameState);
   const teamId = useRecoilValue(teamIdState);
@@ -108,19 +116,15 @@ function GameInfoBox() {
         </TeamContainer>
 
         <VSContainer>
-          <SummonerName>VS</SummonerName>
+          <VS vsSize={vsSize} vsWeight={vsWeight}>
+            VS
+          </VS>
         </VSContainer>
 
-        <TeamContainer>
+        <TeamContainer alignDirection="flex-end">
           {team2.map((index) => (
             <InfoContainer>
-              <ChampionImg
-                imageUrl={`https://ddragon.leagueoflegends.com/cdn/14.3.1/img/champion/${
-                  championName && championName[index]
-                }.png`}
-              />
-
-              <ChampionInfos>
+              <ChampionInfos alignDirection="flex-end">
                 <SummonerName>
                   {summonerName && summonerName[index]}
                 </SummonerName>
@@ -129,6 +133,12 @@ function GameInfoBox() {
                   {assists && assists[index]}
                 </KDA>
               </ChampionInfos>
+
+              <ChampionImg
+                imageUrl={`https://ddragon.leagueoflegends.com/cdn/14.3.1/img/champion/${
+                  championName && championName[index]
+                }.png`}
+              />
             </InfoContainer>
           ))}
         </TeamContainer>
