@@ -17,7 +17,7 @@ const SubContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  margin: 20px;
+  margin: 30px;
 `;
 
 function PredictResultPage() {

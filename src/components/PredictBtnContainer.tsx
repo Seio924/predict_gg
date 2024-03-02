@@ -179,6 +179,7 @@ function PredictBtnContainer({ resetMainBox, handleUpload }: PredictBtnProps) {
         onClick={onUploadClick}
         textSize="20px"
         textFont="PretendardBold, sans-serif"
+        margin="15px 0 0 0"
       >
         다른 파일 업로드
       </Button>
@@ -187,6 +188,7 @@ function PredictBtnContainer({ resetMainBox, handleUpload }: PredictBtnProps) {
         onClick={onClick}
         textSize="20px"
         textFont="PretendardBold, sans-serif"
+        margin="15px 0 0 0"
       >
         Predict Now
       </Button>
@@ -210,6 +212,7 @@ function PredictBtnContainer({ resetMainBox, handleUpload }: PredictBtnProps) {
               textSize="14px"
               textFont="PretendardMedium, sans-serif"
               onClick={closeModal}
+              margin="15px 18px 0 0"
             >
               Cancel
             </Button>
@@ -219,6 +222,7 @@ function PredictBtnContainer({ resetMainBox, handleUpload }: PredictBtnProps) {
               onClick={handleSubmit}
               textSize="14px"
               textFont="PretendardMedium, sans-serif"
+              margin="15px 0 0 0"
             >
               Submit
             </Button>

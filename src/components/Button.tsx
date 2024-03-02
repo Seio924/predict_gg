@@ -21,16 +21,14 @@ const secondColorBackground = css`
   );
 `;
 
-const Btn = styled.div<{ btnColor?: boolean; height?: string }>`
+const Btn = styled.div<IProps>`
   display: flex;
   justify-content: center;
   align-items: center;
   height: ${(props) => props.height || "45px"};
   width: 100%;
   border-radius: 7px;
-  margin-top: 15px;
-  font-size: "20px";
-  font-family: "PretendardBold, sans-serif";
+  margin: ${(props) => props.margin || "0"}; /* Margin 설정 */
   cursor: pointer;
   ${(props) =>
     props.btnColor === true
@@ -38,9 +36,6 @@ const Btn = styled.div<{ btnColor?: boolean; height?: string }>`
       : props.btnColor === false
       ? secondColorBackground
       : defaultBackgroundColor};
-  &:first-child {
-    margin-right: 18px;
-  }
 `;
 
 const BtnText = styled.p<IProps>`
@@ -55,6 +50,7 @@ interface IProps {
   height?: string;
   textSize?: string;
   textFont?: string;
+  margin?: string; // margin props 추가
   children?: React.ReactNode;
 }
 
@@ -64,11 +60,17 @@ function Button({
   height,
   textSize,
   textFont,
+  margin, // margin props 추가
   children,
 }: IProps) {
   return (
     <>
-      <Btn height={height} btnColor={btnColor} onClick={onClick}>
+      <Btn
+        height={height}
+        btnColor={btnColor}
+        onClick={onClick}
+        margin={margin}
+      >
         <BtnText textSize={textSize} textFont={textFont}>
           {children}
         </BtnText>

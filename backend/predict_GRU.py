@@ -34,7 +34,7 @@ winning_rate2 = []
 with tf.keras.utils.custom_object_scope({'binary_cross_entropy_loss': binary_cross_entropy_loss}):
     loaded_model = tf.keras.models.load_model('C:/GitHub/predict_gg/backend/model_trained_GRU')
 
-for i in range(3):
+for i in range(playtime):
 
     predict_data = train_data[:i+1].copy()
 

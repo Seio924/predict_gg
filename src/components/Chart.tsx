@@ -5,8 +5,8 @@ import styled from "styled-components";
 import { winningRateState } from "../atom";
 
 const ChartContainer = styled.div`
-  width: 360px;
-  height: 200px;
+  width: 394px;
+  height: 220px;
 `;
 
 function Chart() {

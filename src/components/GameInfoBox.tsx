@@ -9,11 +9,11 @@ import {
   killsState,
 } from "../atom";
 
-const Container = styled.div`
+const Container = styled.div<IProps>`
   display: flex;
   width: 100%;
   height: 250px;
-  margin: 20px;
+  margin: ${(props) => props.margin || "0px"}; // margin props 추가
 `;
 
 const TeamContainer = styled.div<IProps>`
@@ -77,9 +77,10 @@ interface IProps {
   alignDirection?: string;
   vsSize?: string;
   vsWeight?: string;
+  margin?: string;
 }
 
-function GameInfoBox({ vsSize, vsWeight }: IProps) {
+function GameInfoBox({ vsSize, vsWeight, margin }: IProps) {
   const championName = useRecoilValue(championNameState);
   const summonerName = useRecoilValue(summonerNameState);
   const teamId = useRecoilValue(teamIdState);
@@ -93,7 +94,7 @@ function GameInfoBox({ vsSize, vsWeight }: IProps) {
 
   return (
     <>
-      <Container>
+      <Container margin={margin}>
         <TeamContainer>
           {team1.map((index) => (
             <InfoContainer>

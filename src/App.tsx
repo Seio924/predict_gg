@@ -18,6 +18,22 @@ const Container = styled.div`
   position: relative;
 `;
 
+const BoxContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 493px;
+  width: 918px;
+  background-color: rgba(30, 32, 35, 0.9);
+  border-radius: 6px;
+`;
+
+const LoadingText = styled.p`
+  color: #eeeeef;
+  font-family: PretendardBold;
+  font-size: 15px;
+`;
+
 const BackGroundContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -64,7 +80,10 @@ function App() {
           ) : resultPageActive ? (
             <PredictResultPage />
           ) : (
-            <Loading />
+            <BoxContainer>
+              <Loading />
+              <LoadingText></LoadingText>
+            </BoxContainer>
           )}
         </BackGroundContainer>
       </Container>

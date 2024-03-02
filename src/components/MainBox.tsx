@@ -24,6 +24,17 @@ const BoxContainer = styled.div`
   border-radius: 6px;
 `;
 
+const LoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 290px;
+  width: 540px;
+  background-color: #1e2023;
+  border-radius: 6px;
+  border: 3px dashed #1e2023;
+`;
+
 const UploadArea = styled.label<{ isActive: boolean }>`
   display: flex;
   flex-direction: column;
@@ -142,7 +153,9 @@ function MainBox({ resetMainBox }: { resetMainBox: () => void }) {
     <>
       <BoxContainer>
         {loading ? (
-          <Loading />
+          <LoadingContainer>
+            <Loading />
+          </LoadingContainer>
         ) : uploadActive ? (
           <UploadArea
             isActive={isActive}
@@ -162,7 +175,7 @@ function MainBox({ resetMainBox }: { resetMainBox: () => void }) {
           </UploadArea>
         ) : (
           <GameInfoContainer>
-            <GameInfoBox vsSize="20px" vsWeight="900" />
+            <GameInfoBox vsSize="20px" vsWeight="900" margin="20px" />
           </GameInfoContainer>
         )}
       </BoxContainer>
