@@ -120,16 +120,7 @@ class LoadData():
                 if num == num_matches:
                     break
 
-            if num == num_matches:
-                with open("api_data/api_interval_list5-1.txt", "w") as file:
-                    # 리스트의 각 요소를 파일에 쓰기
-                    for item in data_list:
-                        file.write(str(item) + "\n")
-
-                with open("api_data/api_win_lose_list5-1.txt", "w") as file:
-                    # 리스트의 각 요소를 파일에 쓰기
-                    for item in win_lose_list:
-                        file.write(str(item) + "\n")       
+            if num == num_matches:  
                 break
         
         with open("api_data/api_interval_list5-1.txt", "w") as file:

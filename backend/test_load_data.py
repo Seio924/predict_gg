@@ -17,7 +17,7 @@ interval_list = np.array(interval_list, dtype=int)
 
 
 # 헤더 정의
-n = [
+n = [   
     "TIMESTAMP",
     "TEAM1_TOP_CHAMPION", "TEAM1_TOP_GOLD", "TEAM1_TOP_ITEM_GOLD", "TEAM1_TOP_POTION",
     "TEAM1_TOP_K", "TEAM1_TOP_D", "TEAM1_TOP_A",
