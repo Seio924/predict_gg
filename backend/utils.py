@@ -84,20 +84,21 @@ TEAM1_UTILITY_SUBSTYLE1 = 74
 TEAM1_UTILITY_SUBSTYLE2 = 75
 
 TEAM1_GOLD = 76
-WARD_COUNT = 77
+WARD_PLACED = 77
+WARD_KILL = 78
 
-HORDE_COUNT = 78
-DRAGON_COUNT = 79
-RIFTHERALD_COUNT = 80
-BARON_NASHOR_COUNT = 81
+HORDE_COUNT = 79
+DRAGON_COUNT = 80
+RIFTHERALD_COUNT = 81
+BARON_NASHOR_COUNT = 82
 
-TOWER_TOP_COUNT = 82
-TOWER_MIDDLE_COUNT = 83
-TOWER_BOTTOM_COUNT = 84
+TOWER_TOP_COUNT = 83
+TOWER_MIDDLE_COUNT = 84
+TOWER_BOTTOM_COUNT = 85
 
-TEAM_INTERVAL = 84
+TEAM_INTERVAL = 85
 
-LIST_LEN = 170
+LIST_LEN = 172
 
 class PreprocessData():
     def __init__(self, match_file_dir, timeline_file_dir):
@@ -300,7 +301,7 @@ class PreprocessData():
                         elif j['type'] == 'WARD_PLACED':
                             if j['creatorId'] != 0:
                                 team_interval = team[j['creatorId']]
-                                event_list[WARD_COUNT+team_interval] += 1
+                                event_list[WARD_PLACED+team_interval] += 1
 
 
                         elif j['type'] == 'WARD_KILL':
@@ -311,7 +312,7 @@ class PreprocessData():
                                 else:
                                     j['killerId'] = 1
                                     team_interval = team[j['killerId']]
-                                event_list[WARD_COUNT+team_interval] -= 1
+                                event_list[WARD_KILL+team_interval] += 1
 
 
                         elif j['type'] == 'ELITE_MONSTER_KILL':
