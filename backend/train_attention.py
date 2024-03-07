@@ -12,7 +12,7 @@ if __name__ == "__main__":
     d = len(train_data[0])
     print(d)
 
-    LIST_LEN = 84
+    LIST_LEN = 87
 
     # 시계열 데이터의 최대 길이 계산
     max_length_data = 301
