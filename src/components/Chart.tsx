@@ -12,6 +12,18 @@ const ChartContainer = styled.div`
 function Chart() {
   const winningRate = useRecoilValue(winningRateState);
 
+  const changeToTime = (num: number) => {
+    let minute = 0;
+    let second = 0;
+    if (num != 0) {
+      minute = parseInt(`${num / 60}`);
+      second = num % 60;
+    }
+    const time =
+      String(minute).padStart(2, "0") + ":" + String(second).padStart(2, "0");
+    return time;
+  };
+
   return (
     <>
       <ChartContainer>
@@ -20,53 +32,17 @@ function Chart() {
           series={[
             {
               name: "winning rate blue",
-              data: [
-                { x: 1996, y: 100 },
-                { x: 1997, y: 90 },
-                { x: 1998, y: 50 },
-                { x: 1999, y: 77 },
-                { x: 2000, y: 35 },
-                { x: 2001, y: 0 },
-                { x: 2002, y: 0 },
-                { x: 2003, y: 0 },
-                { x: 2004, y: 0 },
-                { x: 2005, y: 0 },
-                { x: 2006, y: 0 },
-                { x: 2007, y: 0 },
-                { x: 2008, y: 0 },
-                { x: 2009, y: 0 },
-                { x: 2010, y: 0 },
-                { x: 2011, y: 0 },
-                { x: 2012, y: 0 },
-                { x: 2013, y: 33 },
-                { x: 2014, y: 54 },
-                { x: 2015, y: 60 },
-              ],
+              data: winningRate?.map((rate) => ({
+                x: rate[0], // x값에 해당하는 데이터 필드를 적절히 지정해야 합니다.
+                y: rate[1] < 50 ? 0 : rate[1] - 50, // y값에 해당하는 데이터 필드를 적절히 지정해야 합니다.
+              })),
             },
             {
               name: "winning rate red",
-              data: [
-                { x: 1996, y: 0 },
-                { x: 1997, y: 0 },
-                { x: 1998, y: 0 },
-                { x: 1999, y: 0 },
-                { x: 2000, y: 0 },
-                { x: 2001, y: 0 },
-                { x: 2002, y: -32 },
-                { x: 2003, y: -40 },
-                { x: 2004, y: -49 },
-                { x: 2005, y: -41 },
-                { x: 2006, y: -32 },
-                { x: 2007, y: -27 },
-                { x: 2008, y: -22 },
-                { x: 2009, y: -18 },
-                { x: 2010, y: -22 },
-                { x: 2011, y: -33 },
-                { x: 2012, y: 0 },
-                { x: 2013, y: 0 },
-                { x: 2014, y: 0 },
-                { x: 2015, y: 0 },
-              ],
+              data: winningRate?.map((rate) => ({
+                x: rate[0], // x값에 해당하는 데이터 필드를 적절히 지정해야 합니다.
+                y: rate[2] < 50 ? 0 : 50 - rate[2], // y값에 해당하는 데이터 필드를 적절히 지정해야 합니다.
+              })),
             },
           ]}
           options={{
@@ -110,10 +86,13 @@ function Chart() {
               },
             },
             xaxis: {
+              labels: {
+                show: false, // x-axis 라벨 숨기기
+              },
               tooltip: {
                 enabled: false,
               },
-              type: "datetime",
+              type: "category",
               axisBorder: {
                 show: false,
               },
@@ -122,10 +101,11 @@ function Chart() {
               },
             },
             yaxis: {
-              tickAmount: 4,
+              show: false,
+              tickAmount: 1,
               floating: false,
-              min: -100,
-              max: 100,
+              min: -50,
+              max: 50,
               forceNiceScale: false,
               labels: {
                 style: {
@@ -134,7 +114,7 @@ function Chart() {
                 offsetY: -7,
                 offsetX: 0,
                 formatter: function (value) {
-                  return Math.abs(value).toString();
+                  return Math.abs(value).toString(); // 값에 50을 더한 후 반환합니다.
                 },
               },
               axisBorder: {
@@ -150,17 +130,20 @@ function Chart() {
             tooltip: {
               x: {},
               custom: function ({ series, seriesIndex, dataPointIndex, w }) {
-                const yValue = Math.abs(
-                  w.globals.initialSeries[seriesIndex].data[dataPointIndex].y
+                const yValue =
+                  Math.abs(
+                    w.globals.initialSeries[seriesIndex].data[dataPointIndex].y
+                  ) + 50;
+                const xValue = changeToTime(
+                  w.globals.initialSeries[seriesIndex].data[dataPointIndex].x
                 );
-                const xValue =
-                  w.globals.initialSeries[seriesIndex].data[dataPointIndex].x;
-                if (yValue !== 0) {
+                if (yValue !== 50) {
                   return (
-                    "<div style='background-color: #090A0B; color: #fff; padding: 10px; font-size: 12px; font-weight: 600;'>" +
+                    "<div style='background-color: rgba(26, 27, 29, 0.9); color: #eeeeef; padding: 10px; font-size: 12px; font-family: PretendardMedium;'>" +
                     xValue +
-                    ": " +
+                    "&nbsp;&nbsp;&nbsp;" +
                     yValue +
+                    "%" +
                     "</div>"
                   );
                 } else {

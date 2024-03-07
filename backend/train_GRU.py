@@ -6,10 +6,10 @@ from models import GeneralRNN
 import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
-    api_key = 'RGAPI-a309e6e5-1fe5-4b18-b08a-3d44228d3dbb'
+    api_key = 'RGAPI-27dce789-06af-447c-942c-7b0fe19b179b'
     load_instance = LoadData(api_key)
 
-    train_data, win_lose_list = load_instance.get_summoner_data_list(5)
+    train_data, win_lose_list = load_instance.get_summoner_data_list(50)
     d = len(train_data[0])
     print(train_data)
 

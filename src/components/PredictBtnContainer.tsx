@@ -147,14 +147,14 @@ function PredictBtnContainer({ resetMainBox, handleUpload }: PredictBtnProps) {
     const fs = window.require("fs");
 
     if (userInput.trim() === "") {
-      alert("입력한 숫자: " + "10");
+      //alert("입력한 숫자: " + "10");
       setShowMainPage(false);
       fs.writeFileSync("backend/userInput.txt", "10");
       ipcRenderer.send(SEND_PREDICT_GAME);
       setActive(false);
     } else {
       if (!isNaN(Number(userInput))) {
-        alert("입력한 숫자: " + userInput);
+        //alert("입력한 숫자: " + userInput);
         setShowMainPage(false);
         fs.writeFileSync("backend/userInput.txt", userInput);
         ipcRenderer.send(SEND_PREDICT_GAME);

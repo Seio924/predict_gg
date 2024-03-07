@@ -12,7 +12,7 @@ const fs = require("fs").promises; // 비동기 파일 쓰기를 위해 fs.promi
 const request = require("request");
 const { spawn } = require("child_process");
 
-const apiKey = "RGAPI-3faaf49c-8156-4efa-b558-363aaf3c2f6f";
+const apiKey = "RGAPI-3946fb9b-0696-4a01-b641-350a949de066";
 
 let win;
 let overlayProcess; // overlay.py 프로세스 변수
@@ -73,7 +73,7 @@ async function createWindow() {
   win = new BrowserWindow({
     width: 1072,
     height: 659,
-    //frame: false,
+    frame: false,
     resizable: true,
     webPreferences: {
       nodeIntegration: true,
