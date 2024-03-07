@@ -58,7 +58,7 @@ class GeneralRNN():
         # Parameters
         h_dim = self.h_dim
         n_layer = self.n_layer
-        dim = 171  # Assuming LIST_LEN is always 91
+        dim = 177  # Assuming LIST_LEN is always 91
         max_seq_len = 301  # Assuming max_length_data is always 301
 
         model = tf.keras.Sequential()
