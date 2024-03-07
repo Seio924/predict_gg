@@ -18,87 +18,90 @@ TEAM1_TOP_PRIMARY3 = 12
 TEAM1_TOP_PRIMARY4 = 13
 TEAM1_TOP_SUBSTYLE1 = 14
 TEAM1_TOP_SUBSTYLE2 = 15
+TEAM1_TOP_WARD = 16
 
-TEAM1_JUNGLE_CHAMPION = 16
-TEAM1_JUNGLE_GOLD = 17
-TEAM1_JUNGLE_ITEM_GOLD = 18
-TEAM1_JUNGLE_K = 19
-TEAM1_JUNGLE_D = 20
-TEAM1_JUNGLE_A = 21
-TEAM1_JUNGLE_STATPERK_DEFENCE = 22
-TEAM1_JUNGLE_STATPERK_FLEX = 23
-TEAM1_JUNGLE_STATPERK_OFFENSE = 24
-TEAM1_JUNGLE_PRIMARY1 = 25
-TEAM1_JUNGLE_PRIMARY2 = 26
-TEAM1_JUNGLE_PRIMARY3 = 27
-TEAM1_JUNGLE_PRIMARY4 = 28
-TEAM1_JUNGLE_SUBSTYLE1 = 29
-TEAM1_JUNGLE_SUBSTYLE2 = 30
+TEAM1_JUNGLE_CHAMPION = 17
+TEAM1_JUNGLE_GOLD = 18
+TEAM1_JUNGLE_ITEM_GOLD = 19
+TEAM1_JUNGLE_K = 20
+TEAM1_JUNGLE_D = 21
+TEAM1_JUNGLE_A = 22
+TEAM1_JUNGLE_STATPERK_DEFENCE = 23
+TEAM1_JUNGLE_STATPERK_FLEX = 24
+TEAM1_JUNGLE_STATPERK_OFFENSE = 25
+TEAM1_JUNGLE_PRIMARY1 = 26
+TEAM1_JUNGLE_PRIMARY2 = 27
+TEAM1_JUNGLE_PRIMARY3 = 28
+TEAM1_JUNGLE_PRIMARY4 = 29
+TEAM1_JUNGLE_SUBSTYLE1 = 30
+TEAM1_JUNGLE_SUBSTYLE2 = 31
+TEAM1_JUNGLE_WARD = 32
 
-TEAM1_MIDDLE_CHAMPION = 31
-TEAM1_MIDDLE_GOLD = 32
-TEAM1_MIDDLE_ITEM_GOLD = 33
-TEAM1_MIDDLE_K = 34
-TEAM1_MIDDLE_D = 35
-TEAM1_MIDDLE_A = 36
-TEAM1_MIDDLE_STATPERK_DEFENCE = 37
-TEAM1_MIDDLE_STATPERK_FLEX = 38
-TEAM1_MIDDLE_STATPERK_OFFENSE = 39
-TEAM1_MIDDLE_PRIMARY1 = 40
-TEAM1_MIDDLE_PRIMARY2 = 41
-TEAM1_MIDDLE_PRIMARY3 = 42
-TEAM1_MIDDLE_PRIMARY4 = 43
-TEAM1_MIDDLE_SUBSTYLE1 = 44
-TEAM1_MIDDLE_SUBSTYLE2 = 45
+TEAM1_MIDDLE_CHAMPION = 33
+TEAM1_MIDDLE_GOLD = 34
+TEAM1_MIDDLE_ITEM_GOLD = 35
+TEAM1_MIDDLE_K = 36
+TEAM1_MIDDLE_D = 37
+TEAM1_MIDDLE_A = 38
+TEAM1_MIDDLE_STATPERK_DEFENCE = 39
+TEAM1_MIDDLE_STATPERK_FLEX = 40
+TEAM1_MIDDLE_STATPERK_OFFENSE = 41
+TEAM1_MIDDLE_PRIMARY1 = 42
+TEAM1_MIDDLE_PRIMARY2 = 43
+TEAM1_MIDDLE_PRIMARY3 = 44
+TEAM1_MIDDLE_PRIMARY4 = 45
+TEAM1_MIDDLE_SUBSTYLE1 = 46
+TEAM1_MIDDLE_SUBSTYLE2 = 47
+TEAM1_MIDDLE_WARD = 48
 
-TEAM1_BOTTOM_CHAMPION = 46
-TEAM1_BOTTOM_GOLD = 47
-TEAM1_BOTTOM_ITEM_GOLD = 48
-TEAM1_BOTTOM_K = 49
-TEAM1_BOTTOM_D = 50
-TEAM1_BOTTOM_A = 51
-TEAM1_BOTTOM_STATPERK_DEFENCE = 52
-TEAM1_BOTTOM_STATPERK_FLEX = 53
-TEAM1_BOTTOM_STATPERK_OFFENSE = 54
-TEAM1_BOTTOM_PRIMARY1 = 55
-TEAM1_BOTTOM_PRIMARY2 = 56
-TEAM1_BOTTOM_PRIMARY3 = 57
-TEAM1_BOTTOM_PRIMARY4 = 58
-TEAM1_BOTTOM_SUBSTYLE1 = 59
-TEAM1_BOTTOM_SUBSTYLE2 = 60
+TEAM1_BOTTOM_CHAMPION = 49
+TEAM1_BOTTOM_GOLD = 50
+TEAM1_BOTTOM_ITEM_GOLD = 51
+TEAM1_BOTTOM_K = 52
+TEAM1_BOTTOM_D = 53
+TEAM1_BOTTOM_A = 54
+TEAM1_BOTTOM_STATPERK_DEFENCE = 55
+TEAM1_BOTTOM_STATPERK_FLEX = 56
+TEAM1_BOTTOM_STATPERK_OFFENSE = 57
+TEAM1_BOTTOM_PRIMARY1 = 58
+TEAM1_BOTTOM_PRIMARY2 = 59
+TEAM1_BOTTOM_PRIMARY3 = 60
+TEAM1_BOTTOM_PRIMARY4 = 61
+TEAM1_BOTTOM_SUBSTYLE1 = 62
+TEAM1_BOTTOM_SUBSTYLE2 = 63
+TEAM1_BOTTOM_WARD = 64
 
-TEAM1_UTILITY_CHAMPION = 61
-TEAM1_UTILITY_GOLD = 62
-TEAM1_UTILITY_ITEM_GOLD = 63
-TEAM1_UTILITY_K = 64
-TEAM1_UTILITY_D = 65
-TEAM1_UTILITY_A = 66
-TEAM1_UTILITY_STATPERK_DEFENCE = 67
-TEAM1_UTILITY_STATPERK_FLEX = 68
-TEAM1_UTILITY_STATPERK_OFFENSE = 69
-TEAM1_UTILITY_PRIMARY1 = 70
-TEAM1_UTILITY_PRIMARY2 = 71
-TEAM1_UTILITY_PRIMARY3 = 72
-TEAM1_UTILITY_PRIMARY4 = 73
-TEAM1_UTILITY_SUBSTYLE1 = 74
-TEAM1_UTILITY_SUBSTYLE2 = 75
+TEAM1_UTILITY_CHAMPION = 65
+TEAM1_UTILITY_GOLD = 66
+TEAM1_UTILITY_ITEM_GOLD = 67
+TEAM1_UTILITY_K = 68
+TEAM1_UTILITY_D = 69
+TEAM1_UTILITY_A = 70
+TEAM1_UTILITY_STATPERK_DEFENCE = 71
+TEAM1_UTILITY_STATPERK_FLEX = 72
+TEAM1_UTILITY_STATPERK_OFFENSE = 73
+TEAM1_UTILITY_PRIMARY1 = 74
+TEAM1_UTILITY_PRIMARY2 = 75
+TEAM1_UTILITY_PRIMARY3 = 76
+TEAM1_UTILITY_PRIMARY4 = 77
+TEAM1_UTILITY_SUBSTYLE1 = 78
+TEAM1_UTILITY_SUBSTYLE2 = 79
+TEAM1_UTILITY_WARD = 80
 
-TEAM1_GOLD = 76
-WARD_PLACED = 77
-WARD_KILL = 78
+TEAM1_GOLD = 81
 
-HORDE_COUNT = 79
-DRAGON_COUNT = 80
-RIFTHERALD_COUNT = 81
-BARON_NASHOR_COUNT = 82
+HORDE_COUNT = 82
+DRAGON_COUNT = 83
+RIFTHERALD_COUNT = 84
+BARON_NASHOR_COUNT = 85
 
-TOWER_TOP_COUNT = 83
-TOWER_MIDDLE_COUNT = 84
-TOWER_BOTTOM_COUNT = 85
+TOWER_TOP_COUNT = 86
+TOWER_MIDDLE_COUNT = 87
+TOWER_BOTTOM_COUNT = 88
 
-TEAM_INTERVAL = 85
+TEAM_INTERVAL = 88
 
-LIST_LEN = 172
+LIST_LEN = 178
 
 class PreprocessData():
     def __init__(self, match_file_dir, timeline_file_dir):
@@ -297,23 +300,6 @@ class PreprocessData():
                                 elif line[j['participantId']] == "UTILITY":
                                     event_list[TEAM1_UTILITY_ITEM_GOLD+team_interval] -= item_real_cost 
 
-                                
-                        elif j['type'] == 'WARD_PLACED':
-                            if j['creatorId'] != 0:
-                                team_interval = team[j['creatorId']]
-                                event_list[WARD_PLACED+team_interval] += 1
-
-
-                        elif j['type'] == 'WARD_KILL':
-                            if j['killerId'] != 0:
-                                if j['killerId'] <= 5:
-                                    j['killerId'] = 6
-                                    team_interval = team[j['killerId']]
-                                else:
-                                    j['killerId'] = 1
-                                    team_interval = team[j['killerId']]
-                                event_list[WARD_KILL+team_interval] += 1
-
 
                         elif j['type'] == 'ELITE_MONSTER_KILL':
                             if j['killerId'] != 0:
@@ -457,14 +443,19 @@ class PreprocessData():
                         team_interval = team[j]
                         if line[j] == "TOP":
                             participant_frame_list[TEAM1_TOP_GOLD+team_interval] = i['participantFrames'][str(j)]['totalGold']
+                            participant_frame_list[TEAM1_TOP_WARD+team_interval] = i['participantFrames'][str(j)]['timeEnemySpentControlled']
                         elif line[j] == "JUNGLE":
                             participant_frame_list[TEAM1_JUNGLE_GOLD+team_interval] = i['participantFrames'][str(j)]['totalGold']
+                            participant_frame_list[TEAM1_JUNGLE_WARD+team_interval] = i['participantFrames'][str(j)]['timeEnemySpentControlled']                            
                         elif line[j] == "MIDDLE":
                             participant_frame_list[TEAM1_MIDDLE_GOLD+team_interval] = i['participantFrames'][str(j)]['totalGold']
+                            participant_frame_list[TEAM1_MIDDLE_WARD+team_interval] = i['participantFrames'][str(j)]['timeEnemySpentControlled']
                         elif line[j] == "BOTTOM":
                             participant_frame_list[TEAM1_BOTTOM_GOLD+team_interval] = i['participantFrames'][str(j)]['totalGold']
+                            participant_frame_list[TEAM1_BOTTOM_WARD+team_interval] = i['participantFrames'][str(j)]['timeEnemySpentControlled']
                         elif line[j] == "UTILITY":
                             participant_frame_list[TEAM1_UTILITY_GOLD+team_interval] = i['participantFrames'][str(j)]['totalGold']
+                            participant_frame_list[TEAM1_UTILITY_WARD+team_interval] = i['participantFrames'][str(j)]['timeEnemySpentControlled']                           
                         
                     participant_frame_list[-1] = 2222
                     participant_frame_list_result.append(participant_frame_list)
@@ -500,7 +491,7 @@ class PreprocessData():
                     participant_list = whole_list[i].copy()
                     whole_list[i] = whole_list[i-1].copy()
 
-                    for j in [TEAM1_TOP_GOLD, TEAM1_JUNGLE_GOLD, TEAM1_MIDDLE_GOLD, TEAM1_BOTTOM_GOLD, TEAM1_UTILITY_GOLD]:
+                    for j in [TEAM1_TOP_GOLD, TEAM1_JUNGLE_GOLD, TEAM1_MIDDLE_GOLD, TEAM1_BOTTOM_GOLD, TEAM1_UTILITY_GOLD, TEAM1_TOP_WARD, TEAM1_JUNGLE_WARD, TEAM1_MIDDLE_WARD, TEAM1_BOTTOM_WARD, TEAM1_UTILITY_WARD]:
                         whole_list[i][j] = participant_list[j]
                         whole_list[i][j+TEAM_INTERVAL] = participant_list[j+TEAM_INTERVAL]
                     continue
