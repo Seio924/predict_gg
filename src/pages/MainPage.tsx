@@ -11,7 +11,7 @@ interface IProps {
 function MainPage({ resetMainBox, handleUpload }: IProps) {
   return (
     <>
-      <MainBox resetMainBox={resetMainBox} />
+      <MainBox />
       <PredictBtnContainer
         resetMainBox={resetMainBox}
         handleUpload={handleUpload}

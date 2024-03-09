@@ -5,8 +5,12 @@ import MainBackground from "./img/main_background.png";
 import TitleBar from "./components/TitleBar";
 import PredictBtnContainer from "./components/PredictBtnContainer";
 import MainPage from "./pages/MainPage";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { showMainPageState, winningRateState } from "./atom";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  setResultPageActiveState,
+  showMainPageState,
+  winningRateState,
+} from "./atom";
 import PredictResultPage from "./pages/PredictResultPage";
 import Loading from "./components/Loading";
 import { PREDICT_OVER } from "./constants";
@@ -49,7 +53,9 @@ function App() {
   const [key, setKey] = useState(0); // 키 값을 변경하여 MainBox를 초기화
   const showMainPage = useRecoilValue(showMainPageState);
   const setWinningRate = useSetRecoilState(winningRateState);
-  const [resultPageActive, setResultPageActive] = useState(false);
+  const [resultPageActive, setResultPageActive] = useRecoilState(
+    setResultPageActiveState
+  );
   const { ipcRenderer } = window.require("electron");
 
   ipcRenderer.on(PREDICT_OVER, (event, arg) => {

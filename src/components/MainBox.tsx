@@ -86,9 +86,8 @@ const GameInfoContainer = styled.div`
   border: 3px dashed #1e2023;
 `;
 
-function MainBox({ resetMainBox }: { resetMainBox: () => void }) {
+function MainBox() {
   const [isActive, setActive] = useState(false);
-  const [fileName, setFileName] = useState("");
   const [loading, setLoading] = useState(false);
   const [uploadActive, setUploadActive] = useState(true);
   const [championName, setChampionName] = useRecoilState(championNameState);
@@ -107,7 +106,6 @@ function MainBox({ resetMainBox }: { resetMainBox: () => void }) {
       const uploadedFileName = files[0].name;
       const fileExtension = uploadedFileName.split(".").pop();
       if (fileExtension === "rofl") {
-        setFileName(uploadedFileName);
         ipcRenderer.send(SEND_MAIN_PING, { fileName: uploadedFileName });
         setLoading(true);
         setActive(false);
@@ -127,7 +125,6 @@ function MainBox({ resetMainBox }: { resetMainBox: () => void }) {
       const droppedFileName = files[0].name;
       const fileExtension = droppedFileName.split(".").pop();
       if (fileExtension === "rofl") {
-        setFileName(droppedFileName);
         ipcRenderer.send(SEND_MAIN_PING, { fileName: droppedFileName });
         setLoading(true);
         setActive(false);
@@ -169,9 +166,7 @@ function MainBox({ resetMainBox }: { resetMainBox: () => void }) {
           >
             <FileUploadBtn type="file" onChange={(e) => handleFileChange(e)} />
             <UploadIcon />
-            <FileUploadText>
-              {fileName ? fileName : "Upload HERE"}
-            </FileUploadText>
+            <FileUploadText>Upload HERE</FileUploadText>
           </UploadArea>
         ) : (
           <GameInfoContainer>

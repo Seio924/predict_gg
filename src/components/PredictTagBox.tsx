@@ -1,6 +1,10 @@
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { winningRateState } from "../atom";
+import {
+  setResultPageActiveState,
+  showMainPageState,
+  winningRateState,
+} from "../atom";
 import { useEffect, useState } from "react";
 import Button from "./Button";
 
@@ -55,10 +59,12 @@ const GoBackBtn = styled.div`
 `;
 
 function PredictTagBox() {
-  const winningRate = useRecoilValue(winningRateState);
+  const [winningRate, setWinningRate] = useRecoilState(winningRateState);
+  const setShowMainPage = useSetRecoilState(showMainPageState);
   const [conditionWinningRate, setConditionWinningRate] = useState<number[][]>(
     []
   );
+  const setResultPageActive = useSetRecoilState(setResultPageActiveState);
 
   const changeToTime = (num: number) => {
     let minute = 0;
@@ -70,6 +76,15 @@ function PredictTagBox() {
     const time =
       String(minute).padStart(2, "0") + ":" + String(second).padStart(2, "0");
     return time;
+  };
+
+  const onClickBtn = () => {
+    setShowMainPage(true);
+    setWinningRate([]);
+    setResultPageActive(false);
+
+    const ipcRenderer = window.require("electron").ipcRenderer;
+    ipcRenderer.send("stopOverlayProcess");
   };
 
   useEffect(() => {
@@ -133,6 +148,7 @@ function PredictTagBox() {
             height="35px"
             textSize="14px"
             textFont="PretendardMedium, sans-serif"
+            onClick={onClickBtn}
           >
             뒤로가기
           </Button>

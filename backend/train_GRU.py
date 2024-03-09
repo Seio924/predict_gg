@@ -6,7 +6,7 @@ from models import GeneralRNN
 import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
-    api_key = 'RGAPI-27dce789-06af-447c-942c-7b0fe19b179b'
+    api_key = 'RGAPI-76c4217f-e172-4793-8b99-a99b3e3490aa'
     load_instance = LoadData(api_key)
 
     train_data, win_lose_list = load_instance.get_summoner_data_list(50)

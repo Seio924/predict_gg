@@ -5,6 +5,11 @@ export const showMainPageState = atom({
   default: true,
 });
 
+export const setResultPageActiveState = atom({
+  key: "setResultPageActiveState",
+  default: false,
+});
+
 export const championNameState = atom<string[]>({
   key: "championNameState",
   default: [],
