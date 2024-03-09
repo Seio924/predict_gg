@@ -1,15 +1,44 @@
 import os
 import tensorflow as tf
 import numpy as np
-from load_data import LoadData
 from models import GeneralRNN
 import matplotlib.pyplot as plt
 
-if __name__ == "__main__":
-    api_key = 'RGAPI-76c4217f-e172-4793-8b99-a99b3e3490aa'
-    load_instance = LoadData(api_key)
+def read_interval_file(filename):
+    result = []
+    with open(filename, 'r') as file:
+        for line in file:
+            data = [int(num) for num in line.strip('[]\n').replace('[', ' ').replace(']', '').split(',')]
+            list_len = 177
+            data_list = [data[i:i + list_len] for i in range(0, len(data), list_len)]
+            result.append(data_list)
+    return result
 
-    train_data, win_lose_list = load_instance.get_summoner_data_list(50)
+def read_win_lose_file(filename):
+    result = []
+    with open(filename, 'r') as file:
+        for line in file:
+            # 대괄호를 제거한 후, 각 줄을 숫자로 변환하여 리스트로 만듦
+            data = [int(num) for num in line.strip().replace('[', '').replace(']', '').split(',')]
+            result.append(data)
+    return result
+
+if __name__ == "__main__":
+    interval_files = ['api_interval_list1-1', 'api_interval_list1-2', 'api_interval_list1-3', 'api_interval_list1-4', 'api_interval_list1-5', 'api_interval_list1-6', 'api_interval_list1-7', 'api_interval_list1-8',
+                     'api_interval_list2-1', 'api_interval_list2-2', 'api_interval_list2-3', 'api_interval_list2-4', 'api_interval_list2-5', 'api_interval_list2-6', 'api_interval_list2-7', 'api_interval_list2-8',
+                     'api_interval_list3-1', 'api_interval_list3-2', 'api_interval_list3-3', 'api_interval_list3-4', 'api_interval_list3-5', 'api_interval_list3-6', 'api_interval_list3-7', 'api_interval_list3-8']
+    
+    win_lose_files = ['api_win_lose_list1-1', 'api_win_lose_list1-2', 'api_win_lose_list1-3', 'api_win_lose_list1-4', 'api_win_lose_list1-5', 'api_win_lose_list1-6', 'api_win_lose_list1-7', 'api_win_lose_list1-8',
+                     'api_win_lose_list2-1', 'api_win_lose_list2-2', 'api_win_lose_list2-3', 'api_win_lose_list2-4', 'api_win_lose_list2-5', 'api_win_lose_list2-6', 'api_win_lose_list2-7', 'api_win_lose_list2-8',
+                     'api_win_lose_list3-1', 'api_win_lose_list3-2', 'api_win_lose_list3-3', 'api_win_lose_list3-4', 'api_win_lose_list3-5', 'api_win_lose_list3-6', 'api_win_lose_list3-7', 'api_win_lose_list3-8']
+    
+    train_data = []
+    win_lose_list = []
+
+    for interval_file, win_lose_file in zip(interval_files, win_lose_files):
+        train_data += read_interval_file("api_data/data/" + interval_file + ".txt")
+        win_lose_list += read_win_lose_file("api_data/data/" + win_lose_file + ".txt")
+
     d = len(train_data[0])
     print(train_data)
 
@@ -40,7 +69,7 @@ if __name__ == "__main__":
     # Train the model
     trained_model = rnn_model.fit(padded_data, win_lose_list)
 
-    trained_model.save('C:/GitHub/predict_gg/backend/model_trained_GRU')
+    trained_model.save('C:/Users/ksb02/Documents/GitHub/predict_gg/backend/model_trained_GRU')
 
     # Plot loss
     plt.plot(trained_model.history.history['loss'])

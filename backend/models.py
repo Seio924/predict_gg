@@ -4,7 +4,6 @@ import numpy as np
 from datetime import datetime
 from keras.callbacks import ModelCheckpoint  # keras의 ModelCheckpoint 사용
 from utils_2 import binary_cross_entropy_loss, mse_loss, rnn_sequential
-from load_data import LoadData
 import h5py
 
 class GeneralRNN():
