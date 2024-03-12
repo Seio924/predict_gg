@@ -84,13 +84,21 @@ class GeneralRNN():
     def fit(self, x, y):
         """Fit the predictor model."""
         # Callback for the best model saving
+        
+        train_x, train_y = x[:40320], y[:40320]
+        valid_x, valid_y = x[40320:], y[40320:]
+        
+        self.predictor_model = self._build_model(train_x, train_y)
+
+        # Callback for the best model saving
         save_best = ModelCheckpoint(self.save_file_name, monitor='val_loss',
                                     mode='min', verbose=False,
                                     save_best_only=True)
 
         # Train the model
-        self.predictor_model.fit(x, y, 
+        self.predictor_model.fit(train_x, train_y, 
                                 batch_size=self.batch_size, epochs=self.epoch, 
+                                validation_data=(valid_x, valid_y), 
                                 callbacks=[save_best], verbose=True)
 
         return self.predictor_model

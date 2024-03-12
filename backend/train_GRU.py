@@ -61,7 +61,7 @@ if __name__ == "__main__":
         'h_dim': 64,  # Hidden dimension
         'n_layer': 2,  # Number of layers
         'batch_size': 32,  # Batch size
-        'epoch': 10,  # Number of epochs
+        'epoch': 30,  # Number of epochs
         'learning_rate': 0.001  # Learning rate
     }
     rnn_model = GeneralRNN(model_parameters)
@@ -72,14 +72,16 @@ if __name__ == "__main__":
     trained_model.save('C:/Users/ksb02/Documents/GitHub/predict_gg/backend/model_trained_GRU')
 
     # Plot loss
-    plt.plot(trained_model.history.history['loss'])
+    plt.plot(trained_model.history['mse'], label='Training mse')
+    plt.plot(trained_model.history['val_mse'], label='Validation mse')
     plt.title('Model Loss')
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
     plt.show()
 
     # Plot accuracy
-    plt.plot(trained_model.history.history['accuracy'])
+    plt.plot(trained_model.history['accuracy'], label='Training Accuracy')
+    plt.plot(trained_model.history['val_accuracy'], label='Validation Accuracy')
     plt.title('Model Accuracy')
     plt.xlabel('Epoch')
     plt.ylabel('Accuracy')
