@@ -3,6 +3,15 @@ import tensorflow as tf
 import numpy as np
 from models import GeneralRNN
 import matplotlib.pyplot as plt
+import psutil
+
+disk_usage = psutil.disk_usage('/')
+available_space = disk_usage.free
+
+print("이용 가능 : ", available_space, "bytes")
+
+target_space = available_space // 2
+
 
 def read_interval_file(filename):
     result = []
