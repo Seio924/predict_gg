@@ -24,7 +24,6 @@ def read_win_lose_file(filename):
     return result
 
 if __name__ == "__main__":
-    checkpoint_path = "C:/GitHub/predict_gg/backend/modelGRU_checkpoint/checkpoint.h5"
 
     # Instantiate the GeneralRNN model
     model_parameters = {
@@ -38,9 +37,13 @@ if __name__ == "__main__":
     }
     rnn_model = GeneralRNN(model_parameters)
 
-    interval_files = ['api_interval_list1-1', 'api_interval_list1-2']
+    interval_files = ['api_interval_list1-1', 'api_interval_list1-2', 'api_interval_list1-3', 'api_interval_list1-4', 'api_interval_list1-5', 'api_interval_list1-6', 'api_interval_list1-7', 'api_interval_list1-8',
+                     'api_interval_list2-1', 'api_interval_list2-2', 'api_interval_list2-3', 'api_interval_list2-4', 'api_interval_list2-5', 'api_interval_list2-6', 'api_interval_list2-7', 'api_interval_list2-8',
+                     'api_interval_list3-1', 'api_interval_list3-2', 'api_interval_list3-3', 'api_interval_list3-4', 'api_interval_list3-5', 'api_interval_list3-6', 'api_interval_list3-7', 'api_interval_list3-8']
     
-    win_lose_files = ['api_win_lose_list1-1', 'api_win_lose_list1-2']
+    win_lose_files = ['api_win_lose_list1-1', 'api_win_lose_list1-2', 'api_win_lose_list1-3', 'api_win_lose_list1-4', 'api_win_lose_list1-5', 'api_win_lose_list1-6', 'api_win_lose_list1-7', 'api_win_lose_list1-8',
+                     'api_win_lose_list2-1', 'api_win_lose_list2-2', 'api_win_lose_list2-3', 'api_win_lose_list2-4', 'api_win_lose_list2-5', 'api_win_lose_list2-6', 'api_win_lose_list2-7', 'api_win_lose_list2-8',
+                     'api_win_lose_list3-1', 'api_win_lose_list3-2', 'api_win_lose_list3-3', 'api_win_lose_list3-4', 'api_win_lose_list3-5', 'api_win_lose_list3-6', 'api_win_lose_list3-7', 'api_win_lose_list3-8']
     
 
     for interval_file, win_lose_file in zip(interval_files, win_lose_files):
@@ -56,7 +59,7 @@ if __name__ == "__main__":
         LIST_LEN = 177
 
         # 시계열 데이터의 최대 길이 계산
-        max_length_data = 400
+        max_length_data = 420
 
         # 패딩을 적용한 배열 생성
         padded_data = np.zeros((len(train_data), max_length_data, LIST_LEN))
