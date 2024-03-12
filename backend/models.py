@@ -4,6 +4,7 @@ import numpy as np
 from datetime import datetime
 from keras.callbacks import ModelCheckpoint  # keras의 ModelCheckpoint 사용
 from utils_2 import binary_cross_entropy_loss, mse_loss, rnn_sequential
+from sklearn.model_selection import train_test_split
 import h5py
 
 class GeneralRNN():
@@ -34,21 +35,19 @@ class GeneralRNN():
         # Predictor model define
         self.predictor_model = self._build_model()  # 모델 빌드
 
-        timestamp = datetime.now().strftime('%H%M%S')
-        
         # Set path for model saving
         if self.model_type == 'rnn':
-            model_folder = 'backend/modelRNN'
+            model_folder = 'backend/modelRNN_checkpoint'
         elif self.model_type == 'lstm':
-            model_folder = 'backend/modelLSTM'
+            model_folder = 'backend/modelLSTM_checkpoint'
         elif self.model_type == 'gru':
-            model_folder = 'backend/modelGRU'
+            model_folder = 'backend/modelGRU_checkpoint'
 
         if not os.path.exists(model_folder):
             os.makedirs(model_folder)
 
         # Create HDF5 file
-        self.save_file_name = os.path.join(model_folder, f'{timestamp}.hdf5')
+        self.save_file_name = os.path.join(model_folder, 'checkpoint.hdf5')
         with h5py.File(self.save_file_name, 'w'):
             pass  # 아무 작업도 수행하지 않고 빈 HDF5 파일 생성
 
@@ -58,7 +57,7 @@ class GeneralRNN():
         h_dim = self.h_dim
         n_layer = self.n_layer
         dim = 177  # Assuming LIST_LEN is always 91
-        max_seq_len = 301  # Assuming max_length_data is always 301
+        max_seq_len = 400  # Assuming max_length_data is always 301
 
         model = tf.keras.Sequential()
         model.add(tf.keras.layers.Masking(mask_value=0., input_shape=(max_seq_len, dim)))
@@ -85,11 +84,13 @@ class GeneralRNN():
         """Fit the predictor model."""
         # Callback for the best model saving
         
-        train_x, train_y = x[:40320], y[:40320]
-        valid_x, valid_y = x[40320:], y[40320:]
-        
-        self.predictor_model = self._build_model(train_x, train_y)
+        #train_x, train_y = x, y
+        #valid_x, valid_y = x, y
 
+        train_x, valid_x, train_y, valid_y = train_test_split(x, y, test_size=0.2, random_state=42)
+        
+        print(train_x)
+        print(train_y)
         # Callback for the best model saving
         save_best = ModelCheckpoint(self.save_file_name, monitor='val_loss',
                                     mode='min', verbose=False,
@@ -100,6 +101,9 @@ class GeneralRNN():
                                 batch_size=self.batch_size, epochs=self.epoch, 
                                 validation_data=(valid_x, valid_y), 
                                 callbacks=[save_best], verbose=True)
+
+        self.predictor_model.save_weights(self.save_file_name)
+        #os.remove(self.save_file_name)
 
         return self.predictor_model
     

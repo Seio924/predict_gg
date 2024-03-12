@@ -3,15 +3,6 @@ import tensorflow as tf
 import numpy as np
 from models import GeneralRNN
 import matplotlib.pyplot as plt
-import psutil
-
-disk_usage = psutil.disk_usage('/')
-available_space = disk_usage.free
-
-print("이용 가능 : ", available_space, "bytes")
-
-target_space = available_space // 2
-
 
 def read_interval_file(filename):
     result = []
@@ -33,35 +24,7 @@ def read_win_lose_file(filename):
     return result
 
 if __name__ == "__main__":
-    interval_files = ['api_interval_list1-1', 'api_interval_list1-2', 'api_interval_list1-3', 'api_interval_list1-4', 'api_interval_list1-5', 'api_interval_list1-6', 'api_interval_list1-7', 'api_interval_list1-8',
-                     'api_interval_list2-1', 'api_interval_list2-2', 'api_interval_list2-3', 'api_interval_list2-4', 'api_interval_list2-5', 'api_interval_list2-6', 'api_interval_list2-7', 'api_interval_list2-8',
-                     'api_interval_list3-1', 'api_interval_list3-2', 'api_interval_list3-3', 'api_interval_list3-4', 'api_interval_list3-5', 'api_interval_list3-6', 'api_interval_list3-7', 'api_interval_list3-8']
-    
-    win_lose_files = ['api_win_lose_list1-1', 'api_win_lose_list1-2', 'api_win_lose_list1-3', 'api_win_lose_list1-4', 'api_win_lose_list1-5', 'api_win_lose_list1-6', 'api_win_lose_list1-7', 'api_win_lose_list1-8',
-                     'api_win_lose_list2-1', 'api_win_lose_list2-2', 'api_win_lose_list2-3', 'api_win_lose_list2-4', 'api_win_lose_list2-5', 'api_win_lose_list2-6', 'api_win_lose_list2-7', 'api_win_lose_list2-8',
-                     'api_win_lose_list3-1', 'api_win_lose_list3-2', 'api_win_lose_list3-3', 'api_win_lose_list3-4', 'api_win_lose_list3-5', 'api_win_lose_list3-6', 'api_win_lose_list3-7', 'api_win_lose_list3-8']
-    
-    train_data = []
-    win_lose_list = []
-
-    for interval_file, win_lose_file in zip(interval_files, win_lose_files):
-        train_data += read_interval_file("api_data/data/" + interval_file + ".txt")
-        win_lose_list += read_win_lose_file("api_data/data/" + win_lose_file + ".txt")
-
-    d = len(train_data[0])
-    print(train_data)
-
-    LIST_LEN = 177
-
-    # 시계열 데이터의 최대 길이 계산
-    max_length_data = 301
-
-    # 패딩을 적용한 배열 생성
-    padded_data = np.zeros((len(train_data), max_length_data, LIST_LEN))
-    for i, seq in enumerate(train_data):
-        padded_data[i, :len(seq), :] = seq
-
-    win_lose_list = np.array(win_lose_list, dtype="float32")
+    checkpoint_path = "C:/GitHub/predict_gg/backend/modelGRU_checkpoint/checkpoint.h5"
 
     # Instantiate the GeneralRNN model
     model_parameters = {
@@ -75,10 +38,41 @@ if __name__ == "__main__":
     }
     rnn_model = GeneralRNN(model_parameters)
 
-    # Train the model
-    trained_model = rnn_model.fit(padded_data, win_lose_list)
+    interval_files = ['api_interval_list1-1', 'api_interval_list1-2']
+    
+    win_lose_files = ['api_win_lose_list1-1', 'api_win_lose_list1-2']
+    
 
-    trained_model.save('C:/Users/ksb02/Documents/GitHub/predict_gg/backend/model_trained_GRU')
+    for interval_file, win_lose_file in zip(interval_files, win_lose_files):
+        train_data = []
+        win_lose_list = []
+
+        train_data += read_interval_file("api_data/data/" + interval_file + ".txt")
+        win_lose_list += read_win_lose_file("api_data/data/" + win_lose_file + ".txt")
+
+        d = len(train_data[0])
+        print(train_data)
+
+        LIST_LEN = 177
+
+        # 시계열 데이터의 최대 길이 계산
+        max_length_data = 400
+
+        # 패딩을 적용한 배열 생성
+        padded_data = np.zeros((len(train_data), max_length_data, LIST_LEN))
+        for i, seq in enumerate(train_data):
+            padded_data[i, :len(seq), :] = seq
+
+        win_lose_list = np.array(win_lose_list, dtype="float32")
+
+        
+
+
+        trained_model = rnn_model.fit(padded_data, win_lose_list)
+        
+    
+    
+    trained_model.save('C:/GitHub/predict_gg/backend/model_trained_GRU')
 
     # Plot loss
     plt.plot(trained_model.history['mse'], label='Training mse')

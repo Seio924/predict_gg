@@ -4,6 +4,13 @@ import numpy as np
 from load_data import LoadData
 from models import GeneralRNN
 import matplotlib.pyplot as plt
+import resource
+
+# 제한할 메모리 양(바이트 단위)
+limit = 40 * 1024 * 1024 * 1024  # 40GB
+
+# 리소스 제한 설정
+resource.setrlimit(resource.RLIMIT_AS, (limit, limit))
 
 if __name__ == "__main__":
     api_key = 'RGAPI-80ba1ae9-cccc-4e83-a491-b5db20a7614b'
