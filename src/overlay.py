@@ -125,25 +125,23 @@ def create_overlay():
     return hwnd
 
 # 오버레이에 배경을 그리는 함수
-def draw_background(hwnd, hdc, text):
+def draw_background(hwnd, hdc, predict_txt):
     global increasing, blue_percentage
 
-    rect = (0, 0, OVERLAY_WIDTH, OVERLAY_HEIGHT)  # 전체 윈도우 크기
+    predict_tmp = predict_txt.split("% :")
 
-    if increasing:
-        blue_percentage += 2
-    else:
-        blue_percentage -= 2
+    blue_percentage = int(predict_tmp[0])
+    red = (int(predict_tmp[1][:-1]))
+
+    rect = (0, 0, OVERLAY_WIDTH, OVERLAY_HEIGHT)  # 전체 윈도우 크기
 
     background_rect = (rect[0], rect[1], rect[2], rect[3])
 
     bar_rect = (rect[0] + 20, rect[1] + OVERLAY_HEIGHT-35 , rect[2] - 20, rect[3] -30)
-    
 
     # 파랑색 영역 계산
-    blue_width = blue_percentage
+    blue_width = math.floor(blue_percentage * 3.1)
     blue_rect = (bar_rect[0], bar_rect[1], bar_rect[0] + blue_width, bar_rect[3])
-
 
     # 빨강색 영역 계산
     red_width = rect[2] - blue_width  # 전체 가로 길이에서 파란색 영역의 너비를 뺀 값
@@ -157,11 +155,6 @@ def draw_background(hwnd, hdc, text):
     # 빨강색 영역 채우기
     win32gui.FillRect(hdc, red_rect, win32gui.CreateSolidBrush(win32api.RGB(214, 78, 91)))  # 빨강색 배경 채우기
 
-    if blue_percentage == OVERLAY_WIDTH:
-        increasing = False
-    elif blue_percentage == 0:
-        increasing = True
-
     win32gui.SetWindowLong(hwnd, win32con.GWL_EXSTYLE,
                            win32gui.GetWindowLong(hwnd, win32con.GWL_EXSTYLE) | win32con.WS_EX_LAYERED)
     win32gui.SetLayeredWindowAttributes(hwnd, 0, int(255 * 0.8), win32con.LWA_ALPHA)  # 투명도를 50%로 설정
@@ -169,14 +162,12 @@ def draw_background(hwnd, hdc, text):
 
 # 오버레이에 텍스트를 그리는 함수
 def on_paint(hwnd, msg, wparam, lparam):
-    global text_tmp, predict_txt  # text_tmp를 전역 변수로 선언
+    global predict_txt  # text_tmp를 전역 변수로 선언
     
     hdc, ps = win32gui.BeginPaint(hwnd)
 
-    
-
     # 배경 그리기
-    draw_background(hwnd, hdc, text_tmp)
+    draw_background(hwnd, hdc, predict_txt)
     
     # 텍스트 그리기
     rect_text = (20, 20, OVERLAY_WIDTH-20, OVERLAY_HEIGHT-38)  # 텍스트가 출력될 영역
@@ -241,15 +232,13 @@ def capture_and_extract(hwnd):
                 text = str_min + ":" + str_sec
                 text_tmp = text
 
-                predict_txt = str(predict_list[(min*60+sec)//time_num][1]) + "% : " + str(predict_list[(min*60+sec)//time_num][2]) + "%"
+                predict_txt = str(predict_list[(min*60+sec)//time_num][1]) + "% :" + " " + str(predict_list[(min*60+sec)//time_num][2]) + "%"
 
                 print(min*60+sec)
 
-                
-            
             else:
                 text_tmp = text
-                predict_txt = str(predict_list[(int(text_tmp[0:2])*60+int(text_tmp[3:]))//time_num][1]) + "% : " + str(predict_list[(int(text_tmp[0:2])*60+int(text_tmp[3:]))//time_num][2]) + "%"
+                predict_txt = str(predict_list[(int(text_tmp[0:2])*60+int(text_tmp[3:]))//time_num][1]) + "% :" + " " + str(predict_list[(int(text_tmp[0:2])*60+int(text_tmp[3:]))//time_num][2]) + "%"
                 print(int(text_tmp[0:2])*60+int(text_tmp[3:]))
                 cnt = 0
         else:
@@ -263,7 +252,7 @@ def capture_and_extract(hwnd):
             if min == 0 and sec == 0:
                 text = text_tmp
                 text_tmp = text
-                predict_txt = str(predict_list[(min*60+sec)//time_num][1]) + "% : " + str(predict_list[(min*60+sec)//time_num][2]) + "%"
+                predict_txt = str(predict_list[(min*60+sec)//time_num][1]) + "% :" + " " + str(predict_list[(min*60+sec)//time_num][2]) + "%"
                 print(min*60+sec)
                 continue
 
@@ -289,11 +278,10 @@ def capture_and_extract(hwnd):
 
             text = str_min + ":" + str_sec
             text_tmp = text
-            predict_txt = str(predict_list[(min*60+sec)//time_num][1]) + "% : " + str(predict_list[(min*60+sec)//time_num][2]) + "%"
+            predict_txt = str(predict_list[(min*60+sec)//time_num][1]) + "% :" + " " + str(predict_list[(min*60+sec)//time_num][2]) + "%"
             print(min*60+sec)
 
-        
-
+    
         # 텍스트를 오버레이에 출력
         win32gui.InvalidateRect(hwnd, None, True)
         win32gui.UpdateWindow(hwnd)

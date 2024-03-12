@@ -12,7 +12,7 @@ const fs = require("fs").promises; // 비동기 파일 쓰기를 위해 fs.promi
 const request = require("request");
 const { spawn } = require("child_process");
 
-const apiKey = "RGAPI-76c4217f-e172-4793-8b99-a99b3e3490aa";
+const apiKey = "RGAPI-55dcd6c3-7a5a-4054-b25e-2e6682960500";
 
 let win;
 let overlayProcess; // overlay.py 프로세스 변수
@@ -49,7 +49,7 @@ async function runTestScript() {
     console.log(`predict_GRU : child process exited with code ${code}`);
     if (code === 0) {
       const data = await fs.readFile(
-        "C:/GitHub/predict_gg/src/predict_data.txt",
+        "C:/Users/ksb02/Documents/GitHub/predict_gg/src/predict_data.txt",
         "utf8"
       );
       const lines = data.split("\r\n");
