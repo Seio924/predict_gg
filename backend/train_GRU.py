@@ -29,7 +29,7 @@ if __name__ == "__main__":
     model_parameters = {
         'task': 'regression',
         'model_type': 'gru',  # or 'rnn', 'lstm'
-        'h_dim': 64,  # Hidden dimension
+        'h_dim': 10,  # Hidden dimension
         'n_layer': 2,  # Number of layers
         'batch_size': 32,  # Batch size
         'epoch': 30,  # Number of epochs
@@ -45,6 +45,7 @@ if __name__ == "__main__":
                      'api_win_lose_list2-1', 'api_win_lose_list2-2', 'api_win_lose_list2-3', 'api_win_lose_list2-4', 'api_win_lose_list2-5', 'api_win_lose_list2-6', 'api_win_lose_list2-7', 'api_win_lose_list2-8',
                      'api_win_lose_list3-1', 'api_win_lose_list3-2', 'api_win_lose_list3-3', 'api_win_lose_list3-4', 'api_win_lose_list3-5', 'api_win_lose_list3-6', 'api_win_lose_list3-7', 'api_win_lose_list3-8']
     
+    n = 1
 
     for interval_file, win_lose_file in zip(interval_files, win_lose_files):
         train_data = []
@@ -53,42 +54,50 @@ if __name__ == "__main__":
         train_data += read_interval_file("api_data/data/" + interval_file + ".txt")
         win_lose_list += read_win_lose_file("api_data/data/" + win_lose_file + ".txt")
 
-        d = len(train_data[0])
-        print(train_data)
-
         LIST_LEN = 177
 
         # 시계열 데이터의 최대 길이 계산
-        max_length_data = 420
+        max_length_data = 500
 
-        # 패딩을 적용한 배열 생성
+        # 패딩을 적용한 배열 생성 및 정규화
         padded_data = np.zeros((len(train_data), max_length_data, LIST_LEN))
+        
         for i, seq in enumerate(train_data):
-            padded_data[i, :len(seq), :] = seq
+            # 타임스탬프를 제외한 데이터 정규화
+            seq_data = np.array(seq)[:, 1:]  # 타임스탬프 제외
+            seq_data_mean = np.mean(seq_data, axis=0)
+            seq_data_std = np.std(seq_data, axis=0)
+            normalized_seq_data = (seq_data - seq_data_mean) / seq_data_std
+            
+            # 패딩 적용
+            padded_data[i, :len(seq), 1:] = normalized_seq_data  # 타임스탬프 제외하고 정규화된 데이터 패딩
+
+        padded_data[:, :, 0] = np.array(train_data)[:, :, 0]  # 타임스탬프 열은 원래 값 그대로 유지
+
 
         win_lose_list = np.array(win_lose_list, dtype="float32")
-
-        
 
 
         trained_model = rnn_model.fit(padded_data, win_lose_list)
         
+        print(str(n) + "번째 학습 완료")
+        n += 1
     
     
     trained_model.save('C:/GitHub/predict_gg/backend/model_trained_GRU')
 
-    # Plot loss
-    plt.plot(trained_model.history['mse'], label='Training mse')
-    plt.plot(trained_model.history['val_mse'], label='Validation mse')
-    plt.title('Model Loss')
-    plt.xlabel('Epoch')
-    plt.ylabel('Loss')
-    plt.show()
+    # # Plot loss
+    # plt.plot(trained_model.history['mse'], label='Training mse')
+    # plt.plot(trained_model.history['val_mse'], label='Validation mse')
+    # plt.title('Model Loss')
+    # plt.xlabel('Epoch')
+    # plt.ylabel('Loss')
+    # plt.show()
 
-    # Plot accuracy
-    plt.plot(trained_model.history['accuracy'], label='Training Accuracy')
-    plt.plot(trained_model.history['val_accuracy'], label='Validation Accuracy')
-    plt.title('Model Accuracy')
-    plt.xlabel('Epoch')
-    plt.ylabel('Accuracy')
-    plt.show()
+    # # Plot accuracy
+    # plt.plot(trained_model.history['accuracy'], label='Training Accuracy')
+    # plt.plot(trained_model.history['val_accuracy'], label='Validation Accuracy')
+    # plt.title('Model Accuracy')
+    # plt.xlabel('Epoch')
+    # plt.ylabel('Accuracy')
+    # plt.show()

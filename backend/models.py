@@ -57,7 +57,7 @@ class GeneralRNN():
         h_dim = self.h_dim
         n_layer = self.n_layer
         dim = 177  # Assuming LIST_LEN is always 91
-        max_seq_len = 420  # Assuming max_length_data is always 301
+        max_seq_len = 500  # Assuming max_length_data is always 301
 
         model = tf.keras.Sequential()
         model.add(tf.keras.layers.Masking(mask_value=0., input_shape=(max_seq_len, dim)))
@@ -89,11 +89,9 @@ class GeneralRNN():
 
         train_x, valid_x, train_y, valid_y = train_test_split(x, y, test_size=0.2, random_state=42)
         
-        print(train_x)
-        print(train_y)
         # Callback for the best model saving
-        save_best = ModelCheckpoint(self.save_file_name, monitor='val_loss',
-                                    mode='min', verbose=False,
+        save_best = ModelCheckpoint(self.save_file_name, monitor='accuracy',
+                                    mode='max', verbose=False,
                                     save_best_only=True)
 
         # Train the model
