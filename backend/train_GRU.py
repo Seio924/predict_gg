@@ -59,24 +59,29 @@ if __name__ == "__main__":
         # 시계열 데이터의 최대 길이 계산
         max_length_data = 500
 
-        # 패딩을 적용한 배열 생성 및 정규화
+        # 패딩을 적용한 배열 생성
         padded_data = np.zeros((len(train_data), max_length_data, LIST_LEN))
-        
         for i, seq in enumerate(train_data):
-            # 타임스탬프를 제외한 데이터 정규화
-            seq_data = np.array(seq)[:, 1:]  # 타임스탬프 제외
-            seq_data_mean = np.mean(seq_data, axis=0)
-            seq_data_std = np.std(seq_data, axis=0)
-            normalized_seq_data = (seq_data - seq_data_mean) / seq_data_std
+            padded_data[i, :len(seq), :] = np.array(seq)[:,:]
             
-            # 패딩 적용
-            padded_data[i, :len(seq), 1:] = normalized_seq_data  # 타임스탬프 제외하고 정규화된 데이터 패딩
 
-        padded_data[:, :, 0] = np.array(train_data)[:, :, 0]  # 타임스탬프 열은 원래 값 그대로 유지
+            for j in range(1, LIST_LEN):
+                seq_data = np.array(seq)[:, j]
+                seq_data_mean = seq_data.mean()
+                seq_data_std = seq_data.std()
 
+                if seq_data_std == 0:
+                    seq_data_std = 1
+                
+                normalized_seq_data = (seq_data - seq_data_mean) / seq_data_std
+                padded_data[i, :len(seq), j] = normalized_seq_data
+        
+        # for i, seq in enumerate(train_data):
+        #     padded_data[i, :len(seq), :] = seq
 
         win_lose_list = np.array(win_lose_list, dtype="float32")
 
+        print(padded_data[0])
 
         trained_model = rnn_model.fit(padded_data, win_lose_list)
         
