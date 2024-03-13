@@ -61,22 +61,22 @@ if __name__ == "__main__":
 
         # 패딩을 적용한 배열 생성
         padded_data = np.zeros((len(train_data), max_length_data, LIST_LEN))
-        # for i, seq in enumerate(train_data):
-        #     padded_data[i, :len(seq), :] = np.array(seq)[:,:]
-
-        #     for j in range(1, LIST_LEN):
-        #         seq_data = np.array(seq)[:, j]
-        #         seq_data_mean = seq_data.mean()
-        #         seq_data_std = seq_data.std()
-
-        #         if seq_data_std == 0:
-        #             seq_data_std = 1
-                
-        #         normalized_seq_data = (seq_data - seq_data_mean) / seq_data_std
-        #         padded_data[i, :len(seq), j] = normalized_seq_data
-        
         for i, seq in enumerate(train_data):
-            padded_data[i, :len(seq), :] = seq
+            padded_data[i, :len(seq), :] = np.array(seq)[:,:]
+
+            for j in range(1, LIST_LEN):
+                seq_data = np.array(seq)[:, j]
+                seq_data_mean = seq_data.mean()
+                seq_data_std = seq_data.std()
+
+                if seq_data_std == 0:
+                    seq_data_std = 1
+                
+                normalized_seq_data = (seq_data - seq_data_mean) / seq_data_std
+                padded_data[i, :len(seq), j] = normalized_seq_data
+        
+        # for i, seq in enumerate(train_data):
+        #     padded_data[i, :len(seq), :] = seq
 
         win_lose_list = np.array(win_lose_list, dtype="float32")
 
@@ -88,7 +88,7 @@ if __name__ == "__main__":
         n += 1
     
     
-    trained_model.save('C:/GitHub/predict_gg/backend/model_trained_GRU')
+    trained_model.save('C:/Users/ksb02/Documents/GitHub/predict_gg/backend/modelLSTM')
 
     # # Plot loss
     # plt.plot(trained_model.history['mse'], label='Training mse')
