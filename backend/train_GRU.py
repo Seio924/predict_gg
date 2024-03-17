@@ -29,7 +29,7 @@ if __name__ == "__main__":
     model_parameters = {
         'task': 'regression',
         'model_type': 'gru',  # or 'rnn', 'lstm'
-        'h_dim': 10,  # Hidden dimension
+        'h_dim': 20,  # Hidden dimension
         'n_layer': 2,  # Number of layers
         'batch_size': 32,  # Batch size
         'epoch': 30,  # Number of epochs
@@ -89,7 +89,7 @@ if __name__ == "__main__":
         n += 1
     
     
-    trained_model.save('C:/GitHub/predict_gg/backend/model_trained_GRU')
+    trained_model.save('C:/Users/ksb02/Documents/GitHub/predict_gg/backend/modelLSTM2')
 
     # # Plot loss
     # plt.plot(trained_model.history['mse'], label='Training mse')
