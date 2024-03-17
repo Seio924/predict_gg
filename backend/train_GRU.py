@@ -60,9 +60,10 @@ if __name__ == "__main__":
         # 시계열 데이터의 최대 길이 계산
         max_length_data = 500
 
-        for d in train_data:
+        for game_num, d in enumerate(train_data):
             for n in range(1,len(d)):
                 train_data.append(d[:n])
+                win_lose_list.append(win_lose_list[game_num])
 
         # 패딩을 적용한 배열 생성
         padded_data = np.zeros((len(train_data), max_length_data, LIST_LEN))
