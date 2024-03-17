@@ -7,7 +7,7 @@ from utils_2 import binary_cross_entropy_loss, mse_loss, rnn_sequential
 import matplotlib.pyplot as plt
 
 
-api_key = 'RGAPI-0a3a44de-d1aa-4789-b49a-96db4790807c'
+api_key = 'RGAPI-ea3f5982-5e8d-4a78-85b2-91f01c61f069'
 
 with open('backend/userInput.txt', 'r', encoding="utf-8") as f:
     time_num = f.read().strip()
@@ -20,23 +20,39 @@ test = PreprocessData('./api_data/api_match_info.json', './api_data/api_timeline
 train_data = test.get_condition_timeline(time_num*1000)
 playtime = len(train_data)
 train_data = np.array(train_data)
-print(train_data)
 
 LIST_LEN = 177
 
 # 시계열 데이터의 최대 길이 계산
-max_length_data = 301
+max_length_data = 500
 
 winning_rate = []
 winning_rate2 = []
 
 
 with tf.keras.utils.custom_object_scope({'binary_cross_entropy_loss': binary_cross_entropy_loss}):
-    loaded_model = tf.keras.models.load_model('C:/GitHub/predict_gg/backend/model_trained_GRU')
+    loaded_model = tf.keras.models.load_model('C:/GitHub/predict_gg/backend/modelGRU')
+
+normalized_predict_data = np.zeros((max_length_data, LIST_LEN))
+
 
 for i in range(playtime):
+    
+    normalized_predict_data[:i+1, :] = train_data[:i+1].copy()
+    
+    for j in range(1, LIST_LEN):
+        seq_data = train_data[:i+1, j]
+        seq_data_mean = seq_data.mean()
+        seq_data_std = seq_data.std()
 
-    predict_data = train_data[:i+1].copy()
+        if seq_data_std == 0:
+            seq_data_std = 1
+        
+        normalized_seq_data = (seq_data - seq_data_mean) / seq_data_std
+        normalized_predict_data[:i+1, j] = normalized_seq_data
+
+
+    predict_data = normalized_predict_data[:i+1].copy()
 
     # 패딩을 적용한 배열 생성
     padded_predict_data = np.zeros((max_length_data, LIST_LEN))
@@ -45,6 +61,7 @@ for i in range(playtime):
 
 
     pred_x = np.expand_dims(padded_predict_data, axis=0)
+    
     predictions = loaded_model.predict(pred_x)
 
     winning_rate2.append([predictions[0][0], predictions[0][1]])
