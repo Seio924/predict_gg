@@ -45,6 +45,7 @@ if __name__ == "__main__":
                      'api_win_lose_list2-1', 'api_win_lose_list2-2', 'api_win_lose_list2-3', 'api_win_lose_list2-4', 'api_win_lose_list2-5', 'api_win_lose_list2-6', 'api_win_lose_list2-7', 'api_win_lose_list2-8',
                      'api_win_lose_list3-1', 'api_win_lose_list3-2', 'api_win_lose_list3-3', 'api_win_lose_list3-4', 'api_win_lose_list3-5', 'api_win_lose_list3-6', 'api_win_lose_list3-7', 'api_win_lose_list3-8']
     
+    
     n = 1
 
     for interval_file, win_lose_file in zip(interval_files, win_lose_files):
@@ -58,6 +59,11 @@ if __name__ == "__main__":
 
         # 시계열 데이터의 최대 길이 계산
         max_length_data = 500
+
+        for game_num, d in enumerate(train_data):
+            for n in range(1,len(d)):
+                train_data.append(d[:n])
+                win_lose_list.append(win_lose_list[game_num])
 
         # 패딩을 적용한 배열 생성
         padded_data = np.zeros((len(train_data), max_length_data, LIST_LEN))
@@ -83,13 +89,14 @@ if __name__ == "__main__":
 
         print(padded_data[0])
 
+
         trained_model = rnn_model.fit(padded_data, win_lose_list)
         
         print(str(n) + "번째 학습 완료")
         n += 1
     
     
-    trained_model.save('C:/Users/ksb02/Documents/GitHub/predict_gg/backend/modelLSTM2')
+    trained_model.save('C:/GitHub/predict_gg/backend/modelGRU20')
 
     # # Plot loss
     # plt.plot(trained_model.history['mse'], label='Training mse')
