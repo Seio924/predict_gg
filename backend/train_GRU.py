@@ -37,63 +37,57 @@ if __name__ == "__main__":
     }
     rnn_model = GeneralRNN(model_parameters)
 
-    interval_files = ['api_interval_list1-1', 'api_interval_list1-2', 'api_interval_list1-3', 'api_interval_list1-4', 'api_interval_list1-5', 'api_interval_list1-6', 'api_interval_list1-7', 'api_interval_list1-8',
-                     'api_interval_list2-1', 'api_interval_list2-2', 'api_interval_list2-3', 'api_interval_list2-4', 'api_interval_list2-5', 'api_interval_list2-6', 'api_interval_list2-7', 'api_interval_list2-8',
-                     'api_interval_list3-1', 'api_interval_list3-2', 'api_interval_list3-3', 'api_interval_list3-4', 'api_interval_list3-5', 'api_interval_list3-6', 'api_interval_list3-7', 'api_interval_list3-8']
-    
-    win_lose_files = ['api_win_lose_list1-1', 'api_win_lose_list1-2', 'api_win_lose_list1-3', 'api_win_lose_list1-4', 'api_win_lose_list1-5', 'api_win_lose_list1-6', 'api_win_lose_list1-7', 'api_win_lose_list1-8',
-                     'api_win_lose_list2-1', 'api_win_lose_list2-2', 'api_win_lose_list2-3', 'api_win_lose_list2-4', 'api_win_lose_list2-5', 'api_win_lose_list2-6', 'api_win_lose_list2-7', 'api_win_lose_list2-8',
-                     'api_win_lose_list3-1', 'api_win_lose_list3-2', 'api_win_lose_list3-3', 'api_win_lose_list3-4', 'api_win_lose_list3-5', 'api_win_lose_list3-6', 'api_win_lose_list3-7', 'api_win_lose_list3-8']
-    
+    file_num_list = [11, 11, 11, 10, 11, 11, 11, 10, 11, 11, 8, 10, 11, 11, 8, 10, 10, 11, 10, 10, 10, 11, 10, 10]
     
     n = 1
 
-    for interval_file, win_lose_file in zip(interval_files, win_lose_files):
-        train_data = []
-        win_lose_list = []
+    for file_num1, file_num2 in enumerate(file_num_list):
+        for repeat_num in range(file_num2):
+            train_data = []
+            win_lose_list = []
 
-        train_data += read_interval_file("api_data/data/" + interval_file + ".txt")
-        win_lose_list += read_win_lose_file("api_data/data/" + win_lose_file + ".txt")
+            train_data += read_interval_file("api_data/data_split/interval_split_" + str(file_num1+1) + "_" + str(repeat_num+1) + ".txt")
+            win_lose_list += read_win_lose_file("api_data/data_split/win_lose_split_" + str(file_num1+1) + "_" + str(repeat_num+1) + ".txt")
 
-        LIST_LEN = 177
+            LIST_LEN = 177
 
-        # 시계열 데이터의 최대 길이 계산
-        max_length_data = 500
+            # 시계열 데이터의 최대 길이 계산
+            max_length_data = 500
 
-        for game_num, d in enumerate(train_data):
-            for n in range(1,len(d)):
-                train_data.append(d[:n])
-                win_lose_list.append(win_lose_list[game_num])
+            for game_num, d in enumerate(train_data):
+                for n in range(1,len(d)):
+                    train_data.append(d[:n])
+                    win_lose_list.append(win_lose_list[game_num])
 
-        # 패딩을 적용한 배열 생성
-        padded_data = np.zeros((len(train_data), max_length_data, LIST_LEN))
-        for i, seq in enumerate(train_data):
-            padded_data[i, :len(seq), :] = np.array(seq)[:,:]
-            
-
-            for j in range(1, LIST_LEN):
-                seq_data = np.array(seq)[:, j]
-                seq_data_mean = seq_data.mean()
-                seq_data_std = seq_data.std()
-
-                if seq_data_std == 0:
-                    seq_data_std = 1
+            # 패딩을 적용한 배열 생성
+            padded_data = np.zeros((len(train_data), max_length_data, LIST_LEN))
+            for i, seq in enumerate(train_data):
+                padded_data[i, :len(seq), :] = np.array(seq)[:,:]
                 
-                normalized_seq_data = (seq_data - seq_data_mean) / seq_data_std
-                padded_data[i, :len(seq), j] = normalized_seq_data
-        
-        # for i, seq in enumerate(train_data):
-        #     padded_data[i, :len(seq), :] = seq
 
-        win_lose_list = np.array(win_lose_list, dtype="float32")
+                for j in range(1, LIST_LEN):
+                    seq_data = np.array(seq)[:, j]
+                    seq_data_mean = seq_data.mean()
+                    seq_data_std = seq_data.std()
 
-        print(padded_data[0])
+                    if seq_data_std == 0:
+                        seq_data_std = 1
+                    
+                    normalized_seq_data = (seq_data - seq_data_mean) / seq_data_std
+                    padded_data[i, :len(seq), j] = normalized_seq_data
+            
+            # for i, seq in enumerate(train_data):
+            #     padded_data[i, :len(seq), :] = seq
+
+            win_lose_list = np.array(win_lose_list, dtype="float32")
+
+            print(padded_data[0])
 
 
-        trained_model = rnn_model.fit(padded_data, win_lose_list)
-        
-        print(str(n) + "번째 학습 완료")
-        n += 1
+            trained_model = rnn_model.fit(padded_data, win_lose_list)
+            
+            print(str(n) + "번째 학습 완료")
+            n += 1
     
     
     trained_model.save('C:/GitHub/predict_gg/backend/modelGRU20')
