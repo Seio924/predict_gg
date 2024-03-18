@@ -24,7 +24,7 @@ def split_and_save(interval_file, win_lose_file, num, chunk_size):
             f.writelines(chunk)
 
 if __name__ == "__main__":
-    chunk_size = 200  # 각 청크 크기
+    chunk_size = 10  # 각 청크 크기
     num = 1
 
     interval_files = ['api_interval_list1-1', 'api_interval_list1-2', 'api_interval_list1-3', 'api_interval_list1-4', 'api_interval_list1-5', 'api_interval_list1-6', 'api_interval_list1-7', 'api_interval_list1-8',
