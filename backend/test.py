@@ -34,11 +34,32 @@ if __name__ == "__main__":
         train_data = []
         win_lose_list = []
 
+        train_data_split = []
+        win_lose_list_split = []
+
         train_data += read_interval_file("api_data/data/" + interval_file + ".txt")
         win_lose_list += read_win_lose_file("api_data/data/" + win_lose_file + ".txt")
 
         for train_data1, win_lose_list1 in zip(train_data, win_lose_list):
+            a = 1
             for d in range(len(train_data1)):
-                for n in range(d):
-                    train_data1[:n+1]
-                    win_lose_list1
+                b = 1
+                if len(train_data_split) == 63:
+                    with open("api_data/data_tmp/interval_split_" + str(a) + "_" + str(b) + ".txt", 'w') as file:
+                        # 파일에 내용 쓰기
+                        file.write(train_data_split)
+
+                    with open("api_data/data_tmp/win_lose_split_" + str(a) + "_" + str(b) + ".txt", 'w') as file:
+                        # 파일에 내용 쓰기
+                        file.write(win_lose_list_split)
+
+                    train_data_split = []
+                    win_lose_list_split = []
+                    b += 1
+                
+                train_data_split.append(train_data1[:d+1])
+                win_lose_list_split.append(win_lose_list1[:d+1])
+            a += 1
+
+        
+
