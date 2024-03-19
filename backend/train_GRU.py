@@ -37,7 +37,7 @@ if __name__ == "__main__":
     }
     rnn_model = GeneralRNN(model_parameters)
 
-    file_num_list = [204, 204, 209, 199, 204, 204, 209, 199, 202, 209, 148, 194, 202, 209, 148, 194, 193, 210, 200, 196, 193, 210, 200, 196]
+    file_num_list = [508, 510, 521, 496, 508, 510, 521, 496, 503, 521, 370, 485, 503, 521, 370, 485, 481, 524, 498, 490, 481, 524, 498, 490]
     
     n = 1
 
@@ -80,9 +80,6 @@ if __name__ == "__main__":
             #     padded_data[i, :len(seq), :] = seq
 
             win_lose_list = np.array(win_lose_list, dtype="float32")
-
-            print(padded_data[0])
-
 
             trained_model = rnn_model.fit(padded_data, win_lose_list)
             
