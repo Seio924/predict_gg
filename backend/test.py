@@ -17,11 +17,6 @@ def read_win_lose_file(filename):
             result.append(data)
     return result
 
-def split_and_save(interval_list, win_lose_list):
-    for d in range(len(interval_list)):
-        for n in range(d):
-            interval_list[:n+1]
-            win_lose_list
             
 
 
@@ -43,4 +38,7 @@ if __name__ == "__main__":
         win_lose_list += read_win_lose_file("api_data/data/" + win_lose_file + ".txt")
 
         for train_data1, win_lose_list1 in zip(train_data, win_lose_list):
-            split_and_save(train_data1, win_lose_list1)
+            for d in range(len(train_data1)):
+                for n in range(d):
+                    train_data1[:n+1]
+                    win_lose_list1
