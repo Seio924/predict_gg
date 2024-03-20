@@ -21,35 +21,33 @@ def read_win_lose_file(filename):
     return result
 
 
-file_num_list = [508, 510, 521, 496, 508, 510, 521, 496, 503, 521, 370, 485, 503, 521, 370, 485, 481, 524, 498, 490, 481, 524, 498, 490]
 LIST_LEN = 177
-
-# 시계열 데이터의 최대 길이 계산
 max_length_data = 500
 
-for file_num1, file_num2 in enumerate(file_num_list):
-    for repeat_num in range(file_num2):
-        train_data = []
+file_count = 10000
 
-        train_data += read_interval_file("api_data/data_split/interval_split_" + str(file_num1+1) + "_" + str(repeat_num+1) + ".txt")
-        output_file = f"api_data/data_normalized_split/interval_split_" + str(file_num1+1) + "_" + str(repeat_num+1) + ".txt" 
-        
-        with open(output_file, 'w') as f:
-            for seq in train_data:
-                tmp = np.array(seq)[:,:]
+for repeat_num in range(file_count):
+    train_data = []
 
-                for j in range(1, LIST_LEN):
-                    seq_data = np.array(seq)[:, j]
-                    seq_data_mean = seq_data.mean()
-                    seq_data_std = seq_data.std()
+    train_data += read_interval_file("api_data/data_normalized_split/interval_split_" + str(repeat_num) + ".txt")
+    output_file = f"api_data/data_normalized_split_tmp/interval_split_" + str(repeat_num) + ".txt" 
+    
+    with open(output_file, 'w') as f:
+        for seq in train_data:
+            tmp = np.array(seq)[:,:]
 
-                    if seq_data_std == 0:
-                        seq_data_std = 1
-                    
-                    normalized_seq_data = (seq_data - seq_data_mean) / seq_data_std
-                    tmp[:, j] = normalized_seq_data
+            for j in range(1, LIST_LEN):
+                seq_data = np.array(seq)[:, j]
+                seq_data_mean = seq_data.mean()
+                seq_data_std = seq_data.std()
+
+                if seq_data_std == 0:
+                    seq_data_std = 1
                 
-                
-                f.writelines(tmp)
+                normalized_seq_data = (seq_data - seq_data_mean) / seq_data_std
+                tmp[:, j] = normalized_seq_data
             
+            
+            f.writelines(tmp)
         
+    
