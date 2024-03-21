@@ -8,7 +8,7 @@ def read_interval_file(filename):
     result = []
     with open(filename, 'r') as file:
         for line in file:
-            data = [int(num) for num in line.strip('[]\n').replace('[', ' ').replace(']', '').split(',')]
+            data = [float(num) for num in line.strip('[]\n').replace('[', ' ').replace(']', '').split(',')]
             list_len = 177
             data_list = [data[i:i + list_len] for i in range(0, len(data), list_len)]
             result.append(data_list)

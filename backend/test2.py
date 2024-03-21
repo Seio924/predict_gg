@@ -24,7 +24,7 @@ def read_win_lose_file(filename):
 LIST_LEN = 177
 max_length_data = 500
 
-file_count = 10000
+file_count = 1
 
 for repeat_num in range(file_count):
     train_data = []
@@ -47,7 +47,8 @@ for repeat_num in range(file_count):
                 normalized_seq_data = (seq_data - seq_data_mean) / seq_data_std
                 tmp[:, j] = normalized_seq_data
             
-            
-            f.writelines(tmp)
+            tmp = tmp.tolist()
+
+            f.writelines(str(tmp)+"\n")
         
     
