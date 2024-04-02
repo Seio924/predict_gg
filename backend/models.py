@@ -90,8 +90,8 @@ class GeneralRNN():
         train_x, valid_x, train_y, valid_y = train_test_split(x, y, test_size=0.2, random_state=42)
         
         # Callback for the best model saving
-        save_best = ModelCheckpoint(self.save_file_name, monitor='accuracy',
-                                    mode='max', verbose=False,
+        save_best = ModelCheckpoint(self.save_file_name, monitor='loss',
+                                    mode='min', verbose=False,
                                     save_best_only=True)
 
         # Train the model
