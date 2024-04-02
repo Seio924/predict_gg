@@ -2,7 +2,8 @@ import os
 import tensorflow as tf
 import numpy as np
 from models import GeneralRNN
-import matplotlib.pyplot as plt
+import os
+
 
 def read_interval_file(filename):
     result = []
@@ -32,28 +33,23 @@ if __name__ == "__main__":
         'h_dim': 20,  # Hidden dimension
         'n_layer': 2,  # Number of layers
         'batch_size': 32,  # Batch size
-        'epoch': 30,  # Number of epochs
+        'epoch': 10,  # Number of epochs
         'learning_rate': 0.001  # Learning rate
     }
     rnn_model = GeneralRNN(model_parameters)
 
-    interval_files = ['api_interval_list1-1', 'api_interval_list1-2', 'api_interval_list1-3', 'api_interval_list1-4', 'api_interval_list1-5', 'api_interval_list1-6', 'api_interval_list1-7', 'api_interval_list1-8',
-                     'api_interval_list2-1', 'api_interval_list2-2', 'api_interval_list2-3', 'api_interval_list2-4', 'api_interval_list2-5', 'api_interval_list2-6', 'api_interval_list2-7', 'api_interval_list2-8',
-                     'api_interval_list3-1', 'api_interval_list3-2', 'api_interval_list3-3', 'api_interval_list3-4', 'api_interval_list3-5', 'api_interval_list3-6', 'api_interval_list3-7', 'api_interval_list3-8']
-    
-    win_lose_files = ['api_win_lose_list1-1', 'api_win_lose_list1-2', 'api_win_lose_list1-3', 'api_win_lose_list1-4', 'api_win_lose_list1-5', 'api_win_lose_list1-6', 'api_win_lose_list1-7', 'api_win_lose_list1-8',
-                     'api_win_lose_list2-1', 'api_win_lose_list2-2', 'api_win_lose_list2-3', 'api_win_lose_list2-4', 'api_win_lose_list2-5', 'api_win_lose_list2-6', 'api_win_lose_list2-7', 'api_win_lose_list2-8',
-                     'api_win_lose_list3-1', 'api_win_lose_list3-2', 'api_win_lose_list3-3', 'api_win_lose_list3-4', 'api_win_lose_list3-5', 'api_win_lose_list3-6', 'api_win_lose_list3-7', 'api_win_lose_list3-8']
-    
-    
     n = 1
 
-    for interval_file, win_lose_file in zip(interval_files, win_lose_files):
+    for file_num in range():
         train_data = []
         win_lose_list = []
 
-        train_data += read_interval_file("api_data/data/" + interval_file + ".txt")
-        win_lose_list += read_win_lose_file("api_data/data/" + win_lose_file + ".txt")
+        if not os.path.exists("api_data/data/interval_split_"+str(file_num)+".txt"):
+            print("파일 기다리는중.. 파일 바꾸면 밑에 아무거나 입력해서 다시 고")
+            a = input()
+            
+        train_data += read_interval_file("api_data/data/interval_split_"+str(file_num)+".txt")
+        win_lose_list += read_win_lose_file("api_data/data/win_lose_split_"+str(file_num)+".txt")
 
         LIST_LEN = 177
 
@@ -64,8 +60,6 @@ if __name__ == "__main__":
         padded_data = np.zeros((len(train_data), max_length_data, LIST_LEN))
         for i, seq in enumerate(train_data):
             padded_data[i, :len(seq), :] = np.array(seq)[:,:]
-            normalized_seq_data = tf.keras.utils.normalize(np.array(seq)[:,1:], axis=1)
-            padded_data[i, :len(seq), 1:] = normalized_seq_data
         
         # for i, seq in enumerate(train_data):
         #     padded_data[i, :len(seq), :] = seq
@@ -79,6 +73,7 @@ if __name__ == "__main__":
         
         print(str(n) + "번째 학습 완료")
         n += 1
+    
     
     
     trained_model.save('C:/GitHub/predict_gg/backend/modelGRU20')
