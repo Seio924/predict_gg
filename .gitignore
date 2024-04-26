@@ -2,3 +2,4 @@ node_modules
 /api_data/data
 /api_data/data_split
 /api_data/data_normalized_split
+/backend/model_trained_ATTENTION

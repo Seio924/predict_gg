@@ -7,7 +7,7 @@ from utils_2 import binary_cross_entropy_loss, mse_loss, rnn_sequential
 import matplotlib.pyplot as plt
 
 
-api_key = 'RGAPI-0a3a44de-d1aa-4789-b49a-96db4790807c'
+api_key = 'RGAPI-9a190531-2188-4667-a09c-0af3192803ef'
 
 with open('backend/userInput.txt', 'r', encoding="utf-8") as f:
     time_num = f.read().strip()
@@ -31,7 +31,7 @@ winning_rate2 = []
 
 
 with tf.keras.utils.custom_object_scope({'binary_cross_entropy_loss': binary_cross_entropy_loss}):
-    loaded_model = tf.keras.models.load_model('C:/GitHub/predict_gg/backend/modelGRU')
+    loaded_model = tf.keras.models.load_model('C:/GitHub/predict_gg/backend/model_trained_ATTENTION')
 
 normalized_predict_data = np.zeros((max_length_data, LIST_LEN))
 
@@ -40,19 +40,11 @@ for i in range(playtime):
     
     normalized_predict_data[:i+1, :] = train_data[:i+1].copy()
     
-    for j in range(1, LIST_LEN):
-        seq_data = train_data[:i+1, j]
-        seq_data_mean = seq_data.mean()
-        seq_data_std = seq_data.std()
+    tmp = normalized_predict_data[:i+1, :].copy()
+    normalized_seq_data = tf.keras.utils.normalize(tmp[:,1:].astype(float), axis=1)
+    tmp[:, 1:] = normalized_seq_data.copy()
 
-        if seq_data_std == 0:
-            seq_data_std = 1
-        
-        normalized_seq_data = (seq_data - seq_data_mean) / seq_data_std
-        normalized_predict_data[:i+1, j] = normalized_seq_data
-
-
-    predict_data = normalized_predict_data[:i+1].copy()
+    predict_data = tmp.copy()
 
     # 패딩을 적용한 배열 생성
     padded_predict_data = np.zeros((max_length_data, LIST_LEN))
