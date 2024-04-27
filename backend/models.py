@@ -48,8 +48,6 @@ class GeneralRNN():
 
         # Create HDF5 file
         self.save_file_name = os.path.join(model_folder, 'checkpoint.hdf5')
-        with h5py.File(self.save_file_name, 'w'):
-            pass  # 아무 작업도 수행하지 않고 빈 HDF5 파일 생성
 
     def _build_model(self):
         """Construct the model using feature and label statistics."""

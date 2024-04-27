@@ -9,7 +9,7 @@ def read_interval_file(filename):
     result = []
     with open(filename, 'r') as file:
         for line in file:
-            data = [int(num) for num in line.strip('[]\n').replace('[', ' ').replace(']', '').split(',')]
+            data = [float(num) for num in line.strip('[]\n').replace('[', ' ').replace(']', '').split(',')]
             list_len = 177
             data_list = [data[i:i + list_len] for i in range(0, len(data), list_len)]
             result.append(data_list)
@@ -38,9 +38,9 @@ if __name__ == "__main__":
     }
     rnn_model = GeneralRNN(model_parameters)
 
-    n = 1
+    n = 3450
 
-    for file_num in range():
+    for file_num in range(3450, 3742):
         train_data = []
         win_lose_list = []
 
@@ -76,12 +76,12 @@ if __name__ == "__main__":
     
     
     
-    trained_model.save('C:/GitHub/predict_gg/backend/modelGRU20')
+    trained_model.save('C:/Users/ksb02/Documents/GitHub/predict_gg/backend/modelGRU20')
 
     # # Plot loss
     # plt.plot(trained_model.history['mse'], label='Training mse')
     # plt.plot(trained_model.history['val_mse'], label='Validation mse')
-    # plt.title('Model Loss')
+    # plt.title('Model Loss')   
     # plt.xlabel('Epoch')
     # plt.ylabel('Loss')
     # plt.show()
