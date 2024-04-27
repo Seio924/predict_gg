@@ -5,8 +5,7 @@ import styled from "styled-components";
 import { winningRateState } from "../atom";
 
 const ChartContainer = styled.div`
-  width: 394px;
-  height: 220px;
+  width: 840px;
 `;
 
 function Chart() {
@@ -29,6 +28,7 @@ function Chart() {
       <ChartContainer>
         <ApexCharts
           type="area"
+          height="200"
           series={[
             {
               name: "winning rate blue",
@@ -65,6 +65,7 @@ function Chart() {
             legend: {
               position: "top",
               horizontalAlign: "center",
+              offsetY: 20,
             },
             markers: {
               shape: "rect",
@@ -114,7 +115,8 @@ function Chart() {
                 offsetY: -7,
                 offsetX: 0,
                 formatter: function (value) {
-                  return Math.abs(value).toString(); // 값에 50을 더한 후 반환합니다.
+                  console.log(value);
+                  return Math.abs(value).toString();
                 },
               },
               axisBorder: {

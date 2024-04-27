@@ -49,7 +49,7 @@ async function runTestScript() {
     console.log(`predict_GRU : child process exited with code ${code}`);
     if (code === 0) {
       const data = await fs.readFile(
-        "C:/Users/ksb02/Documents/GitHub/predict_gg/src/predict_data.txt",
+        "C:/GitHub/predict_gg/src/predict_data.txt",
         "utf8"
       );
       const lines = data.split("\r\n");

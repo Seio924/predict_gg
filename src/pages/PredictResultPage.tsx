@@ -26,10 +26,6 @@ function PredictResultPage() {
       <BoxContainer>
         <SubContainer>
           <Chart />
-          <GameInfoBox vsSize="15px" vsWeight="600" />
-        </SubContainer>
-        <SubContainer>
-          <PredictTagBox />
         </SubContainer>
       </BoxContainer>
     </>
