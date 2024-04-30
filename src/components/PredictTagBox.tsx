@@ -10,22 +10,14 @@ import Button from "./Button";
 
 const Container = styled.div`
   display: flex;
-  flex-grow: 1;
   flex-direction: column;
   align-items: center;
-`;
-
-const Title = styled.p`
-  color: #eeeeef;
-  font-size: 20px;
-  font-family: PretendardBold;
-  margin-bottom: 20px;
 `;
 
 const ScrollContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: 345px;
+  height: 200px;
   margin-bottom: 11.4px;
 `;
 
@@ -110,7 +102,6 @@ function PredictTagBox() {
   return (
     <>
       <Container>
-        <Title>5% 이상 승률이 변화하는 구간</Title>
         <ScrollContainer>
           <TagContainer>
             <TagSubContainer>
