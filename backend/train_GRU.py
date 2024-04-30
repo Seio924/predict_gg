@@ -28,7 +28,7 @@ if __name__ == "__main__":
 
     # Instantiate the GeneralRNN model
     model_parameters = {
-        'task': 'regression',
+        'task': 'classification',
         'model_type': 'gru',  # or 'rnn', 'lstm'
         'h_dim': 20,  # Hidden dimension
         'n_layer': 2,  # Number of layers
