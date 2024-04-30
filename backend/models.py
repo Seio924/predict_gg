@@ -54,8 +54,13 @@ class GeneralRNN():
         # Parameters
         h_dim = self.h_dim
         n_layer = self.n_layer
-        dim = 177  # Assuming LIST_LEN is always 91
-        max_seq_len = 500  # Assuming max_length_data is always 301
+        dim = 177 
+        max_seq_len = 500
+
+        precision = tf.keras.metrics.Precision()
+        recall = tf.keras.metrics.Recall()
+        f1_score = tf.keras.metrics.F1Score(num_classes=2, average='micro')  # 이진 분류의 경우
+
 
         model = tf.keras.Sequential()
         model.add(tf.keras.layers.Masking(mask_value=0., input_shape=(max_seq_len, dim)))
@@ -74,7 +79,7 @@ class GeneralRNN():
             
         elif self.task == 'regression':
             model.add(tf.keras.layers.Dense(2, activation='softmax'))
-            model.compile(loss=binary_cross_entropy_loss, optimizer=adam, metrics=['accuracy', 'mse'])
+            model.compile(loss=binary_cross_entropy_loss, optimizer=adam, metrics=['accuracy', 'mse', precision, recall, f1_score])
 
         return model
     
