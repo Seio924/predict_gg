@@ -3,3 +3,6 @@ node_modules
 /api_data/data_split
 /api_data/data_normalized_split
 /backend/model_trained_ATTENTION
+/backend/modelGRU200
+/backend/modelGRU1000
+/backend/modelGRU1000_test
