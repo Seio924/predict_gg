@@ -12,7 +12,7 @@ const fs = require("fs").promises; // 비동기 파일 쓰기를 위해 fs.promi
 const request = require("request");
 const { spawn } = require("child_process");
 
-const apiKey = "RGAPI-1d4978fc-cf1b-48e5-941b-3ab39720a35f";
+const apiKey = "RGAPI-72cce5df-c7e9-4eb3-a97b-9f72b30aed1d";
 
 let win;
 let overlayProcess; // overlay.py 프로세스 변수
