@@ -30,7 +30,7 @@ if __name__ == "__main__":
     model_parameters = {
         'task': 'regression',
         'model_type': 'gru',  # or 'rnn', 'lstm'
-        'h_dim': 50,  # Hidden dimension
+        'h_dim': 20,  # Hidden dimension
         'n_layer': 2,  # Number of layers
         'batch_size': 32,  # Batch size
         'epoch': 10,  # Number of epochs
