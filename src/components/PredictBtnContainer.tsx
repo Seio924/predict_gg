@@ -190,7 +190,7 @@ function PredictBtnContainer({ resetMainBox, handleUpload }: PredictBtnProps) {
         textFont="PretendardBold, sans-serif"
         margin="15px 0 0 0"
       >
-        Predict Now
+        예측 시작
       </Button>
       <Modal
         isOpen={modalIsOpen}
@@ -198,7 +198,7 @@ function PredictBtnContainer({ resetMainBox, handleUpload }: PredictBtnProps) {
         style={customModalStyle}
       >
         <SelectNumberContainer>
-          <SelectNumberText>숫자를 입력하세요</SelectNumberText>
+          <SelectNumberText>숫자를 선택하세요</SelectNumberText>
           <SelectBox onChange={handleSelectChange} defaultValue="10">
             {options.map((option) => (
               <option key={option.value} value={option.value} defaultValue="10">
@@ -214,7 +214,7 @@ function PredictBtnContainer({ resetMainBox, handleUpload }: PredictBtnProps) {
               onClick={closeModal}
               margin="15px 18px 0 0"
             >
-              Cancel
+              취소
             </Button>
             <Button
               height="35px"
@@ -224,7 +224,7 @@ function PredictBtnContainer({ resetMainBox, handleUpload }: PredictBtnProps) {
               textFont="PretendardMedium, sans-serif"
               margin="15px 0 0 0"
             >
-              Submit
+              선택완료
             </Button>
           </SelectBtnContainer>
         </SelectNumberContainer>

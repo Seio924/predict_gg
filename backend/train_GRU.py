@@ -38,9 +38,9 @@ if __name__ == "__main__":
     }
     rnn_model = GeneralRNN(model_parameters)
 
-    n = 3450
+    n = 1000
 
-    for file_num in range(3450, 3742):
+    for file_num in range(1000, 1300):
         train_data = []
         win_lose_list = []
 
@@ -76,7 +76,7 @@ if __name__ == "__main__":
     
     
     
-    trained_model.save('C:/Users/ksb02/Documents/GitHub/predict_gg/backend/modelGRU20')
+    trained_model.save('C:/Users/ksb02/Documents/GitHub/predict_gg/backend/modelGRU300')
 
     # # Plot loss
     # plt.plot(trained_model.history['mse'], label='Training mse')

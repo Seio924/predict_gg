@@ -166,7 +166,7 @@ function MainBox() {
           >
             <FileUploadBtn type="file" onChange={(e) => handleFileChange(e)} />
             <UploadIcon />
-            <FileUploadText>Upload HERE</FileUploadText>
+            <FileUploadText>리플레이 파일 업로드</FileUploadText>
           </UploadArea>
         ) : (
           <GameInfoContainer>
