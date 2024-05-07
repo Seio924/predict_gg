@@ -34,7 +34,7 @@
 
 
 # with tf.keras.utils.custom_object_scope({'binary_cross_entropy_loss': binary_cross_entropy_loss}):
-#     loaded_model = tf.keras.models.load_model('C:/Users/ksb02/Documents/GitHub/predict_gg/backend/modelGRU1000')
+#     loaded_model = tf.keras.models.load_model('C:/GitHub/predict_gg/backend/modelGRU1000')
 
 # normalized_predict_data = np.zeros((max_length_data, LIST_LEN))
 
@@ -86,4 +86,4 @@
 
 import time
 
-time.sleep(2)
+time.sleep(3)
