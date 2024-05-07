@@ -66,7 +66,7 @@ const FileUploadBtn = styled.input`
 const UploadIcon = styled.div`
   width: 37px;
   height: 44.4px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   background-image: url(${UploadingIcon});
   background-size: cover;
 `;
