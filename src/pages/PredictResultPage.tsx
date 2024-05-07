@@ -32,7 +32,7 @@ const TCContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-left: 30px;
+  margin-left: 20px;
 `;
 
 const CharacterImg = styled.div`

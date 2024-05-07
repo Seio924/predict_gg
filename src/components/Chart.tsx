@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { winningRateState } from "../atom";
 
 const ChartContainer = styled.div`
-  width: 840px;
+  width: 760px;
 `;
 
 function Chart() {
@@ -34,14 +34,14 @@ function Chart() {
               name: "winning rate blue",
               data: winningRate?.map((rate) => ({
                 x: rate[0], // x값에 해당하는 데이터 필드를 적절히 지정해야 합니다.
-                y: rate[1] < 50 ? 0 : rate[1] - 50, // y값에 해당하는 데이터 필드를 적절히 지정해야 합니다.
+                y: rate[1] < 50 ? 0 : (rate[1] - 50) * 1.5, // y값에 해당하는 데이터 필드를 적절히 지정해야 합니다.
               })),
             },
             {
               name: "winning rate red",
               data: winningRate?.map((rate) => ({
                 x: rate[0], // x값에 해당하는 데이터 필드를 적절히 지정해야 합니다.
-                y: rate[2] < 50 ? 0 : 50 - rate[2], // y값에 해당하는 데이터 필드를 적절히 지정해야 합니다.
+                y: rate[2] < 50 ? 0 : (50 - rate[2]) * 1.5, // y값에 해당하는 데이터 필드를 적절히 지정해야 합니다.
               })),
             },
           ]}
@@ -135,7 +135,9 @@ function Chart() {
                 const yValue =
                   Math.abs(
                     w.globals.initialSeries[seriesIndex].data[dataPointIndex].y
-                  ) + 50;
+                  ) /
+                    1.5 +
+                  50;
                 const xValue = changeToTime(
                   w.globals.initialSeries[seriesIndex].data[dataPointIndex].x
                 );
